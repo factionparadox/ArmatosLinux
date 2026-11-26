@@ -1,0 +1,17 @@
+#!/bin/sh
+set -e
+if [ "$1" = configure ]; then
+	# GRUB reads the theme from /boot, which stays readable when / is encrypted.
+	mkdir -p /boot/grub/themes
+	rm -rf /boot/grub/themes/armatos
+	cp -r /usr/share/grub/themes/armatos /boot/grub/themes/armatos
+	update-alternatives --install /usr/share/plymouth/themes/default.plymouth default.plymouth \
+		/usr/share/plymouth/themes/armatos/armatos.plymouth 300
+	update-alternatives --set default.plymouth /usr/share/plymouth/themes/armatos/armatos.plymouth
+	# On an installed system, rebuild the boot files; skip inside image builds.
+	if [ -d /run/systemd/system ]; then
+		command -v update-initramfs >/dev/null && update-initramfs -u || true
+		[ -f /boot/grub/grub.cfg ] && command -v update-grub >/dev/null && update-grub || true
+	fi
+fi
+exit 0

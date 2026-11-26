@@ -1,0 +1,7 @@
+#!/bin/sh
+# Called by tools/build-debs.sh: copy the rendered themes from art/ into the package.
+set -e
+REPO="$1"; STAGE="$2"
+mkdir -p "$STAGE/usr/share/grub/themes" "$STAGE/usr/share/plymouth/themes"
+cp -r "$REPO/art/grub/armatos" "$STAGE/usr/share/grub/themes/"
+cp -r "$REPO/art/plymouth/armatos" "$STAGE/usr/share/plymouth/themes/"

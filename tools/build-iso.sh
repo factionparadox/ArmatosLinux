@@ -105,11 +105,11 @@ in_chroot apt-get install -y --no-install-recommends \
 	network-manager wpasupplicant iw wireless-regdb rfkill \
 	sudo locales tzdata console-setup kbd keyboard-configuration \
 	btrfs-progs cryptsetup dosfstools whiptail curl ca-certificates \
-	bash-completion less nano python3
+	bash-completion less nano python3 plymouth plymouth-label fontconfig zstd
 
 say "Installing Armatos"
 cp out/armatos-*.deb "$CHROOT/tmp/"
-in_chroot sh -c 'apt-get install -y /tmp/armatos-voice_*.deb /tmp/armatos-damnatio_*.deb /tmp/armatos-cursus_*.deb /tmp/armatos-lapicida_*.deb'
+in_chroot sh -c 'apt-get install -y /tmp/armatos-voice_*.deb /tmp/armatos-damnatio_*.deb /tmp/armatos-cursus_*.deb /tmp/armatos-lapicida_*.deb /tmp/armatos-boot-theme_*.deb'
 rm -f "$CHROOT"/tmp/*.deb
 
 say "Setting the Imperator's defaults: en_GB, Europe/London, UK keyboard"
@@ -177,23 +177,30 @@ cp "$CHROOT/usr/lib/shim/shimx64.efi.signed.latest" "$IMAGE/EFI/boot/bootx64.efi
 cp "$CHROOT/usr/lib/shim/mmx64.efi" "$IMAGE/EFI/boot/mmx64.efi"
 cp "$CHROOT/usr/lib/grub/x86_64-efi-signed/gcdx64.efi.signed" "$IMAGE/EFI/boot/grubx64.efi"
 
+# The boot menu: the Armatos theme (rendered into art/grub by tools/make-grub-theme.py).
+mkdir -p "$IMAGE/boot/grub/themes"
+cp -r "$ROOT/art/grub/armatos" "$IMAGE/boot/grub/themes/armatos"
 cat > "$IMAGE/boot/grub/grub.cfg" <<'EOF'
 set timeout=5
 set default=0
-set color_normal=light-gray/black
-set color_highlight=yellow/red
-set menu_color_normal=light-gray/black
-set menu_color_highlight=yellow/red
+set gfxmode=1920x1280,1920x1200,1920x1080,auto
+set gfxpayload=keep
+# (Under Secure Boot GRUB loads no modules from disk; the signed GRUB already
+# has efi_gop, gfxterm, gfxmenu, png, jpeg and font built in.)
+terminal_output gfxterm
+set theme=/boot/grub/themes/armatos/theme.txt
 
-menuentry "Armatos Linux: Salve (live session)" {
-	linux /casper/vmlinuz boot=casper quiet ---
+# Entry titles are a single space: the carved entry images (icons) are what
+# shows, and GRUB sizes the highlight as icon + title width.
+menuentry " " --class salve --id salve {
+	linux /casper/vmlinuz boot=casper quiet splash ---
 	initrd /casper/initrd
 }
-menuentry "Armatos Linux: Salve (safe graphics)" {
-	linux /casper/vmlinuz boot=casper nomodeset ---
+menuentry " " --class salvesafe --id salvesafe {
+	linux /casper/vmlinuz boot=casper nomodeset quiet splash ---
 	initrd /casper/initrd
 }
-menuentry "Firmware settings" {
+menuentry " " --class fundamenta --id fundamenta {
 	fwsetup
 }
 EOF

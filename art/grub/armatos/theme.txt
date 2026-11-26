@@ -1,0 +1,22 @@
+# Armatos GRUB theme — rendered by tools/make-grub-theme.py
+# All lettering is in the images: under Secure Boot GRUB can't load fonts.
+title-text: ""
+desktop-image: "background.jpg"
+desktop-image-scale-method: "crop"
+desktop-color: "#120D0B"
+
++ boot_menu {
+	left = 50%-345 width = 600 top = 56% height = 18%
+	item_color = "#00000000"
+	selected_item_color = "#00000000"
+	selected_item_pixmap_style = "select_*.png"
+	icon_width = 600 icon_height = 56 item_icon_space = 0
+	item_height = 56 item_padding = 0 item_spacing = 8
+	scrollbar = false scrollbar_width = 0
+}
++ progress_bar {
+	id = "__timeout__"
+	left = 40% width = 20% top = 74% height = 24
+	show_text = false
+	bar_style = "bar_*.png" highlight_style = "hl_*.png"
+}

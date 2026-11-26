@@ -1,0 +1,8 @@
+[Plymouth Theme]
+Name=Armatos
+Description=Armatos Linux: the emblem, a gold rule, and the Tessera prompt
+ModuleName=script
+
+[script]
+ImageDir=/usr/share/plymouth/themes/armatos
+ScriptFile=/usr/share/plymouth/themes/armatos/armatos.script

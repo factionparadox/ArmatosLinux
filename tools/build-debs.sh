@@ -16,6 +16,11 @@ for dir in packages/*/; do
 	stage=$(mktemp -d)
 	cp -a "$dir/." "$stage/"
 	find "$stage" -name __pycache__ -prune -exec rm -rf {} +
+	# A package can pull generated files (e.g. themes rendered into art/) in here.
+	if [ -x "$stage/assemble" ]; then
+		"$stage/assemble" "$PWD" "$stage"
+		rm -f "$stage/assemble"
+	fi
 	find "$stage" -type d -exec chmod 755 {} +
 	find "$stage" -type f -exec chmod 644 {} +
 	for exe in "$stage"/usr/bin/* "$stage"/usr/sbin/* "$stage"/DEBIAN/{preinst,postinst,prerm,postrm}; do

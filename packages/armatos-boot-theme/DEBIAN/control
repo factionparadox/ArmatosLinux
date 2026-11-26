@@ -1,0 +1,12 @@
+Package: armatos-boot-theme
+Version: 2779.1
+Section: misc
+Priority: optional
+Architecture: all
+Depends: plymouth
+Maintainer: factionparadox <factionparadox@users.noreply.github.com>
+Description: Armatos boot menu and splash
+ The GRUB theme (a frosted marble tablet carried by the Atlas giants) and the
+ Plymouth splash (the emblem, a gold progress rule, and the Tessera prompt
+ for the LUKS passphrase). Works with Secure Boot: Ubuntu's signed GRUB
+ includes the graphical theme modules.
