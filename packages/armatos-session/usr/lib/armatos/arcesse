@@ -1,0 +1,31 @@
+#!/bin/sh
+# arcesse ROLE: summon whichever app fills a role (used by the keybinds).
+# Roles: browser terminal discord video files anime vpn
+set -u
+
+first() {
+	for app in "$@"; do
+		command -v "${app%% *}" >/dev/null 2>&1 && { echo "$app"; return 0; }
+	done
+	return 1
+}
+
+missing() {
+	notify-send -a Arcesse "Nemo miles hoc nomine respondet." "$1"
+	exit 1
+}
+
+case "${1:-}" in
+	browser)  app=$(first firefox librewolf chromium brave-browser epiphany-browser) || missing "No browser is installed." ;;
+	terminal) app=$(first foot) || missing "No terminal is installed." ;;
+	discord)  app=$(first discord) || missing "Discord isn't installed: run  cursus i discord" ;;
+	video)    app=$(first vlc mpv) || missing "No video player is installed: run  cursus i vlc" ;;
+	files)    app=$(first thunar nautilus pcmanfm-qt) || missing "No file manager is installed: run  cursus i thunar" ;;
+	anime)    command -v ani-cli >/dev/null 2>&1 || missing "ani-cli isn't installed: run  cursus i ani-cli"
+	          app="foot --title ani-cli ani-cli" ;;
+	vpn)      app=$(first protonvpn-app protonvpn) || missing "Proton VPN isn't installed." ;;
+	*)        echo "usage: arcesse browser|terminal|discord|video|files|anime|vpn" >&2; exit 2 ;;
+esac
+
+# shellcheck disable=SC2086  # app may carry its own arguments
+exec $app

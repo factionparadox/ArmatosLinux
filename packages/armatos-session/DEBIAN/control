@@ -1,0 +1,13 @@
+Package: armatos-session
+Version: 2779.1
+Section: x11
+Priority: optional
+Architecture: all
+Depends: armatos-shell (= 2779.1), mangowm (>= 0.18.6), greetd, swayidle, grim, slurp, wl-clipboard, libnotify-bin, xdg-user-dirs, dbus-user-session, wireplumber, pipewire-pulse, brightnessctl, playerctl, foot, fonts-jetbrains-mono, xdg-desktop-portal-wlr, xdg-desktop-portal-gtk, xwayland
+Recommends: thunar, vlc
+Maintainer: factionparadox <factionparadox@users.noreply.github.com>
+Description: Armatos desktop session: MangoWC with the Marmor shell
+ Starts MangoWC with the Armatos settings and keybinds, the Marmor shell
+ (Titulus, launcher, porta), idle locking, screenshots ("frescoes") and the
+ Armatos terminal colours. Your own Mango settings in
+ ~/.config/mango/config.conf are read last and win.

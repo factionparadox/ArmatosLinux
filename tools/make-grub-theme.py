@@ -88,9 +88,10 @@ def tracked(draw, xy_center, text, fnt, fill, tracking=0.16, shadow=True):
 # slab is centred, and the text is centred on the slab, not on the image.
 SLAB_EXTRA, ICON_INSET = 90, 7
 MENU_W = 600
+ENTRY_H = 50                 # room for four entries on an installed system
 
 
-def entry_icon(name, text, w=600, h=56):
+def entry_icon(name, text, w=600, h=ENTRY_H):
     """A menu entry drawn as an image: GRUB shows it as the entry's icon."""
     img = Image.new("RGBA", (w, h), (0, 0, 0, 0))
     centre = (MENU_W + SLAB_EXTRA) // 2 - ICON_INSET
@@ -165,8 +166,14 @@ def bar_images():
 
 
 def icons():
+    # The live ISO's entries (its grub.cfg is written by tools/build-iso.sh)
     entry_icon("salve", "SALVE · LIVE SESSION")
     entry_icon("salvesafe", "SALVE · SAFE GRAPHICS")
+    # An installed system's (written by /etc/grub.d/09_armatos)
+    entry_icon("imperium", "SALVE · ARMATOS LINUX")
+    entry_icon("imperiumprior", "SALVE · EARLIER KERNEL")
+    entry_icon("imperiumtuta", "SALVE · RECOVERY")
+    # Both
     entry_icon("fundamenta", "FVNDAMENTA · FIRMWARE")
 
 
@@ -179,17 +186,17 @@ desktop-image-scale-method: "crop"
 desktop-color: "#120D0B"
 
 + boot_menu {
-	left = 50%-345 width = 600 top = 56% height = 18%
+	left = 50%-345 width = 600 top = 55% height = 18%
 	item_color = "#00000000"
 	selected_item_color = "#00000000"
 	selected_item_pixmap_style = "select_*.png"
-	icon_width = 600 icon_height = 56 item_icon_space = 0
-	item_height = 56 item_padding = 0 item_spacing = 8
+	icon_width = 600 icon_height = 50 item_icon_space = 0
+	item_height = 50 item_padding = 0 item_spacing = 6
 	scrollbar = false scrollbar_width = 0
 }
 + progress_bar {
 	id = "__timeout__"
-	left = 40% width = 20% top = 74% height = 24
+	left = 40% width = 20% top = 75% height = 24
 	show_text = false
 	bar_style = "bar_*.png" highlight_style = "hl_*.png"
 }

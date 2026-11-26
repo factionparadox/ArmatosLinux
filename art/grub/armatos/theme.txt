@@ -6,17 +6,17 @@ desktop-image-scale-method: "crop"
 desktop-color: "#120D0B"
 
 + boot_menu {
-	left = 50%-345 width = 600 top = 56% height = 18%
+	left = 50%-345 width = 600 top = 55% height = 18%
 	item_color = "#00000000"
 	selected_item_color = "#00000000"
 	selected_item_pixmap_style = "select_*.png"
-	icon_width = 600 icon_height = 56 item_icon_space = 0
-	item_height = 56 item_padding = 0 item_spacing = 8
+	icon_width = 600 icon_height = 50 item_icon_space = 0
+	item_height = 50 item_padding = 0 item_spacing = 6
 	scrollbar = false scrollbar_width = 0
 }
 + progress_bar {
 	id = "__timeout__"
-	left = 40% width = 20% top = 74% height = 24
+	left = 40% width = 20% top = 75% height = 24
 	show_text = false
 	bar_style = "bar_*.png" highlight_style = "hl_*.png"
 }

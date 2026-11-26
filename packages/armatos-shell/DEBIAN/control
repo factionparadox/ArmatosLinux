@@ -1,0 +1,14 @@
+Package: armatos-shell
+Version: 2779.1
+Section: x11
+Priority: optional
+Architecture: all
+Depends: quickshell (>= 0.3.0), qt6-wayland, qml6-module-qtquick-effects, qml6-module-qtquick-layouts, fonts-ebgaramond, fontconfig, papirus-icon-theme, upower, wlsunset, brightnessctl, libpam-modules
+Recommends: power-profiles-daemon, network-manager, bluez, pipewire, fprintd, libpam-fprintd
+Maintainer: factionparadox <factionparadox@users.noreply.github.com>
+Description: Marmor: the Armatos Quickshell desktop shell
+ The Titulus (the bar, with workspaces I-IX and readings in Roman numerals),
+ the launcher ("Ave, Imperator. Quid imperas?"), Tabula Imperii (quick
+ settings), edicta (notifications), the porta (lock screen, with fingerprint)
+ and the Praetorians (the polkit agent). Carved Cinzel letters on marble and
+ porphyry. Run it with:  qs -c armatos

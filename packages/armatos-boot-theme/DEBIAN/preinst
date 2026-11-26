@@ -1,0 +1,12 @@
+#!/bin/sh
+set -e
+# Ubuntu's kernel and firmware entries are moved aside; /etc/grub.d/09_armatos
+# runs Ubuntu's script and carves its entries into the theme's tablets.
+if [ "$1" = install ] || [ "$1" = upgrade ]; then
+	mkdir -p /usr/share/armatos/grub
+	for f in 10_linux 30_uefi-firmware; do
+		dpkg-divert --package armatos-boot-theme --add --rename \
+			--divert "/usr/share/armatos/grub/$f" "/etc/grub.d/$f" >/dev/null
+	done
+fi
+exit 0

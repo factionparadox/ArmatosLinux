@@ -1,0 +1,23 @@
+#!/bin/sh
+# imago: paint a fresco (take a screenshot).
+#   imago region   choose an area with the mouse (Super+Shift+S)
+#   imago screen   the whole screen (Print)
+# Saved to ~/Pictures/Frescoes and copied to the clipboard.
+set -u
+dir="$(xdg-user-dir PICTURES 2>/dev/null || echo "$HOME/Pictures")/Frescoes"
+mkdir -p "$dir"
+auc=$(( $(date +%Y) + 753 ))
+file="$dir/fresco-$auc-$(date +%m%d-%H%M%S).png"
+
+case "${1:-region}" in
+	region)
+		area=$(slurp -d -b 16110f88 -c c9a24aff -s 00000000 -w 2) || exit 0
+		grim -g "$area" "$file" ;;
+	screen)
+		grim "$file" ;;
+	*)
+		echo "usage: imago region|screen" >&2; exit 2 ;;
+esac || { notify-send -a Imago "Iussum defecit." "The fresco could not be painted."; exit 1; }
+
+wl-copy --type image/png < "$file"
+notify-send -a Imago -i "$file" "Fresco pictum est." "${file#"$HOME"/}"

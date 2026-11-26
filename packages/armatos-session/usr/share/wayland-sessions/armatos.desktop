@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=Armatos
+Comment=MangoWC with the Marmor shell
+Exec=armatos-session
+Type=Application
+DesktopNames=armatos;wlroots

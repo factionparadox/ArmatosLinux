@@ -1,0 +1,77 @@
+#!/bin/sh
+# armatos-session: raise the Armatos desktop.
+# MangoWC with the Marmor shell (Titulus, launcher, porta). greetd runs this
+# at login; you can also run it from a text console.
+#
+# Your own Mango settings go in ~/.config/mango/config.conf. It is read after
+# the Armatos defaults (/usr/share/armatos/mango/armatos.conf), so it wins.
+
+export XDG_CURRENT_DESKTOP=armatos:wlroots
+export XDG_SESSION_DESKTOP=armatos
+export XDG_SESSION_TYPE=wayland
+# Armatos's defaults for foot and friends, ahead of /etc/xdg.
+export XDG_CONFIG_DIRS="/usr/share/armatos/xdg:${XDG_CONFIG_DIRS:-/etc/xdg}"
+export QT_QPA_PLATFORM="wayland;xcb"
+export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
+export GDK_BACKEND="wayland,x11"
+export SDL_VIDEODRIVER="wayland,x11"
+export MOZ_ENABLE_WAYLAND=1
+export ELECTRON_OZONE_PLATFORM_HINT=auto
+export _JAVA_AWT_WM_NONREPARENTING=1
+# In a virtual machine without 3D, Mesa renders in software. wlroots refuses
+# that unless told it may; on real hardware this changes nothing.
+export WLR_RENDERER_ALLOW_SOFTWARE=1
+
+run="${XDG_RUNTIME_DIR:-/tmp}/armatos"
+mkdir -p "$run"
+conf="$run/mango.conf"
+own="$HOME/.config/mango/config.conf"
+
+# First login: give the Imperator a config of their own to edit.
+if [ ! -e "$own" ]; then
+	mkdir -p "${own%/*}"
+	cp /usr/share/armatos/mango/config.conf "$own"
+fi
+
+# Scale the laptop panel by its pixel width: 2x for the 13 Pro's 2880x1920,
+# 1.5x for 2256x1504 and similar, 1x otherwise.
+scale_rules() {
+	for modes in /sys/class/drm/card*-eDP-*/modes; do
+		[ -r "$modes" ] || continue
+		mode=$(head -n1 "$modes")
+		[ -n "$mode" ] || continue
+		width=${mode%%x*}
+		name=${modes%/modes}
+		name=${name##*/}        # card1-eDP-1
+		name=${name#*-}         # eDP-1
+		if [ "$width" -ge 2560 ]; then
+			echo "monitor_rule=name:^${name}\$,scale:2"
+		elif [ "$width" -ge 2160 ]; then
+			echo "monitor_rule=name:^${name}\$,scale:1.5"
+		fi
+	done
+}
+
+# The keyboard chosen at install time (or by  sudo dpkg-reconfigure
+# keyboard-configuration), so the console and the desktop agree.
+keyboard_rules() {
+	[ -r /etc/default/keyboard ] || return 0
+	(
+		. /etc/default/keyboard
+		[ -n "${XKBLAYOUT:-}" ] && echo "xkb_rules_layout=$XKBLAYOUT"
+		[ -n "${XKBVARIANT:-}" ] && echo "xkb_rules_variant=$XKBVARIANT"
+		[ -n "${XKBOPTIONS:-}" ] && echo "xkb_rules_options=$XKBOPTIONS"
+		[ -n "${XKBMODEL:-}" ] && echo "xkb_rules_model=$XKBMODEL"
+	)
+}
+
+{
+	echo "# Written by armatos-session at each login. Edit $own instead."
+	echo "source=/usr/share/armatos/mango/armatos.conf"
+	keyboard_rules
+	scale_rules
+	echo "source_optional=$own"
+} > "$conf"
+
+# Mango's own messages, for when something needs explaining.
+exec mango -c "$conf" > /dev/null 2> "$run/mango.log"

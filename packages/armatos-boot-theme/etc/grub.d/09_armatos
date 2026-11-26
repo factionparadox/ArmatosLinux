@@ -1,0 +1,57 @@
+#! /bin/sh
+# Armatos boot entries, drawn as carved tablets.
+#
+# Under Secure Boot GRUB can only draw images, not text, so each entry is an
+# icon with an empty title. This runs Ubuntu's own 10_linux (moved aside by
+# armatos-boot-theme) and keeps what it finds:
+#   SALVE · ARMATOS LINUX    the newest kernel
+#   SALVE · EARLIER KERNEL   the one before, as a fallback
+#   SALVE · RECOVERY         recovery mode, newest kernel
+#   FVNDAMENTA · FIRMWARE    the UEFI setup screen
+set -e
+ubuntu=/usr/share/armatos/grub/10_linux
+[ -x "$ubuntu" ] || exit 0
+
+GRUB_DISABLE_SUBMENU=true GRUB_DISABLE_RECOVERY=false "$ubuntu" | awk '
+function carve(entry, class,    head, rest) {
+	# Title to a single space; the class names the icon.
+	head = substr(entry, 1, index(entry, "\n"))
+	rest = substr(entry, index(entry, "\n") + 1)
+	sub(/^menuentry '"'"'[^'"'"']*'"'"'/, "menuentry '"'"' '"'"'", head)
+	gsub(/--class [^ ]+ /, "", head)
+	sub(/^menuentry '"'"' '"'"' /, "menuentry '"'"' '"'"' --class " class " ", head)
+	return head rest
+}
+BEGIN { depth = 0; inside = 0; n = 0; nadv = 0; nrec = 0 }
+depth == 0 && /^menuentry / {
+	inside = 1
+	n++
+	kind[n] = ($0 ~ /-simple-/) ? "simple" : ($0 ~ /-recovery-/) ? "recovery" : "advanced"
+	if (kind[n] == "advanced") adv[++nadv] = n
+	if (kind[n] == "recovery") rec[++nrec] = n
+	if (kind[n] == "simple" && !simple) simple = n
+}
+{
+	if (inside) body[n] = body[n] $0 "\n"; else print
+	line = $0
+	opens = gsub(/\{/, "{", line)
+	closes = gsub(/\}/, "}", line)
+	depth += opens - closes
+	if (inside && depth == 0) inside = 0
+}
+END {
+	first = simple ? simple : adv[1]
+	if (first) printf "%s", carve(body[first], "imperium")
+	if (nadv >= 2) printf "%s", carve(body[adv[2]], "imperiumprior")
+	if (nrec >= 1) printf "%s", carve(body[rec[1]], "imperiumtuta")
+}'
+
+cat <<'EOC'
+if [ "$grub_platform" = "efi" ]; then
+	if fwsetup --is-supported; then
+		menuentry ' ' --class fundamenta $menuentry_id_option 'uefi-firmware' {
+			fwsetup
+		}
+	fi
+fi
+EOC

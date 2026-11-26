@@ -1,1 +1,3 @@
 /etc/default/grub.d/armatos.cfg
+/etc/grub.d/00_armatos
+/etc/grub.d/09_armatos

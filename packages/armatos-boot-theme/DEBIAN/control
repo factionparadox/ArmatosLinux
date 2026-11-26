@@ -8,5 +8,7 @@ Maintainer: factionparadox <factionparadox@users.noreply.github.com>
 Description: Armatos boot menu and splash
  The GRUB theme (a frosted marble tablet carried by the Atlas giants) and the
  Plymouth splash (the emblem, a gold progress rule, and the Tessera prompt
- for the LUKS passphrase). Works with Secure Boot: Ubuntu's signed GRUB
- includes the graphical theme modules.
+ for the LUKS passphrase). Works with Secure Boot: every word on the menu is
+ drawn into images, since the signed GRUB cannot load fonts. On an installed
+ system the kernel entries become carved tablets too: newest kernel, the one
+ before it, recovery, and firmware setup.

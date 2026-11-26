@@ -1,0 +1,2 @@
+# Porta (the lock screen): a finger on the reader, through fprintd.
+auth	required	pam_fprintd.so	max-tries=3	timeout=30

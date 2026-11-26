@@ -23,7 +23,7 @@ for dir in packages/*/; do
 	fi
 	find "$stage" -type d -exec chmod 755 {} +
 	find "$stage" -type f -exec chmod 644 {} +
-	for exe in "$stage"/usr/bin/* "$stage"/usr/sbin/* "$stage"/DEBIAN/{preinst,postinst,prerm,postrm}; do
+	for exe in "$stage"/usr/bin/* "$stage"/usr/sbin/* "$stage"/usr/lib/armatos/{imago,arcesse} "$stage"/etc/grub.d/* "$stage"/DEBIAN/{preinst,postinst,prerm,postrm}; do
 		[ -f "$exe" ] && chmod 755 "$exe"
 	done
 	dpkg-deb --root-owner-group -Zxz --build "$stage" "out/${name}_${version}_${arch}.deb" >/dev/null

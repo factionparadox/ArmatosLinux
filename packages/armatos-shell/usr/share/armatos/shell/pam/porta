@@ -1,0 +1,2 @@
+# Porta (the lock screen): the Imperator's watchword.
+auth	required	pam_unix.so

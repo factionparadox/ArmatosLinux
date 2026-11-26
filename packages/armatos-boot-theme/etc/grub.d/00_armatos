@@ -1,0 +1,9 @@
+#! /bin/sh
+# Armatos: choose the boot menu's screen mode before 00_header turns on the
+# graphical terminal. Under Secure Boot GRUB may not load a font file, and
+# 00_header only sets the mode when it can; the Armatos theme needs no font.
+set -e
+cat <<EOC
+set gfxmode=${GRUB_GFXMODE:-auto}
+set gfxpayload=keep
+EOC
