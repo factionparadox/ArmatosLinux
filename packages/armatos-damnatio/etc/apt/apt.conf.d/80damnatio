@@ -1,0 +1,3 @@
+// damnatio: preserve a memory of the system before dpkg changes anything.
+// The hook never fails, so a snapshot problem can't block an install.
+DPkg::Pre-Invoke { "[ -x /usr/bin/damnatio ] && /usr/bin/damnatio hook || true"; };

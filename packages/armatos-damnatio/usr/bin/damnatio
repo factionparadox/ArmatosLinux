@@ -1,0 +1,179 @@
+#!/bin/bash
+# damnatio — snapshots and rollback for Armatos (Btrfs, @ layout).
+#
+#   damnatio                 list memories (snapshots)
+#   damnatio snap [note]     preserve a memory of the system now
+#   damnatio restore N       condemn the present; return to memory N (asks first)
+#   damnatio prune           keep the newest $KEEP memories, clear condemned roots
+#   damnatio hook            used by APT before every dpkg run; never fails
+#
+# Layout (made by colonia): top-level Btrfs holds @ (root), @home and
+# @snapshots. Root must be mounted with subvol=@ (by name, not subvolid).
+# /home is never touched: rolling back the system never loses your work.
+
+set -euo pipefail
+. /usr/lib/armatos/voice.sh
+
+KEEP=20
+[ -r /etc/armatos/damnatio.conf ] && . /etc/armatos/damnatio.conf
+
+TOP=/run/armatos/damnatio-top
+SNAPDIR="$TOP/@snapshots"
+NOTES="$SNAPDIR/.notes"
+LOCK=/run/lock/damnatio.lock
+# For testing only: treat another mounted Btrfs @ as the root.
+ROOTMNT="${DAMNATIO_ROOT:-/}"
+
+die() { printf '%s\n' "${ARMATOS_RED}damnatio: $*${ARMATOS_RESET}" >&2; exit 1; }
+
+need_root() {
+	[ "$(id -u)" -eq 0 ] && return
+	exec sudo -- "$0" "$@"
+}
+
+# Root device and subvolume, or fail quietly (exit 2) when this isn't our layout.
+root_layout() {
+	local fstype
+	fstype=$(findmnt -no FSTYPE "$ROOTMNT")
+	[ "$fstype" = btrfs ] || return 2
+	ROOTDEV=$(findmnt -no SOURCE "$ROOTMNT" | sed 's/\[.*\]$//')
+	ROOTSUB=$(findmnt -no FSROOT "$ROOTMNT")
+	[ "$ROOTSUB" = /@ ] || return 2
+	if [ "$ROOTMNT" = / ] && awk '$2 == "/" && $4 ~ /subvolid=/ {f=1} END {exit !f}' /etc/fstab; then
+		return 2
+	fi
+	return 0
+}
+
+mount_top() {
+	mkdir -p "$TOP"
+	if ! mountpoint -q "$TOP"; then
+		mount -o subvolid=5 "$ROOTDEV" "$TOP"
+		trap 'umount "$TOP" 2>/dev/null || true' EXIT
+	fi
+	if [ ! -d "$SNAPDIR" ]; then
+		btrfs subvolume create "$SNAPDIR" >/dev/null
+	fi
+	mkdir -p "$NOTES"
+}
+
+# Snapshot names sort by time: 27791126-151800 (AUC year first).
+stamp() {
+	printf '%s%s' "$(( $(date +%Y) + 753 ))" "$(date +%m%d-%H%M%S)"
+}
+
+memories() {
+	find "$SNAPDIR" -mindepth 1 -maxdepth 1 -type d -name '2[0-9]*' -printf '%f\n' | sort
+}
+
+cmd_snap() {
+	local note="${1:-manual}" name
+	name=$(stamp)
+	btrfs subvolume snapshot -r "$TOP/@" "$SNAPDIR/$name" >/dev/null
+	printf '%s\n' "$note" > "$NOTES/$name"
+	vox_say snap "$name — $note"
+}
+
+cmd_list() {
+	local i=0 name note
+	while read -r name; do
+		[ -n "$name" ] || continue
+		i=$((i + 1))
+		note=$(cat "$NOTES/$name" 2>/dev/null || echo "")
+		printf '%4d  %s  %s\n' "$i" "$name" "$note"
+	done < <(memories)
+	[ "$i" -gt 0 ] || echo "No memories yet."
+}
+
+cmd_restore() {
+	local want="${1:-}" name
+	[ -n "$want" ] || die "which memory? Run 'damnatio' to list them."
+	if [[ "$want" =~ ^[0-9]+$ ]] && [ "${#want}" -lt 6 ]; then
+		name=$(memories | sed -n "${want}p")
+	else
+		name="$want"
+	fi
+	[ -n "$name" ] && [ -d "$SNAPDIR/$name" ] || die "no memory '$want'."
+
+	printf '%s\n' "Return the system to $name ($(cat "$NOTES/$name" 2>/dev/null || echo ""))?"
+	printf '%s\n' "/home is not touched. The present root is kept as @damnatum-* until pruned."
+	read -r -p "Type 'damnatio' to confirm: " answer
+	[ "$answer" = damnatio ] || die "the Senate declines. Nothing changed."
+
+	local condemned
+	condemned="@damnatum-$(stamp)"
+	mv "$TOP/@" "$TOP/$condemned"
+	if ! btrfs subvolume snapshot "$SNAPDIR/$name" "$TOP/@" >/dev/null; then
+		mv "$TOP/$condemned" "$TOP/@"
+		die "could not restore; the present root is back where it was."
+	fi
+	vox damned "$condemned"
+	vox restored
+	echo "If a kernel update happened after $name, choose the older kernel in GRUB's"
+	echo "Advanced options: /boot lives outside the snapshot."
+}
+
+cmd_prune() {
+	local count drop name current
+	count=$(memories | wc -l)
+	drop=$(( count - KEEP ))
+	if [ "$drop" -gt 0 ]; then
+		memories | head -n "$drop" | while read -r name; do
+			btrfs subvolume delete "$SNAPDIR/$name" >/dev/null
+			rm -f "$NOTES/$name"
+		done
+	fi
+	# Condemned roots go too, except one that is still running as / until reboot.
+	current=$(findmnt -no FSROOT "$ROOTMNT")
+	find "$TOP" -mindepth 1 -maxdepth 1 -type d -name '@damnatum-*' -printf '%f\n' |
+	while read -r name; do
+		[ "/$name" = "$current" ] && continue
+		btrfs subvolume delete "$TOP/$name" >/dev/null || true
+	done
+}
+
+cmd_hook() {
+	# Called by APT. Must never stop an install.
+	[ -n "${DAMNATIO_SKIP:-}" ] && return 0
+	root_layout || return 0
+	mount_top || return 0
+	# One memory per APT run is enough: skip if the newest is under 2 minutes old.
+	local newest
+	newest=$(memories | tail -n 1)
+	# (The note's age, not the snapshot's: a snapshot keeps its source's mtime.)
+	if [ -n "$newest" ] && [ -f "$NOTES/$newest" ] &&
+	   [ $(( $(date +%s) - $(stat -c %Y "$NOTES/$newest") )) -lt 120 ]; then
+		return 0
+	fi
+	cmd_snap "apt" || return 0
+	cmd_prune || true
+}
+
+main() {
+	local cmd="${1:-list}"
+	[ $# -gt 0 ] && shift
+	case "$cmd" in
+		-h|--help|help) sed -n '2,13s/^# \{0,1\}//p' "$0"; exit 0 ;;
+	esac
+	need_root "$cmd" "$@"
+	exec 9>"$LOCK"
+	flock 9
+	if [ "$cmd" = hook ]; then
+		cmd_hook || true
+		exit 0
+	fi
+	if ! root_layout; then
+		vox no_btrfs >&2
+		exit 1
+	fi
+	mount_top
+	case "$cmd" in
+		list|ls)    cmd_list ;;
+		snap)       cmd_snap "$@" ;;
+		restore)    cmd_restore "$@" ;;
+		prune)      cmd_prune ;;
+		*)          die "unknown order '$cmd'. Try 'damnatio help'." ;;
+	esac
+}
+
+main "$@"

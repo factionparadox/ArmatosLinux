@@ -1,0 +1,12 @@
+Package: armatos-damnatio
+Version: 2779.1
+Section: admin
+Priority: optional
+Architecture: all
+Depends: armatos-voice, btrfs-progs, util-linux, sudo
+Maintainer: factionparadox <factionparadox@users.noreply.github.com>
+Description: damnatio memoriae — snapshots and rollback
+ Takes a read-only Btrfs snapshot of the root before every APT run and lets
+ you return to any earlier one with "damnatio restore N". /home is never
+ touched. Expects the Armatos layout: @, @home and @snapshots, with root
+ mounted by subvol=@.

@@ -1,0 +1,4 @@
+out/
+*.deb
+*.iso
+__pycache__/

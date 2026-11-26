@@ -1,0 +1,119 @@
+#!/usr/bin/python3
+"""acta — the daily gazette of Armatos.
+
+Prints today's date in the Roman calendar, with the year ab urbe condita,
+and a line from Marcus Aurelius's Meditations when the text is installed.
+
+  acta            the full greeting
+  acta --date     just the Roman date (for Titulus and scripts)
+  acta --year     just the year, AUC, in numerals
+"""
+import calendar
+import datetime
+import hashlib
+import os
+import sys
+
+MENSES = ["Ian.", "Feb.", "Mart.", "Apr.", "Mai.", "Iun.",
+          "Iul.", "Aug.", "Sept.", "Oct.", "Nov.", "Dec."]
+MEDITATIONS = "/usr/share/armatos/acta/meditations.txt"
+
+
+def numerus(n: int) -> str:
+    """Roman numerals, 1–3999."""
+    pars = [(1000, "M"), (900, "CM"), (500, "D"), (400, "CD"), (100, "C"),
+            (90, "XC"), (50, "L"), (40, "XL"), (10, "X"), (9, "IX"),
+            (5, "V"), (4, "IV"), (1, "I")]
+    out = []
+    for valor, signum in pars:
+        while n >= valor:
+            out.append(signum)
+            n -= valor
+    return "".join(out)
+
+
+def ante_diem(n: int, nota: str, mensis: str) -> str:
+    # Romans counted inclusively: the day before is "pridie", not "a.d. II".
+    if n == 2:
+        return f"pridie {nota} {mensis}"
+    return f"a.d. {numerus(n)} {nota} {mensis}"
+
+
+def dies_romanus(d: datetime.date) -> str:
+    m = d.month
+    nonae = 7 if m in (3, 5, 7, 10) else 5
+    idus = nonae + 8
+    mensis = MENSES[m - 1]
+    if d.day == 1:
+        return f"Kal. {mensis}"
+    if d.day < nonae:
+        return ante_diem(nonae - d.day + 1, "Non.", mensis)
+    if d.day == nonae:
+        return f"Non. {mensis}"
+    if d.day < idus:
+        return ante_diem(idus - d.day + 1, "Id.", mensis)
+    if d.day == idus:
+        return f"Id. {mensis}"
+    # After the Ides, count down to the Kalends of next month.
+    proximus = MENSES[m % 12]
+    if m == 2 and calendar.isleap(d.year):
+        # Leap day is the doubled sixth day before the March Kalends.
+        if d.day == 24:
+            return f"a.d. bis VI Kal. {proximus}"
+        longitudo = 29 if d.day > 24 else 28
+    else:
+        longitudo = calendar.monthrange(d.year, m)[1]
+    return ante_diem(longitudo - d.day + 2, "Kal.", proximus)
+
+
+def annus(d: datetime.date) -> str:
+    return numerus(d.year + 753) + " AUC"
+
+
+def sententia(d: datetime.date) -> str | None:
+    """One line from the Meditations, the same all day."""
+    try:
+        with open(MEDITATIONS, encoding="utf-8") as f:
+            lines = [l.strip() for l in f if l.strip() and not l.startswith("#")]
+    except OSError:
+        return None
+    if not lines:
+        return None
+    i = int(hashlib.sha256(d.isoformat().encode()).hexdigest(), 16) % len(lines)
+    return lines[i]
+
+
+def lingua() -> str:
+    l = os.environ.get("ARMATOS_LINGUA", "")
+    for path in (os.path.expanduser("~/.config/armatos/lingua"), "/etc/armatos/lingua"):
+        if l:
+            break
+        try:
+            with open(path) as f:
+                l = f.read().strip()
+        except OSError:
+            pass
+    return "en" if l == "en" else "la"
+
+
+def main() -> None:
+    hodie = datetime.date.today()
+    if "--date" in sys.argv:
+        print(dies_romanus(hodie))
+        return
+    if "--year" in sys.argv:
+        print(annus(hodie))
+        return
+    gold, reset = ("\033[38;5;178m", "\033[0m") if sys.stdout.isatty() else ("", "")
+    if lingua() == "en":
+        print(f"{gold}Hail, Imperator. The legion stands ready. Your orders?{reset}")
+    else:
+        print(f"{gold}Ave, Imperator. Legio parata est. Quid imperas?{reset}")
+    print(f"ACTA · {dies_romanus(hodie)} {annus(hodie)}")
+    s = sententia(hodie)
+    if s:
+        print(f"  “{s}” — M. Aurelius")
+
+
+if __name__ == "__main__":
+    main()

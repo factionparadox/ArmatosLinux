@@ -1,0 +1,12 @@
+Package: armatos-lex
+Version: 2779.1
+Section: admin
+Priority: important
+Architecture: all
+Conflicts: snapd
+Maintainer: factionparadox <factionparadox@users.noreply.github.com>
+Description: the laws of the Armatos Empire
+ APT pinning that defines Armatos:
+  Lex I   — systemd held at 259 (before the birthDate field)
+  Lex II  — snapd banished
+  Lex III — no GNOME session

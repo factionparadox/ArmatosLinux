@@ -1,0 +1,15 @@
+Package: vesta-temple
+Version: 2779.1
+Section: net
+Priority: optional
+Architecture: all
+Depends: armatos-voice, curl, python3, apt (>= 1.9.11)
+Maintainer: factionparadox <factionparadox@users.noreply.github.com>
+Description: keeps Discord's flame burning
+ An installer package for Discord. It contains no Discord code: on install,
+ and whenever cursus collects tribute, it fetches the official .deb from
+ discord.com and installs it with apt. It also stops Discord's own update
+ nag, since updates now arrive with the rest of the system.
+ .
+ Removing vesta-temple leaves Discord installed; remove the "discord"
+ package to remove Discord itself.

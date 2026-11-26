@@ -1,0 +1,33 @@
+# LEX I — systemd stays at 259.
+# 259 predates the userdb birthDate field. Ubuntu 26.04 ships 259 for its whole
+# life; this law stops a PPA or backport from bringing in 260 or later.
+# (APT version pins take * and ? but not [ranges], hence one block per prefix.)
+Explanation: Lex I: hold systemd at 259
+Package: systemd systemd-* libsystemd0 libsystemd-shared libudev1 udev libnss-systemd libnss-myhostname libnss-mymachines libnss-resolve libpam-systemd
+Pin: version 259.*
+Pin-Priority: 1001
+
+Explanation: Lex I: no systemd 26*
+Package: systemd systemd-* libsystemd0 libsystemd-shared libudev1 udev libnss-systemd libnss-myhostname libnss-mymachines libnss-resolve libpam-systemd
+Pin: version 26*
+Pin-Priority: -1
+
+Explanation: Lex I: no systemd 27*
+Package: systemd systemd-* libsystemd0 libsystemd-shared libudev1 udev libnss-systemd libnss-myhostname libnss-mymachines libnss-resolve libpam-systemd
+Pin: version 27*
+Pin-Priority: -1
+
+Explanation: Lex I: no systemd 28*
+Package: systemd systemd-* libsystemd0 libsystemd-shared libudev1 udev libnss-systemd libnss-myhostname libnss-mymachines libnss-resolve libpam-systemd
+Pin: version 28*
+Pin-Priority: -1
+
+Explanation: Lex I: no systemd 29*
+Package: systemd systemd-* libsystemd0 libsystemd-shared libudev1 udev libnss-systemd libnss-myhostname libnss-mymachines libnss-resolve libpam-systemd
+Pin: version 29*
+Pin-Priority: -1
+
+Explanation: Lex I: no systemd 3*
+Package: systemd systemd-* libsystemd0 libsystemd-shared libudev1 udev libnss-systemd libnss-myhostname libnss-mymachines libnss-resolve libpam-systemd
+Pin: version 3*
+Pin-Priority: -1

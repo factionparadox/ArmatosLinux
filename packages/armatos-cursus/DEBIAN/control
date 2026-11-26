@@ -1,0 +1,12 @@
+Package: armatos-cursus
+Version: 2779.1
+Section: admin
+Priority: optional
+Architecture: all
+Depends: armatos-voice, apt, sudo
+Recommends: armatos-damnatio, armatos-lex
+Maintainer: factionparadox <factionparadox@users.noreply.github.com>
+Description: cursus publicus — the imperial road for packages
+ A thin wrapper around apt. "cursus" on its own collects tribute: it updates
+ the APT system, Discord (through vesta-temple) and any Flatpak peregrina.
+ Every change is preceded by a damnatio snapshot, so it can be undone.

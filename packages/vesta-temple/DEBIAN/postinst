@@ -1,0 +1,14 @@
+#!/bin/sh
+set -e
+# dpkg is busy while this runs, so the install happens in a background
+# service that waits for the APT lock to be released.
+if [ "$1" = configure ]; then
+	if [ -d /run/systemd/system ]; then
+		systemctl daemon-reload || true
+		systemctl start --no-block vesta-temple.service || true
+		echo "vesta-temple: Discord will be fetched once this install finishes."
+	else
+		echo "vesta-temple: run 'sudo vesta-temple' to fetch Discord."
+	fi
+fi
+exit 0

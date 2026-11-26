@@ -1,0 +1,86 @@
+# Armatos voice for interactive bash. Sourced from /etc/bash.bashrc.
+# Set ARMATOS_VOX=0 to silence it, or ARMATOS_LINGUA=en for English.
+
+case $- in *i*) ;; *) return ;; esac
+[ "${ARMATOS_VOX:-1}" = 0 ] && return
+[ -n "${_ARMATOS_VOICE_LOADED:-}" ] && return
+_ARMATOS_VOICE_LOADED=1
+
+. /usr/lib/armatos/voice.sh
+
+# --- The acta, once per terminal --------------------------------------------
+if [ -z "${ARMATOS_NO_ACTA:-}" ] && command -v acta >/dev/null 2>&1; then
+	acta
+fi
+
+# --- Prompt: imperator@roma ⚔ ~/dir › ----------------------------------------
+# Re-applied before every prompt, because ~/.bashrc (sourced after this file)
+# sets its own. ARMATOS_PS1=0 keeps yours.
+_ARMATOS_PS1='\[\e[38;5;178m\]imperator\[\e[0m\]@\h \[\e[38;5;124m\]⚔\[\e[0m\] \w › '
+
+# --- sudo asks the Senate ----------------------------------------------------
+SUDO_PROMPT="$(vox senate %p)"
+export SUDO_PROMPT
+
+# --- Reports from the field --------------------------------------------------
+# A command that fails is reported; one that ran 10s or more and succeeded
+# earns "Factum est". Ctrl-C (130) and unknown commands (127) stay quiet here.
+_armatos_at_prompt=1
+_armatos_started=
+
+_armatos_preexec() {
+	if [ -n "$_armatos_at_prompt" ]; then
+		_armatos_at_prompt=
+		_armatos_started=$EPOCHSECONDS
+	fi
+}
+
+_armatos_report() {
+	local status=$?
+	if [ -n "$_armatos_started" ]; then
+		local took=$(( EPOCHSECONDS - _armatos_started ))
+		case $status in
+			0)
+				if [ "$took" -ge 10 ]; then
+					printf '%s\n' "${ARMATOS_GOLD}$(vox done_time "${took}s")${ARMATOS_RESET}"
+				fi ;;
+			127|130|148) ;;
+			*)
+				printf '%s\n' "${ARMATOS_RED}$(vox failed "$status")${ARMATOS_RESET}"
+				command -v haruspex >/dev/null 2>&1 && vox haruspex ;;
+		esac
+	fi
+	_armatos_started=
+	_armatos_at_prompt=1
+	[ "${ARMATOS_PS1:-1}" = 0 ] || PS1="$_ARMATOS_PS1"
+	return $status
+}
+
+trap '_armatos_preexec' DEBUG
+
+# Run first, so $? is still the command's own status.
+_armatos_pc=()
+if declare -p PROMPT_COMMAND 2>/dev/null | grep -q '^declare -a'; then
+	_armatos_pc=("${PROMPT_COMMAND[@]}")
+elif [ -n "${PROMPT_COMMAND:-}" ]; then
+	_armatos_pc=("$PROMPT_COMMAND")
+fi
+unset PROMPT_COMMAND
+PROMPT_COMMAND=(_armatos_report "${_armatos_pc[@]}")
+unset _armatos_pc
+
+# --- Unknown commands --------------------------------------------------------
+# Keep Ubuntu's package suggestions, but announce it in the legion's voice.
+if declare -F command_not_found_handle >/dev/null; then
+	eval "_armatos_cnf_orig$(declare -f command_not_found_handle | tail -n +2)"
+fi
+command_not_found_handle() {
+	printf '%s\n' "${ARMATOS_RED}$(vox unknown "$1")${ARMATOS_RESET}" >&2
+	if declare -F _armatos_cnf_orig >/dev/null; then
+		_armatos_cnf_orig "$@" 2>&1 | grep -v -i '^command .* not found' >&2
+	fi
+	return 127
+}
+
+# --- Farewell ----------------------------------------------------------------
+trap 'vox_say vale' EXIT

@@ -1,0 +1,5 @@
+# LEX II — no snaps in the Empire.
+Explanation: Lex II: snapd is banished
+Package: snapd
+Pin: version *
+Pin-Priority: -10

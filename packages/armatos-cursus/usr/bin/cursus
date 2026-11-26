@@ -1,0 +1,99 @@
+#!/bin/bash
+# cursus — the imperial road. A thin wrapper around apt.
+#
+#   cursus                   collect tribute: update everything
+#   cursus i|install PKG…    install (a damnatio snapshot is taken first)
+#   cursus r|remove PKG…     remove
+#   cursus purge PKG…        remove with configuration
+#   cursus s|search WORD     search
+#   cursus show PKG          details
+#   cursus clean             autoremove and clear the cache
+#   cursus help              this text
+#
+# Anything else goes straight to apt. "cursus install discord" installs
+# vesta-temple, which fetches the official Discord .deb.
+
+set -euo pipefail
+. /usr/lib/armatos/voice.sh
+
+as_root() {
+	if [ "$(id -u)" -ne 0 ]; then
+		exec sudo -- "$0" "$ORIG_CMD" "$@"
+	fi
+}
+
+# Take one labelled memory, then tell the APT hook not to take another.
+remember() {
+	if command -v damnatio >/dev/null 2>&1; then
+		damnatio snap "cursus $*" 2>/dev/null || true
+	fi
+	export DAMNATIO_SKIP=1
+}
+
+# Our own aliases for things that aren't plain apt packages.
+translate() {
+	local p out=()
+	for p in "$@"; do
+		case "$p" in
+			discord) out+=(vesta-temple) ;;
+			*)       out+=("$p") ;;
+		esac
+	done
+	printf '%s\n' "${out[@]}"
+}
+
+tribute() {
+	vox_say march "tributum"
+	remember "tributum"
+	apt update
+	apt full-upgrade
+	if command -v vesta-temple >/dev/null 2>&1; then
+		vesta-temple update || true
+	fi
+	if command -v flatpak >/dev/null 2>&1 && [ -n "$(flatpak list --app --columns=application 2>/dev/null)" ]; then
+		echo "Peregrina (Flatpak):"
+		flatpak update -y || true
+	fi
+	vox_say "done"
+}
+
+ORIG_CMD="${1:-tributum}"
+[ $# -gt 0 ] && shift
+
+case "$ORIG_CMD" in
+	-h|--help|help)
+		sed -n '2,15s/^# \{0,1\}//p' "$0" ;;
+	tributum|upgrade|full-upgrade|u)
+		as_root "$@"
+		tribute ;;
+	update)
+		as_root "$@"
+		apt update ;;
+	i|install)
+		as_root "$@"
+		mapfile -t pkgs < <(translate "$@")
+		vox_say march "${pkgs[*]}"
+		remember "install ${pkgs[*]}"
+		apt install "${pkgs[@]}" ;;
+	r|remove)
+		as_root "$@"
+		mapfile -t pkgs < <(translate "$@")
+		remember "remove ${pkgs[*]}"
+		apt remove "${pkgs[@]}" ;;
+	purge)
+		as_root "$@"
+		mapfile -t pkgs < <(translate "$@")
+		remember "purge ${pkgs[*]}"
+		apt purge "${pkgs[@]}" ;;
+	clean)
+		as_root "$@"
+		remember "clean"
+		apt autoremove
+		apt autoclean ;;
+	s|search)
+		apt search "$@" ;;
+	show|info)
+		apt show "$@" ;;
+	*)
+		exec apt "$ORIG_CMD" "$@" ;;
+esac

@@ -1,0 +1,8 @@
+#!/bin/sh
+set -e
+MARK="# armatos-voice"
+if [ "$1" = configure ] && [ -f /etc/bash.bashrc ] && ! grep -qF "$MARK" /etc/bash.bashrc; then
+	printf '\n%s\n[ -r /usr/share/armatos/voice/bashrc ] && . /usr/share/armatos/voice/bashrc %s\n' \
+		"$MARK" "$MARK" >> /etc/bash.bashrc
+fi
+exit 0

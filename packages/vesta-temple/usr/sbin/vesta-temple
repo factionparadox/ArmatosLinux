@@ -1,0 +1,99 @@
+#!/bin/bash
+# vesta-temple — keeps Discord's flame burning.
+#
+#   vesta-temple            install Discord, or update it if a newer one exists
+#   vesta-temple status     show installed and latest versions
+#
+# Discord isn't in any APT repository and can't be redistributed, so this
+# fetches the official .deb straight from Discord and installs it with apt.
+# Nothing of Discord's is stored in the Armatos repository.
+
+set -euo pipefail
+. /usr/lib/armatos/voice.sh
+
+SOURCE="https://discord.com/api/download?platform=linux&format=deb"
+CACHE=/var/cache/vesta-temple
+
+latest_url() {
+	# Discord answers with a chain of redirects to the real file. Follow them
+	# with HEAD requests and report where they end, without downloading.
+	curl -fsSIL --retry 3 --max-time 60 -o /dev/null -w '%{url_effective}' "$SOURCE"
+}
+
+# The version is the path segment that looks like one (e.g. .../x64/1.0.171/Discord.deb).
+# Discord has changed its URL layout before, so don't depend on its position.
+version_from_url() {
+	tr '/' '\n' <<<"${1%%\?*}" | grep -E '^[0-9]+(\.[0-9]+)+$' | tail -n 1
+}
+
+installed_version() {
+	dpkg-query -W -f='${Version}' discord 2>/dev/null || true
+}
+
+# Stop Discord's own "download a new .deb" nag: updates now come from here.
+quiet_host_updates() {
+	python3 - <<'PY'
+import glob, json, os
+for path in glob.glob("/home/*/.config/discord/settings.json"):
+    try:
+        st = os.stat(path)
+        with open(path) as f:
+            data = json.load(f)
+        if data.get("SKIP_HOST_UPDATE") is True:
+            continue
+        data["SKIP_HOST_UPDATE"] = True
+        with open(path, "w") as f:
+            json.dump(data, f, indent=2)
+        os.chown(path, st.st_uid, st.st_gid)
+    except (OSError, ValueError):
+        pass
+PY
+}
+
+cmd_status() {
+	local url
+	url=$(latest_url) || { echo "Cannot reach Discord."; exit 1; }
+	echo "installed: $(installed_version || true)"
+	echo "latest:    $(version_from_url "$url")"
+}
+
+cmd_update() {
+	[ "$(id -u)" -eq 0 ] || exec sudo -- "$0" update
+
+	local url latest current deb
+	url=$(latest_url) || { echo "vesta-temple: cannot reach Discord; try again later." >&2; exit 1; }
+	latest=$(version_from_url "$url")
+	[ -n "$latest" ] || { echo "vesta-temple: unexpected answer from Discord: $url" >&2; exit 1; }
+
+	current=$(installed_version)
+	if [ -n "$current" ] && dpkg --compare-versions "$current" ge "$latest"; then
+		quiet_host_updates
+		vox_say sacred "Discord $current"
+		return 0
+	fi
+
+	mkdir -p "$CACHE"
+	deb="$CACHE/discord-$latest.deb"
+	echo "Fetching Discord $latest…"
+	curl -fL --retry 3 -o "$deb.part" "$url"
+	mv "$deb.part" "$deb"
+
+	if [ "$(dpkg-deb -f "$deb" Package 2>/dev/null)" != discord ]; then
+		rm -f "$deb"
+		echo "vesta-temple: that wasn't a Discord package; nothing installed." >&2
+		exit 1
+	fi
+
+	apt-get install -y -o DPkg::Lock::Timeout=900 "$deb"
+	# Keep only the newest download.
+	find "$CACHE" -name 'discord-*.deb' ! -name "discord-$latest.deb" -delete
+	quiet_host_updates
+	vox_say sacred "Discord $latest"
+}
+
+case "${1:-update}" in
+	update)  cmd_update ;;
+	status)  cmd_status ;;
+	-h|--help|help) sed -n '2,10s/^# \{0,1\}//p' "$0" ;;
+	*) echo "usage: vesta-temple [update|status]" >&2; exit 1 ;;
+esac

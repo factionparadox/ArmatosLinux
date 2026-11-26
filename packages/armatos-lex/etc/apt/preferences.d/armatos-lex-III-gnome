@@ -1,0 +1,8 @@
+# LEX III — the Empire has its own desktop.
+# Blocks the GNOME session itself, not GTK apps. Proton VPN's
+# proton-vpn-gnome-desktop metapackage needs this skipped: install its app
+# package directly.
+Explanation: Lex III: no GNOME session
+Package: gnome-shell gnome-session ubuntu-session ubuntu-desktop ubuntu-desktop-minimal gdm3
+Pin: version *
+Pin-Priority: -10

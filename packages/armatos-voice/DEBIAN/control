@@ -1,0 +1,12 @@
+Package: armatos-voice
+Version: 2779.1
+Section: shells
+Priority: optional
+Architecture: all
+Depends: bash (>= 5.1), python3
+Maintainer: factionparadox <factionparadox@users.noreply.github.com>
+Description: the voice of the legion
+ Gives interactive bash the Armatos voice: the daily acta in the Roman
+ calendar, the imperator@roma prompt, Latin reports when commands fail or
+ finish, and a farewell. Latin by default; write "en" to
+ ~/.config/armatos/lingua for English. Scripts and pipes are never affected.
