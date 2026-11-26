@@ -17,6 +17,9 @@ function carve(entry, class,    head, rest) {
 	# Title to a single space; the class names the icon.
 	head = substr(entry, 1, index(entry, "\n"))
 	rest = substr(entry, index(entry, "\n") + 1)
+	# No "Loading Linux ..." lines: they would print over the art.
+	gsub(/\n[ \t]*echo[ \t][^\n]*/, "", rest)
+	sub(/^[ \t]*echo[ \t][^\n]*\n/, "", rest)
 	sub(/^menuentry '"'"'[^'"'"']*'"'"'/, "menuentry '"'"' '"'"'", head)
 	gsub(/--class [^ ]+ /, "", head)
 	sub(/^menuentry '"'"' '"'"' /, "menuentry '"'"' '"'"' --class " class " ", head)

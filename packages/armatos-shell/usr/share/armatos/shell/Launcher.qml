@@ -20,11 +20,19 @@ PanelWindow {
     property int selected: 0
     readonly property int maxResults: 7
 
+    // Entries that are plumbing rather than places to go. (Colonia stands in
+    // for Calamares' own "Install System".)
+    readonly property var hidden: ["calamares", "io.calamares.calamares", "foot-server", "footclient",
+                                   "info", "thunar-bulk-rename", "org.quickshell"]
+    function shown(a) {
+        return !a.noDisplay && !hidden.includes(a.id) && !a.id.startsWith("python");
+    }
+
     // Search the desktop entries: names first, then other words, then
     // descriptions. With nothing typed, everything in alphabetical order.
     readonly property var results: {
         const q = query.text.trim().toLowerCase();
-        const apps = DesktopEntries.applications.values.filter(a => !a.noDisplay);
+        const apps = DesktopEntries.applications.values.filter(a => win.shown(a));
         if (q === "")
             return apps.slice().sort((a, b) => a.name.localeCompare(b.name)).slice(0, maxResults);
         const scored = [];
