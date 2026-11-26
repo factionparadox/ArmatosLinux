@@ -1,0 +1,18 @@
+#!/bin/sh
+set -e
+if [ "$1" = configure ]; then
+	# Ours live in /usr/lib/armatos-release; link them into place.
+	for f in os-release:/usr/lib/os-release issue:/etc/issue issue.net:/etc/issue.net \
+	         lsb-release:/etc/lsb-release legal:/etc/legal; do
+		ln -sfn "/usr/lib/armatos-release/${f%%:*}" "${f#*:}"
+	done
+	# Ubuntu's login messages: diverted, and kept out of the motd.
+	for f in 10-help-text 50-motd-news 91-contract-ua-esm-status; do
+		[ -e "/etc/update-motd.d/$f" ] && [ -e "/etc/update-motd.d/$f.ubuntu" ] && rm -f "/etc/update-motd.d/$f"
+	done
+	# The .ubuntu copies don't match run-parts' name pattern, so they never run.
+	if [ -e /etc/update-motd.d/91-contract-ua-esm-status.ubuntu ]; then
+		chmod -x /etc/update-motd.d/*.ubuntu 2>/dev/null || true
+	fi
+fi
+exit 0

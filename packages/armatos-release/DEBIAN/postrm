@@ -1,0 +1,17 @@
+#!/bin/sh
+set -e
+# Put Ubuntu's files back exactly as they were.
+FILES="/usr/lib/os-release /etc/issue /etc/issue.net /etc/lsb-release /etc/legal
+/etc/update-motd.d/10-help-text /etc/update-motd.d/50-motd-news
+/etc/update-motd.d/91-contract-ua-esm-status"
+if [ "$1" = remove ] || [ "$1" = purge ]; then
+	for f in $FILES; do
+		if [ -e "$f.ubuntu" ]; then
+			cp -a "$f.ubuntu" "$f.armatos-restore" && mv -f "$f.armatos-restore" "$f"
+			case "$f" in /etc/update-motd.d/*) chmod +x "$f" ;; esac
+			rm -f "$f.ubuntu"
+		fi
+		dpkg-divert --package armatos-release --no-rename --remove "$f" >/dev/null || true
+	done
+fi
+exit 0

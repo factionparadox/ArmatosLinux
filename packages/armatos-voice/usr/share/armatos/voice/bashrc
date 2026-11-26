@@ -16,7 +16,9 @@ fi
 # --- Prompt: imperator@roma ⚔ ~/dir › ----------------------------------------
 # Re-applied before every prompt, because ~/.bashrc (sourced after this file)
 # sets its own. ARMATOS_PS1=0 keeps yours.
-_ARMATOS_PS1='\[\e[38;5;178m\]imperator\[\e[0m\]@\h \[\e[38;5;124m\]⚔\[\e[0m\] \w › '
+# The bare Linux console's font has no ⚔, so it gets × (crossed blades) there.
+if [ "${TERM:-}" = linux ]; then _armatos_blade='×'; else _armatos_blade='⚔'; fi
+_ARMATOS_PS1="\\[\\e[38;5;178m\\]imperator\\[\\e[0m\\]@\\h \\[\\e[38;5;124m\\]${_armatos_blade}\\[\\e[0m\\] \\w › "
 
 # --- sudo asks the Senate ----------------------------------------------------
 SUDO_PROMPT="$(vox senate %p)"

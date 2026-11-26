@@ -1,0 +1,188 @@
+#!/bin/bash
+# lapicida — the stonecutter. Carves an ISO onto a USB stick.
+#
+#   lapicida                 choose an ISO from here or ~/Downloads
+#   lapicida armatos.iso     write that ISO
+#   lapicida --list          show the USB sticks lapicida would offer
+#
+# Only removable USB drives are ever offered, never internal disks, and never
+# the drive the ISO itself is on. You confirm by typing the stick's name.
+# After writing, lapicida reads the stick back and checks it matches.
+#
+# Works on any Ubuntu/Debian system (Armatos, Galactic Mandate, …). Uses
+# whiptail for menus when present, plain prompts otherwise.
+
+set -euo pipefail
+
+if [ -r /usr/lib/armatos/voice.sh ]; then
+	. /usr/lib/armatos/voice.sh
+else
+	vox_say() { :; }
+	ARMATOS_GOLD=; ARMATOS_RED=; ARMATOS_RESET=
+	if [ -t 1 ]; then
+		ARMATOS_GOLD=$'\e[38;5;178m'; ARMATOS_RED=$'\e[38;5;124m'; ARMATOS_RESET=$'\e[0m'
+	fi
+fi
+
+TITLE="LAPICIDA · the stonecutter"
+TUI=0
+if command -v whiptail >/dev/null 2>&1 && [ -t 0 ] && [ -t 1 ]; then TUI=1; fi
+
+say()  { printf '%s\n' "${ARMATOS_GOLD}$*${ARMATOS_RESET}"; }
+die()  { printf '%s\n' "${ARMATOS_RED}lapicida: $*${ARMATOS_RESET}" >&2; exit 1; }
+
+human() { numfmt --to=iec --suffix=B "$1"; }
+
+# Disks that are safe to offer: whole disks on USB (or removable + hotplug),
+# with nothing mounted at /, /boot, /boot/efi, /home or swap.
+# For testing only, LAPICIDA_ALLOW_LOOP=1 also offers loop devices.
+candidates() {
+	local iso_disk="${1:-}"
+	# -P gives KEY="value" pairs, so an empty column can't shift the others.
+	lsblk -dnbP -o NAME,TYPE,TRAN,RM,HOTPLUG,SIZE | while read -r line; do
+		local NAME="" TYPE="" TRAN="" RM="" HOTPLUG="" SIZE=""
+		NAME=$(sed -n 's/.*NAME="\([^"]*\)".*/\1/p' <<<"$line")
+		TYPE=$(sed -n 's/.*TYPE="\([^"]*\)".*/\1/p' <<<"$line")
+		TRAN=$(sed -n 's/.*TRAN="\([^"]*\)".*/\1/p' <<<"$line")
+		RM=$(sed -n 's/.* RM="\([^"]*\)".*/\1/p' <<<"$line")
+		HOTPLUG=$(sed -n 's/.*HOTPLUG="\([^"]*\)".*/\1/p' <<<"$line")
+		SIZE=$(sed -n 's/.*SIZE="\([^"]*\)".*/\1/p' <<<"$line")
+		local name="$NAME" type="$TYPE" tran="$TRAN" rm="$RM" hot="$HOTPLUG" size="${SIZE:-0}"
+		local ok=0
+		[ "$type" = disk ] && { [ "$tran" = usb ] || { [ "$rm" = 1 ] && [ "$hot" = 1 ]; }; } && ok=1
+		[ "${LAPICIDA_ALLOW_LOOP:-0}" = 1 ] && [ "$type" = loop ] && [ "$size" -gt 0 ] && ok=1
+		[ "$ok" = 1 ] || continue
+		[ "$name" = "$iso_disk" ] && continue
+		if lsblk -nro MOUNTPOINTS "/dev/$name" 2>/dev/null | grep -qxE '/|/boot|/boot/efi|/home|\[SWAP\]'; then
+			continue
+		fi
+		local model
+		model=$(lsblk -dno VENDOR,MODEL "/dev/$name" 2>/dev/null | tr -s ' ' | sed 's/^ //;s/ $//')
+		printf '%s\t%s\t%s\n' "$name" "$size" "${model:-USB drive}"
+	done
+}
+
+# The whole disk an ISO file lives on, so it can never be chosen as the target.
+disk_of() {
+	local src
+	src=$(df --output=source "$1" 2>/dev/null | tail -n 1)
+	lsblk -no PKNAME "$src" 2>/dev/null | head -n 1 || true
+}
+
+pick_iso() {
+	local found=() f
+	while IFS= read -r f; do found+=("$f"); done < <(
+		find . "$HOME/Downloads" -maxdepth 1 -type f -iname '*.iso' -printf '%T@\t%p\n' 2>/dev/null |
+		sort -rn | cut -f2- | head -n 15)
+	[ "${#found[@]}" -gt 0 ] || die "no ISO given, and none found here or in ~/Downloads."
+	if [ "$TUI" = 1 ]; then
+		local items=() i=1
+		for f in "${found[@]}"; do items+=("$i" "$(basename "$f")  ($(human "$(stat -c %s "$f")"))"); i=$((i+1)); done
+		local n
+		n=$(whiptail --title "$TITLE" --menu "Which ISO shall be carved?" 20 76 10 "${items[@]}" 3>&1 1>&2 2>&3) || exit 1
+		ISO="${found[$((n-1))]}"
+	else
+		local i=1
+		for f in "${found[@]}"; do echo "  $i) $(basename "$f")"; i=$((i+1)); done
+		read -r -p "Which ISO? " n
+		[[ "$n" =~ ^[0-9]+$ ]] && [ "$n" -ge 1 ] && [ "$n" -le "${#found[@]}" ] || die "no such ISO."
+		ISO="${found[$((n-1))]}"
+	fi
+}
+
+pick_device() {
+	mapfile -t rows < <(candidates "$(disk_of "$ISO")")
+	[ "${#rows[@]}" -gt 0 ] || die "no USB stick found. Plug one in and run lapicida again."
+	local names=() descs=() r name size model
+	for r in "${rows[@]}"; do
+		IFS=$'\t' read -r name size model <<<"$r"
+		names+=("$name"); descs+=("$(human "$size")  $model")
+	done
+	if [ "$TUI" = 1 ]; then
+		local items=() i
+		for i in "${!names[@]}"; do items+=("${names[$i]}" "${descs[$i]}"); done
+		DEV=$(whiptail --title "$TITLE" --menu "Onto which stick? Everything on it will be erased." 18 76 8 "${items[@]}" 3>&1 1>&2 2>&3) || exit 1
+	else
+		local i
+		for i in "${!names[@]}"; do echo "  ${names[$i]}  ${descs[$i]}"; done
+		read -r -p "Which stick (name as shown)? " DEV
+		printf '%s\n' "${names[@]}" | grep -qxF "$DEV" || die "that isn't one of the sticks offered."
+	fi
+}
+
+confirm() {
+	local size model msg answer
+	size=$(human "$(lsblk -dnbo SIZE "/dev/$DEV")")
+	model=$(lsblk -dno VENDOR,MODEL "/dev/$DEV" | tr -s ' ' | sed 's/^ //;s/ $//')
+	msg="Carve $(basename "$ISO") onto /dev/$DEV ($size ${model:-USB drive})?
+
+EVERYTHING on that stick will be erased.
+
+Type the stick's name ($DEV) to confirm:"
+	if [ "$TUI" = 1 ]; then
+		answer=$(whiptail --title "$TITLE" --inputbox "$msg" 16 76 3>&1 1>&2 2>&3) || exit 1
+	else
+		printf '%s\n' "$msg"; read -r answer
+	fi
+	[ "$answer" = "$DEV" ] || die "the Senate declines. Nothing was written."
+}
+
+unmount_all() {
+	local p
+	for p in $(lsblk -nro PATH "/dev/$DEV" | tail -n +2); do
+		if findmnt -rno TARGET "$p" >/dev/null 2>&1; then
+			umount "$p" 2>/dev/null || die "couldn't unmount $p; close anything using the stick and try again."
+		fi
+	done
+}
+
+carve() {
+	local bytes
+	bytes=$(stat -c %s "$ISO")
+	say "Carving $(basename "$ISO") onto /dev/$DEV …"
+	dd if="$ISO" of="/dev/$DEV" bs=4M status=progress oflag=direct conv=fsync
+	sync
+	say "Reading the stick back to check every byte …"
+	local want got
+	want=$(sha256sum "$ISO" | cut -d' ' -f1)
+	got=$(head -c "$bytes" "/dev/$DEV" | sha256sum | cut -d' ' -f1)
+	if [ "$want" != "$got" ]; then
+		die "the stick doesn't match the ISO. Try again, or try another stick."
+	fi
+	say "Verified: the stick matches the ISO exactly (sha256 ${want:0:16}…)."
+	vox_say "done"
+	echo "You can unplug it now."
+}
+
+case "${1:-}" in
+	-h|--help) sed -n '2,13s/^# \{0,1\}//p' "$0"; exit 0 ;;
+	--list) candidates ""; exit 0 ;;
+esac
+
+if [ "$(id -u)" -ne 0 ]; then
+	exec sudo -- "$0" "$@"
+fi
+
+ISO="${1:-}"
+if [ -z "$ISO" ]; then pick_iso; fi
+[ -f "$ISO" ] || die "no such file: $ISO"
+ISO=$(readlink -f "$ISO")
+
+# If a checksum file sits next to the ISO, check the ISO itself first.
+for sums in "$ISO.sha256" "$(dirname "$ISO")/SHA256SUMS"; do
+	if [ -f "$sums" ]; then
+		say "Checking $(basename "$ISO") against $(basename "$sums") …"
+		want=$(grep -F "$(basename "$ISO")" "$sums" | head -n 1 | cut -d' ' -f1)
+		[ -n "$want" ] || want=$(head -n 1 "$sums" | cut -d' ' -f1)
+		[ "$(sha256sum "$ISO" | cut -d' ' -f1)" = "$want" ] || die "the ISO doesn't match its checksum; download it again."
+		break
+	fi
+done
+
+pick_device
+size_iso=$(stat -c %s "$ISO")
+size_dev=$(lsblk -dnbo SIZE "/dev/$DEV")
+[ "$size_dev" -ge "$size_iso" ] || die "that stick is too small ($(human "$size_dev")) for this ISO ($(human "$size_iso"))."
+confirm
+unmount_all
+carve

@@ -26,6 +26,7 @@ Every Armatos term in one place.
 | **Forum** | App store; categories are *tabernae* (stalls) |
 | **Senatus** | Settings app |
 | **`vesta-temple`** | Discord installer. The Vestals kept the flame burning round the clock |
+| **`lapicida`** | The stonecutter: carves an ISO onto a USB stick |
 
 ## Repositories
 

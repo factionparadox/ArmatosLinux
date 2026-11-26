@@ -1,0 +1,14 @@
+#!/bin/sh
+set -e
+# Divert Ubuntu's copies to *.ubuntu. These belong to an Essential package, so
+# they are copied (never moved): the real file is in place at every moment.
+FILES="/usr/lib/os-release /etc/issue /etc/issue.net /etc/lsb-release /etc/legal
+/etc/update-motd.d/10-help-text /etc/update-motd.d/50-motd-news
+/etc/update-motd.d/91-contract-ua-esm-status"
+if [ "$1" = install ] || [ "$1" = upgrade ]; then
+	for f in $FILES; do
+		if [ -e "$f" ] && [ ! -L "$f" ] && [ ! -e "$f.ubuntu" ]; then cp -a "$f" "$f.ubuntu"; fi
+		dpkg-divert --package armatos-release --no-rename --divert "$f.ubuntu" --add "$f" >/dev/null
+	done
+fi
+exit 0

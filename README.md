@@ -45,13 +45,28 @@ releases from the founding of Rome. You are the Imperator. The legion answers to
 | `art/` | Marmor artwork: wallpapers, GRUB, Plymouth, installer |
 | `tools/` | Build scripts |
 
-## Building the packages
+## Building
+
+On any Ubuntu 26.04-based system (Armatos itself, Galactic Mandate, plain Ubuntu):
 
 ```sh
-tools/build-debs.sh
+sudo tools/build-iso.sh
 ```
 
-The `.deb`s land in `out/`, which git ignores. Build outputs stay on the Linux side.
+This builds the packages and the live ISO into `out/`, which git ignores. The ISO boots straight
+into a live session as `imperator@roma`, works offline, and keeps Secure Boot on.
+Downloaded packages are cached in `build/cache`, so later builds only fetch what changed.
+
+Packages alone: `tools/build-debs.sh`.
+
+## Writing a USB stick: `lapicida`
+
+```sh
+packages/armatos-lapicida/usr/bin/lapicida out/armatos-*.iso
+```
+
+On Armatos it's simply `lapicida`. It only offers removable USB drives, asks you to type the
+stick's name before erasing it, and reads the stick back to verify every byte.
 
 ## Status
 

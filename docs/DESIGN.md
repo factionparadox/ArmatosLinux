@@ -65,6 +65,7 @@ Other sources:
 | Forum | GUI store for APT and Flatpak (PackageKit + libflatpak + AppStream, GTK4). |
 | Senatus | Settings app, where the laws get passed. |
 | `vesta-temple` | Discord installer package. |
+| `lapicida` | The stonecutter: writes an ISO to a USB stick. Removable drives only, typed confirmation, read-back verification. |
 
 ## 5. Desktop
 
@@ -94,7 +95,7 @@ Other sources:
 
 ## 7. Voice
 
-Latin by default, with an English toggle in Senatus. The voice appears only in
+Latin by default, with an English toggle in Senatus. Readings (battery VIS, volume SONUS, brightness LUX) show in Roman numerals by default, with a separate ROMANI · ARABICI switch for ordinary numbers. The voice appears only in
 interactive use; scripts and logs see normal output.
 
 | Moment | Line |
@@ -148,7 +149,7 @@ later with `cursus` or from a USB drive.
 2. **Provinciae:** package MangoWC + SceneFX, backport Quickshell, set up the APT repo.
 3. **`linux-legio`:** kernel build pipeline.
 4. **Marmor:** Titulus, Tribunus, Kvantum, GRUB, Plymouth.
-5. **colonia:** Calamares branding, then the ISO build (offline, LUKS + Btrfs).
+5. **colonia:** Calamares branding and the installer (LUKS + Btrfs). The live ISO itself (`tools/build-iso.sh`) and `lapicida` already exist.
 6. **The oracles and Lar:** llama.cpp packaging, then `haruspex` first.
 7. **centurion, Forum and Senatus.**
 8. **Otium.**

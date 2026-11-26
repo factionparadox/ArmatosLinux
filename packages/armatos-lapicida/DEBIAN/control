@@ -1,0 +1,13 @@
+Package: armatos-lapicida
+Version: 2779.1
+Section: admin
+Priority: optional
+Architecture: all
+Depends: coreutils, util-linux, sudo
+Recommends: whiptail, armatos-voice
+Maintainer: factionparadox <factionparadox@users.noreply.github.com>
+Description: lapicida — the stonecutter: write an ISO to a USB stick
+ Offers only removable USB drives, never internal disks or the drive the ISO
+ is on, asks you to type the stick's name before erasing it, checks the ISO
+ against a .sha256 or SHA256SUMS file if one is beside it, and reads the stick
+ back afterwards to verify every byte.
