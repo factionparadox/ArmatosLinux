@@ -149,7 +149,7 @@ later with `cursus` or from a USB drive.
 2. **Provinciae:** package MangoWC + SceneFX, backport Quickshell *(done)*; set up the APT repo.
 3. **`linux-legio`:** kernel build pipeline.
 4. **Marmor:** Titulus, launcher, Tabula, porta, edicta, GRUB and Plymouth *(done)*; Tribunus and Kvantum still to come.
-5. **colonia:** Calamares in Marmor; LUKS2 + Btrfs (@, @home, @snapshots), separate plain /boot, greetd autologin. *Done; the live ISO and `lapicida` exist.*
+5. **colonia:** Calamares in Marmor; LUKS2 + Btrfs (@, @home, @snapshots), separate plain /boot, greetd autologin. *Built; the system it lays down is tested booting under Secure Boot, the installer's pages still want a full run on hardware.*
 6. **The oracles and Lar:** llama.cpp packaging, then `haruspex` first.
 7. **centurion, Forum and Senatus.**
 8. **Otium.**
