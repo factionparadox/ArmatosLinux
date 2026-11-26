@@ -1,0 +1,32 @@
+Source: wlroots-0.20
+Section: libs
+Priority: optional
+Maintainer: factionparadox <factionparadox@users.noreply.github.com>
+Build-Depends: debhelper-compat (= 13), meson, ninja-build, pkgconf,
+ wayland-protocols, libwayland-dev, libwayland-bin, libegl-dev, libgles-dev,
+ libgbm-dev, libdrm-dev, libinput-dev, libxkbcommon-dev, libudev-dev,
+ libpixman-1-dev, libseat-dev, hwdata, libdisplay-info-dev, libliftoff-dev,
+ liblcms2-dev, xwayland, libxcb1-dev, libxcb-composite0-dev, libxcb-render0-dev,
+ libxcb-render-util0-dev, libxcb-res0-dev, libxcb-icccm4-dev, libxcb-ewmh-dev,
+ libxcb-xinput-dev, libxcb-xfixes0-dev, libxcb-shm0-dev, libxcb-dri3-dev,
+ libxcb-present-dev
+Standards-Version: 4.7.2
+Homepage: https://gitlab.freedesktop.org/wlroots/wlroots
+Rules-Requires-Root: no
+
+Package: libwlroots-0.20
+Architecture: amd64
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Recommends: xwayland
+Description: modular Wayland compositor library, 0.20 series (Armatos build)
+ wlroots 0.20 for MangoWC. Installs alongside Ubuntu's own wlroots 0.19,
+ which keeps serving everything else.
+
+Package: libwlroots-0.20-dev
+Section: libdevel
+Architecture: amd64
+Depends: libwlroots-0.20 (= ${binary:Version}), ${misc:Depends}, libwayland-dev,
+ libegl-dev, libgles-dev, libgbm-dev, libdrm-dev, libinput-dev, libxkbcommon-dev,
+ libpixman-1-dev, libseat-dev, libxcb1-dev, wayland-protocols
+Description: modular Wayland compositor library, 0.20 series (development files)
+ Headers and pkg-config file (wlroots-0.20) for building against wlroots 0.20.

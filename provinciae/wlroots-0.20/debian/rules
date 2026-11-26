@@ -1,0 +1,8 @@
+#!/usr/bin/make -f
+%:
+	dh $@ --buildsystem=meson
+
+override_dh_auto_configure:
+	dh_auto_configure -- -Dexamples=false -Drenderers=gles2 -Dbackends=drm,libinput \
+		-Dallocators=gbm -Dxwayland=enabled -Dsession=enabled -Dlibliftoff=enabled \
+		-Dcolor-management=enabled -Dxcb-errors=disabled

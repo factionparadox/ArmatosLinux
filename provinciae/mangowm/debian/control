@@ -1,0 +1,21 @@
+Source: mangowm
+Section: x11
+Priority: optional
+Maintainer: factionparadox <factionparadox@users.noreply.github.com>
+Build-Depends: debhelper-compat (= 13), meson, ninja-build, pkgconf,
+ libwlroots-0.20-dev, libscenefx-0.5-dev, wayland-protocols, libwayland-dev,
+ libwayland-bin, libinput-dev, libxkbcommon-dev, libdrm-dev, libpixman-1-dev,
+ libpcre2-dev, libcjson-dev, libpango1.0-dev, libcairo2-dev, libgles-dev,
+ libxcb1-dev, libxcb-icccm4-dev, libxcb-randr0-dev
+Standards-Version: 4.7.2
+Homepage: https://github.com/mangowm/mango
+Rules-Requires-Root: no
+
+Package: mangowm
+Architecture: amd64
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Recommends: xwayland, xdg-desktop-portal-wlr, xdg-desktop-portal-gtk
+Description: MangoWC, a fast tag-based Wayland compositor (dwl-based)
+ Lightweight tiling and scrolling Wayland compositor built on wlroots and
+ SceneFX, with animations, blur and per-tag layouts. Includes mmsg, its IPC
+ tool, which the Armatos shell uses for workspaces.

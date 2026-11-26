@@ -1,0 +1,25 @@
+Source: scenefx-0.5
+Section: libs
+Priority: optional
+Maintainer: factionparadox <factionparadox@users.noreply.github.com>
+Build-Depends: debhelper-compat (= 13), meson, ninja-build, pkgconf,
+ libwlroots-0.20-dev, wayland-protocols, libwayland-dev, libwayland-bin,
+ libegl-dev, libgles-dev, libgbm-dev, libdrm-dev, libxkbcommon-dev,
+ libpixman-1-dev, libxcb1-dev
+Standards-Version: 4.7.2
+Homepage: https://github.com/wlrfx/scenefx
+Rules-Requires-Root: no
+
+Package: libscenefx-0.5
+Architecture: amd64
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: wlroots scene API with blur, shadows and rounded corners
+ SceneFX replaces wlroots' scene renderer with one that can draw blur,
+ shadows, rounded corners and opacity. MangoWC is built on it.
+
+Package: libscenefx-0.5-dev
+Section: libdevel
+Architecture: amd64
+Depends: libscenefx-0.5 (= ${binary:Version}), libwlroots-0.20-dev, ${misc:Depends}
+Description: wlroots scene API with blur and shadows (development files)
+ Headers and pkg-config file (scenefx-0.5).
