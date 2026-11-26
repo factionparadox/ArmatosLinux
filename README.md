@@ -40,9 +40,12 @@ releases from the founding of Rome. You are the Imperator. The legion answers to
 | `docs/DESIGN.md` | The full design |
 | `docs/LEXICON.md` | Every Armatos term and what it means |
 | `packages/` | Armatos's own packages, built into `.deb`s by `tools/build-debs.sh` |
+| `packages/armatos-shell` | The Marmor desktop shell (Quickshell): Titulus, launcher, porta |
+| `packages/armatos-session` | MangoWC with the Armatos settings and keybinds |
+| `packages/armatos-colonia` | `colonia`, the installer (Calamares in Marmor) |
+| `provinciae/` | Packaging for what Ubuntu lacks: wlroots 0.20, SceneFX, MangoWC, Quickshell |
 | `kernel/` | `linux-legio` |
-| `iso/` | ISO build (`colonia` / Calamares) |
-| `art/` | Marmor artwork: wallpapers, GRUB, Plymouth, installer |
+| `art/` | Marmor artwork: wallpapers, GRUB, Plymouth, shell, installer |
 | `tools/` | Build scripts |
 
 ## Building
@@ -50,14 +53,39 @@ releases from the founding of Rome. You are the Imperator. The legion answers to
 On any Ubuntu 26.04-based system (Armatos itself, Galactic Mandate, plain Ubuntu):
 
 ```sh
+sudo tools/build-provinciae.sh   # once: MangoWC, Quickshell and friends (slow)
 sudo tools/build-iso.sh
 ```
 
-This builds the packages and the live ISO into `out/`, which git ignores. The ISO boots straight
-into a live session as `imperator@roma`, works offline, and keeps Secure Boot on.
-Downloaded packages are cached in `build/cache`, so later builds only fetch what changed.
+The first builds the desktop packages Ubuntu doesn't carry into `out/provinciae/`, in a
+clean chroot, and skips anything already built. The second builds the Armatos packages
+and the live ISO into `out/`, which git ignores. Downloaded packages are cached in
+`build/cache`, so later builds only fetch what changed.
+
+The ISO keeps Secure Boot on, works offline, and boots through the themed GRUB menu and
+splash straight into the marble desktop as `imperator@roma`. To install, open the
+launcher (Super+Space) and summon **Colonia**, or run `colonia` in a terminal.
 
 Packages alone: `tools/build-debs.sh`.
+
+## The desktop
+
+| Keys | Order |
+|---|---|
+| Super+1…9 / Super+Shift+1…9 | Go to workspace I–IX / move the window there |
+| Super+Tab | The Colosseum: every window in the ring |
+| Super+Space | The launcher: *Ave, Imperator. Quid imperas?* |
+| Super+S | Tabula Imperii: Wi-Fi, Bluetooth, sound, light, power |
+| Super+Q / F / R | Close / maximise / cycle widths (⅓ ½ ⅔ full) |
+| Super+X / Z | Seal the porta (lock) / lock and sleep |
+| Super+Shift+S, Print | Paint a fresco (screenshot) of an area / the screen |
+| Super+W T D V E A P | Browser, terminal, Discord, VLC, files, ani-cli, Proton VPN |
+| Alt+Shift | Switch keyboard layout |
+| Super+Escape | VALE: lock, sleep, log out, restart, shut down |
+
+Your own Mango settings go in `~/.config/mango/config.conf`; it is read after the Armatos
+defaults, so it wins. The shell remembers its numerals and language in
+`~/.local/state/armatos/shell.json`.
 
 ## Writing a USB stick: `lapicida`
 
@@ -70,4 +98,6 @@ stick's name before erasing it, and reads the stick back to verify every byte.
 
 ## Status
 
-**MMDCCLXXIX (2026)**: foundations are being laid. See `docs/DESIGN.md` for the roadmap.
+**MMDCCLXXIX (2026)**: the live ISO boots to the desktop and installs with `colonia`.
+Still to come: `linux-legio`, Tribunus (GTK), Forum, Senatus, the oracles and Otium.
+See `docs/DESIGN.md` for the roadmap.

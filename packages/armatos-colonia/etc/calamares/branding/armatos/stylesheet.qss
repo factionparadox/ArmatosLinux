@@ -1,0 +1,148 @@
+/* colonia: the installer in Marmor. Marble pages, porphyry buttons with
+ * gilt capitals, fields cut into the stone. Texture paths are absolute
+ * because Qt resolves them from the working directory. */
+
+QWidget {
+    font-family: "EB Garamond";
+    font-size: 16px;
+    color: #3A2F29;
+}
+
+#mainApp { background-color: #E9E5DF; }
+
+#viewManagerStack, #viewManager, QScrollArea, QScrollArea > QWidget > QWidget,
+QStackedWidget, #scrollAreaWidgetContents {
+    background: transparent;
+}
+
+QLabel { background: transparent; }
+
+/* ---- Buttons: porphyry with gilt letters ---- */
+QPushButton {
+    font-family: "Cinzel";
+    font-weight: 900;
+    font-size: 13px;
+    color: #EAC55E;
+    background-color: #5E0E18;
+    background-image: url(/etc/calamares/branding/armatos/porphyry.jpg);
+    border: 1px solid #8A6518;
+    border-top-color: #C9A24A;
+    border-bottom-color: #3A2A08;
+    padding: 9px 22px;
+    min-height: 20px;
+}
+QPushButton:hover { border-color: #EAC55E; color: #F6DE8C; }
+QPushButton:pressed { background-color: #3E0910; border-top-color: #3A2A08; border-bottom-color: #C9A24A; }
+QPushButton:disabled { color: #8D7A55; background-image: none; background-color: #6A4A4E; border-color: #6A5A3A; }
+QPushButton:focus { outline: none; border-color: #EAC55E; }
+
+/* ---- Fields: cut into the stone ---- */
+QLineEdit, QComboBox, QSpinBox, QPlainTextEdit, QTextEdit {
+    background-color: rgba(255, 255, 255, 90);
+    border: none;
+    border-top: 2px solid rgba(55, 45, 35, 115);
+    border-left: 2px solid rgba(55, 45, 35, 90);
+    border-bottom: 1px solid rgba(255, 255, 255, 220);
+    border-right: 1px solid rgba(255, 255, 255, 220);
+    padding: 6px 9px;
+    font-size: 17px;
+    selection-background-color: #7A0000;
+    selection-color: #F4EDE2;
+}
+QLineEdit:focus, QComboBox:focus { border-top-color: #7A0000; border-left-color: #7A0000; }
+QComboBox::drop-down { border: none; width: 26px; }
+QComboBox QAbstractItemView {
+    background-color: #EFEBE5;
+    border: 1px solid #8A6518;
+    selection-background-color: #5E0E18;
+    selection-color: #EAC55E;
+}
+
+QListView, QTreeView, QTableView, QListWidget, QTreeWidget {
+    background-color: rgba(255, 255, 255, 110);
+    alternate-background-color: rgba(255, 255, 255, 60);
+    border: none;
+    border-top: 2px solid rgba(55, 45, 35, 115);
+    border-left: 2px solid rgba(55, 45, 35, 90);
+    border-bottom: 1px solid rgba(255, 255, 255, 220);
+    border-right: 1px solid rgba(255, 255, 255, 220);
+    selection-background-color: #5E0E18;
+    selection-color: #EAC55E;
+    outline: none;
+}
+QListView::item, QTreeView::item { padding: 4px 6px; }
+QListView::item:selected, QTreeView::item:selected, QListWidget::item:selected {
+    background-color: #5E0E18;
+    color: #EAC55E;
+}
+QHeaderView::section {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(122, 0, 0, 120);
+    font-family: "Cinzel";
+    font-weight: 700;
+    font-size: 12px;
+    color: #7A0000;
+    padding: 5px;
+}
+
+/* ---- Choices ---- */
+QCheckBox, QRadioButton { spacing: 10px; background: transparent; }
+QCheckBox::indicator, QRadioButton::indicator {
+    width: 16px; height: 16px;
+    background-color: rgba(255, 255, 255, 90);
+    border-top: 2px solid rgba(55, 45, 35, 130);
+    border-left: 2px solid rgba(55, 45, 35, 100);
+    border-bottom: 1px solid rgba(255, 255, 255, 230);
+    border-right: 1px solid rgba(255, 255, 255, 230);
+}
+QRadioButton::indicator { border-radius: 9px; }
+QCheckBox::indicator:checked, QRadioButton::indicator:checked {
+    background-color: #5E0E18;
+    background-image: url(/etc/calamares/branding/armatos/porphyry.jpg);
+}
+
+QGroupBox {
+    font-family: "Cinzel";
+    font-weight: 700;
+    color: #7A0000;
+    border: none;
+    border-top: 1px solid rgba(122, 0, 0, 110);
+    margin-top: 14px;
+    padding-top: 10px;
+}
+QGroupBox::title { subcontrol-origin: margin; left: 0; padding: 0 6px 0 0; }
+
+/* ---- The work under way ---- */
+QProgressBar {
+    background-color: rgba(255, 255, 255, 90);
+    border: none;
+    border-top: 2px solid rgba(55, 45, 35, 115);
+    border-left: 2px solid rgba(55, 45, 35, 90);
+    border-bottom: 1px solid rgba(255, 255, 255, 220);
+    height: 12px;
+    text-align: center;
+    font-family: "Cinzel";
+    font-size: 11px;
+    color: #3A2F29;
+}
+QProgressBar::chunk {
+    background-color: #5E0E18;
+    background-image: url(/etc/calamares/branding/armatos/porphyry.jpg);
+}
+
+QScrollBar:vertical { background: transparent; width: 10px; }
+QScrollBar::handle:vertical { background: rgba(138, 101, 24, 170); min-height: 30px; }
+QScrollBar:horizontal { background: transparent; height: 10px; }
+QScrollBar::handle:horizontal { background: rgba(138, 101, 24, 170); min-width: 30px; }
+QScrollBar::add-line, QScrollBar::sub-line { width: 0; height: 0; }
+
+QToolTip {
+    background-color: #EFEBE5;
+    color: #3A2F29;
+    border: 1px solid #8A6518;
+    padding: 4px;
+}
+
+/* The partition bars keep their own colours; give them a frame. */
+#partitionBarView, #partitionLabelsView { background: transparent; }

@@ -145,11 +145,11 @@ later with `cursus` or from a USB drive.
 
 ## 10. Roadmap
 
-1. **Foundations (now):** repo, design, `lex`, `cursus`, `damnatio`, the voice and `vesta-temple`.
-2. **Provinciae:** package MangoWC + SceneFX, backport Quickshell, set up the APT repo.
+1. **Foundations:** repo, design, `lex`, `cursus`, `damnatio`, the voice and `vesta-temple`. *Done.*
+2. **Provinciae:** package MangoWC + SceneFX, backport Quickshell *(done)*; set up the APT repo.
 3. **`linux-legio`:** kernel build pipeline.
-4. **Marmor:** Titulus, Tribunus, Kvantum, GRUB, Plymouth.
-5. **colonia:** Calamares branding and the installer (LUKS + Btrfs). The live ISO itself (`tools/build-iso.sh`) and `lapicida` already exist.
+4. **Marmor:** Titulus, launcher, Tabula, porta, edicta, GRUB and Plymouth *(done)*; Tribunus and Kvantum still to come.
+5. **colonia:** Calamares in Marmor; LUKS2 + Btrfs (@, @home, @snapshots), separate plain /boot, greetd autologin. *Done; the live ISO and `lapicida` exist.*
 6. **The oracles and Lar:** llama.cpp packaging, then `haruspex` first.
 7. **centurion, Forum and Senatus.**
 8. **Otium.**

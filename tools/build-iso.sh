@@ -101,7 +101,7 @@ in_chroot apt-get install -y --no-install-recommends \
 	ubuntu-minimal ubuntu-standard \
 	linux-image-generic linux-firmware \
 	casper initramfs-tools \
-	shim-signed grub-efi-amd64-signed grub-efi-amd64-bin \
+	shim-signed grub-efi-amd64-signed grub-efi-amd64-bin grub-efi-amd64 \
 	network-manager wpasupplicant iw wireless-regdb rfkill \
 	sudo locales tzdata console-setup kbd keyboard-configuration \
 	btrfs-progs cryptsetup dosfstools whiptail curl ca-certificates \
@@ -110,17 +110,33 @@ in_chroot apt-get install -y --no-install-recommends \
 say "Installing Armatos"
 cp out/armatos-*.deb "$CHROOT/tmp/"
 in_chroot sh -c 'apt-get install -y /tmp/armatos-voice_*.deb /tmp/armatos-damnatio_*.deb /tmp/armatos-cursus_*.deb /tmp/armatos-lapicida_*.deb /tmp/armatos-boot-theme_*.deb'
+
+say "Raising the desktop: MangoWC, Quickshell and the Marmor shell"
+# The provinciae (wlroots 0.20, SceneFX, MangoWC, Quickshell) aren't in
+# Ubuntu; tools/build-provinciae.sh builds them.
+for p in libwlroots-0.20 libscenefx-0.5 mangowm quickshell; do
+	compgen -G "out/provinciae/${p}_*.deb" >/dev/null || die "out/provinciae has no $p: run  sudo tools/build-provinciae.sh  first"
+	cp out/provinciae/${p}_*.deb "$CHROOT/tmp/"
+done
+in_chroot sh -c 'apt-get install -y --no-install-recommends \
+	/tmp/libwlroots-0.20_*.deb /tmp/libscenefx-0.5_*.deb /tmp/mangowm_*.deb /tmp/quickshell_*.deb \
+	/tmp/armatos-shell_*.deb /tmp/armatos-session_*.deb /tmp/armatos-colonia_*.deb \
+	pipewire pipewire-pulse wireplumber libspa-0.2-bluetooth upower power-profiles-daemon bluez \
+	fprintd libpam-fprintd polkitd xdg-user-dirs \
+	libgl1-mesa-dri libegl-mesa0 mesa-vulkan-drivers \
+	fonts-dejavu-core thunar'
 rm -f "$CHROOT"/tmp/*.deb
 
 say "Setting the Imperator's defaults: en_GB, Europe/London, UK keyboard"
 in_chroot sh -c 'echo "en_GB.UTF-8 UTF-8" > /etc/locale.gen && locale-gen && update-locale LANG=en_GB.UTF-8'
 ln -sf /usr/share/zoneinfo/Europe/London "$CHROOT/etc/localtime"
 echo Europe/London > "$CHROOT/etc/timezone"
+# British keys, with Russian a press of Alt+Shift away.
 cat > "$CHROOT/etc/default/keyboard" <<'EOF'
 XKBMODEL="pc105"
-XKBLAYOUT="gb"
-XKBVARIANT=""
-XKBOPTIONS=""
+XKBLAYOUT="gb,ru"
+XKBVARIANT=","
+XKBOPTIONS="grp:alt_shift_toggle"
 BACKSPACE="guess"
 EOF
 
@@ -132,12 +148,19 @@ export HOST="roma"
 export BUILD_SYSTEM="Ubuntu"
 export FLAVOUR="Armatos"
 EOF
-# Straight to the shell on tty1, no login prompt.
-mkdir -p "$CHROOT/etc/systemd/system/getty@tty1.service.d"
-cat > "$CHROOT/etc/systemd/system/getty@tty1.service.d/armatos-autologin.conf" <<'EOF'
-[Service]
-ExecStart=
-ExecStart=-/sbin/agetty --autologin imperator --noclear %I $TERM
+# greetd raises the desktop for the live Imperator. If the desktop ever
+# exits, a plain login prompt takes its place on the same console.
+cat > "$CHROOT/etc/greetd/config.toml" <<'EOF'
+[terminal]
+vt = 7
+
+[initial_session]
+command = "armatos-session"
+user = "imperator"
+
+[default_session]
+command = "/usr/sbin/agreety --cmd armatos-session"
+user = "_greetd"
 EOF
 # NetworkManager manages every interface, so Wi-Fi works from boot (nmtui).
 mkdir -p "$CHROOT/etc/NetworkManager/conf.d"

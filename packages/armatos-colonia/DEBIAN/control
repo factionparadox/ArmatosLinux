@@ -1,0 +1,13 @@
+Package: armatos-colonia
+Version: 2779.1
+Section: admin
+Priority: optional
+Architecture: all
+Depends: calamares, python3-toml, armatos-shell, cryptsetup, cryptsetup-initramfs, btrfs-progs, squashfs-tools, dosfstools, sudo
+Maintainer: factionparadox <factionparadox@users.noreply.github.com>
+Description: colonia: the Armatos Linux installer
+ Calamares, dressed in Marmor: found a colony on this computer. Erases the
+ disk (or uses the space you choose) for an EFI partition, a plain /boot and
+ a LUKS2-sealed Btrfs root with @, @home and @snapshots subvolumes, sets up
+ Secure Boot-friendly GRUB with the Armatos menu, and logs you straight into
+ the desktop after the boot watchword. Run it with:  colonia

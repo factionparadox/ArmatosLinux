@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Colonia
+GenericName=Install Armatos Linux
+Comment=Found a colony: install Armatos Linux on this computer
+Exec=colonia
+Icon=system-software-install
+Terminal=false
+Categories=System;
+Keywords=install;installer;calamares;colonia;

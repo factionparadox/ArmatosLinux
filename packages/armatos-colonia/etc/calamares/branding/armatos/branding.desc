@@ -1,0 +1,41 @@
+# colonia: Armatos Linux's installer branding (Calamares).
+---
+componentName:  armatos
+
+welcomeStyleCalamares:   false
+welcomeExpandingLogo:   true
+
+windowExpanding:    normal
+windowSize: 1180px,780px
+windowPlacement: center
+
+sidebar: qml
+navigation: widget
+
+strings:
+    productName:         "Armatos Linux"
+    shortProductName:    "Armatos"
+    version:             "MMDCCLXXIX"
+    shortVersion:        "MMDCCLXXIX"
+    versionedName:       "Armatos Linux MMDCCLXXIX"
+    shortVersionedName:  "Armatos MMDCCLXXIX"
+    bootloaderEntryName: "Armatos"
+    productUrl:          "https://github.com/factionparadox/ArmatosLinux"
+    supportUrl:          "https://github.com/factionparadox/ArmatosLinux/issues"
+    knownIssuesUrl:      "https://github.com/factionparadox/ArmatosLinux/issues"
+    releaseNotesUrl:     "https://github.com/factionparadox/ArmatosLinux"
+
+images:
+    productLogo:         "emblem.png"
+    productIcon:         "eagle.png"
+    productWelcome:      "welcome.png"
+    productWallpaper:    "marmor-wall.jpg"
+
+style:
+   SidebarBackground:        "#4A0B13"
+   SidebarText:              "#EAC55E"
+   SidebarTextCurrent:       "#3A2F29"
+   SidebarBackgroundCurrent: "#E9E5DF"
+
+slideshow:               "show.qml"
+slideshowAPI: 2

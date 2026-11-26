@@ -1,0 +1,13 @@
+#!/bin/sh
+# colonia: found a colony. Install Armatos Linux on this computer.
+# Runs the Calamares installer (as root, on your Wayland display).
+if [ "$(id -u)" -ne 0 ]; then
+	exec sudo env \
+		WAYLAND_DISPLAY="${WAYLAND_DISPLAY:-}" XDG_RUNTIME_DIR="${XDG_RUNTIME_DIR:-}" \
+		DISPLAY="${DISPLAY:-}" XAUTHORITY="${XAUTHORITY:-}" \
+		QT_QPA_PLATFORM="${QT_QPA_PLATFORM:-wayland;xcb}" \
+		QT_WAYLAND_DISABLE_WINDOWDECORATION=1 \
+		LANG="${LANG:-en_GB.UTF-8}" LANGUAGE="${LANGUAGE:-}" \
+		"$0" "$@"
+fi
+exec calamares "$@"

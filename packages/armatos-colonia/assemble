@@ -1,0 +1,4 @@
+#!/bin/sh
+# Called by tools/build-debs.sh: copy the rendered installer art into the branding.
+set -e
+cp "$1"/art/colonia/* "$2/etc/calamares/branding/armatos/"
