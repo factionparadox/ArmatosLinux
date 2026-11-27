@@ -33,8 +33,9 @@ if [ ! -e "$own" ]; then
 	cp /usr/share/armatos/mango/config.conf "$own"
 fi
 
-# Scale the laptop panel by its pixel width: 2x for the 13 Pro's 2880x1920,
-# 1.5x for 2256x1504 and similar, 1x otherwise.
+# Scale the laptop panel by its pixel width: 1.4x for the 13 Pro's 2880x1920
+# (as the Imperator likes it), 2x for 4K-class panels, 1.25x for 2256x1504
+# and similar, 1x otherwise. Override with a monitor_rule in your config.
 scale_rules() {
 	for modes in /sys/class/drm/card*-eDP-*/modes; do
 		[ -r "$modes" ] || continue
@@ -44,10 +45,12 @@ scale_rules() {
 		name=${modes%/modes}
 		name=${name##*/}        # card1-eDP-1
 		name=${name#*-}         # eDP-1
-		if [ "$width" -ge 2560 ]; then
+		if [ "$width" -ge 3200 ]; then
 			echo "monitor_rule=name:^${name}\$,scale:2"
+		elif [ "$width" -ge 2560 ]; then
+			echo "monitor_rule=name:^${name}\$,scale:1.4"
 		elif [ "$width" -ge 2160 ]; then
-			echo "monitor_rule=name:^${name}\$,scale:1.5"
+			echo "monitor_rule=name:^${name}\$,scale:1.25"
 		fi
 	done
 }
