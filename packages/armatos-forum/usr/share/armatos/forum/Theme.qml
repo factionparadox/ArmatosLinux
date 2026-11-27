@@ -26,9 +26,22 @@ QtObject {
 
     readonly property int mouldingHeight: 14
 
-    // Textures come from the shell's package.
+    // Textures come from the shell's package; the marble slab is Forum's own.
     function asset(name) {
         return "file:///usr/share/armatos/shell/assets/" + name;
+    }
+    readonly property url slab: Qt.resolvedUrl("marmor-slab.jpg")
+
+    // A steady number in [0, 1) for a name, so a piece of stone cut for a
+    // program is cut from the same place every time it is shown.
+    function hash(text) {
+        let h = 2166136261;
+        const s = String(text || "");
+        for (let i = 0; i < s.length; ++i) {
+            h ^= s.charCodeAt(i);
+            h = Math.imul(h, 16777619) >>> 0;
+        }
+        return h / 4294967296;
     }
 
     // ---- The shell's settings --------------------------------------------

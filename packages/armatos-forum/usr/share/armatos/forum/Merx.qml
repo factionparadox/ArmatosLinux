@@ -25,6 +25,7 @@ Item {
     Slab {
         anchors { fill: parent; bottomMargin: 10 }
         shadow: false
+        seed: Theme.hash(root.application ? root.application.name : "")
 
         Rectangle {
             anchors.fill: parent

@@ -247,6 +247,7 @@ Window {
                 Layout.fillWidth: true
                 Layout.preferredHeight: 76
                 z: 2
+                seed: 0.31
 
                 Bevel {}
 
@@ -322,6 +323,7 @@ Window {
             Marble {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
+                seed: 0.72
 
                 Item {
                     id: stage

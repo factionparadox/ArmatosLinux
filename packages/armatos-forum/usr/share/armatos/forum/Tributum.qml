@@ -21,7 +21,7 @@ Pagina {
 
     // Discover's C++ sets this for "plasma-discover --headless-update".
     property bool startHeadlessUpdate: false
-    readonly property bool readyToUpdate: !tribute.isProgressing && !tribute.isFetching
+    readonly property bool readyToUpdate: !tribute.isProgressing && !tribute.isFetching && !Discover.ResourcesModel.isFetching
     property bool armedReboot: false
 
     function considerHeadlessUpdate() {
@@ -39,7 +39,8 @@ Pagina {
     onReadyToUpdateChanged: considerHeadlessUpdate()
 
     state: tribute.isProgressing ? "progressing"
-         : tribute.isFetching ? "fetching"
+         : Discover.ResourcesModel.isFetching || tribute.isFetching
+           || Discover.ResourcesModel.fetchingUpdatesProgress < 100 ? "fetching"
          : updates.hasUpdates ? "has-updates"
          : tribute.needsReboot ? "reboot"
          : "uptodate"
@@ -206,6 +207,7 @@ Pagina {
                     readonly property bool done: model.resourceStateIsDone
                     readonly property bool open: model.extended
                     shadow: false
+                    seed: Theme.hash(item.model.display)
                     width: list.width
                     height: 76 + (open ? notes.implicitHeight + 20 : 0)
                     opacity: done ? 0.55 : 1
@@ -360,9 +362,10 @@ Pagina {
                     spacing: 0.24
                 }
                 Gloss {
+                    readonly property string when: Qt.formatDateTime(tribute.lastUpdate, "d MMMM yyyy, hh:mm")
                     Layout.alignment: Qt.AlignHCenter
-                    visible: page.state !== "fetching" && tribute.lastUpdate.getTime && !isNaN(tribute.lastUpdate.getTime())
-                    text: Theme.say("Ultima recensio: ", "Last checked: ") + Qt.formatDateTime(tribute.lastUpdate, "d MMMM yyyy, hh:mm")
+                    visible: page.state !== "fetching" && when !== ""
+                    text: Theme.say("Ultima recensio: ", "Last checked: ") + when
                     size: 16
                 }
             }

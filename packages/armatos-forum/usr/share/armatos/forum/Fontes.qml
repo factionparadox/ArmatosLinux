@@ -147,6 +147,7 @@ Pagina {
             // Flatpak's "-" stands for "no remotes yet"; the heading says enough.
             readonly property bool placeholder: !model.display || model.display === "-"
             shadow: false
+            seed: Theme.hash(model.display)
             width: list.width
             height: placeholder ? 0 : 60
             visible: !placeholder

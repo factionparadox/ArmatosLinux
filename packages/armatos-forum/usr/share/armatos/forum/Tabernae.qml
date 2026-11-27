@@ -91,6 +91,7 @@ Pagina {
                         Slab {
                             anchors.fill: parent
                             moulding: true
+                            seed: Theme.hash(tile.application ? tile.application.name : "")
 
                             Rectangle {
                                 anchors.fill: parent
@@ -218,6 +219,7 @@ Pagina {
                         Slab {
                             anchors.fill: parent
                             shadow: false
+                            seed: Theme.hash(stall.category ? stall.category.name : "")
 
                             Rectangle {
                                 anchors.fill: parent

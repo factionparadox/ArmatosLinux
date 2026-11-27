@@ -74,6 +74,7 @@ Pagina {
                 Layout.fillWidth: true
                 Layout.preferredHeight: Math.max(196, heroText.implicitHeight + Theme.mouldingHeight + 48)
                 moulding: true
+                seed: Theme.hash(page.application ? page.application.name : "")
 
                 RowLayout {
                     anchors { fill: parent; margins: 24 }
