@@ -1,3 +1,4 @@
 /etc/apt/preferences.d/armatos-lex-I-systemd
 /etc/apt/preferences.d/armatos-lex-II-snapd
 /etc/apt/preferences.d/armatos-lex-III-gnome
+/etc/apt/preferences.d/armatos-lex-IV-horreum

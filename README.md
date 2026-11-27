@@ -69,6 +69,19 @@ launcher (Super+Space) and summon **Colonia**, or run `colonia` in a terminal.
 
 Packages alone: `tools/build-debs.sh`.
 
+### Publishing updates
+
+Installed systems update from the **horreum**, Armatos's own APT repository (the
+`horreum` branch of this repo). After committing, publish what you built:
+
+```sh
+tools/horreum.sh
+```
+
+Run it as yourself, not with sudo. The first time on a machine, point it at the signing
+key: `tools/horreum.sh --key ~/armatos-horreum-SECRET.asc`. Systems pick the update up at
+their next `cursus`.
+
 ## The desktop
 
 | Keys | Order |

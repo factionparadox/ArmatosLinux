@@ -1,0 +1,9 @@
+# LEX IV — the Empire's own goods come first.
+# What the horreum carries is built for Armatos. Where Ubuntu has a package of
+# the same name (wlroots, Discover), the Armatos build is the one installed,
+# even if Ubuntu's number is higher. 600 prefers ours without ever forcing a
+# downgrade; that would take 1001.
+Explanation: Lex IV: the horreum first
+Package: *
+Pin: release o=Armatos
+Pin-Priority: 600

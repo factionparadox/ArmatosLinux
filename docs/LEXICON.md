@@ -13,7 +13,7 @@ Every Armatos term in one place.
 | **`linux-legio`** | The Armatos kernel |
 | **Salve / Vale** | Boot greeting / farewell |
 | **porta** | The lock screen, the city gate |
-| **lex** | A law: policy files such as APT pins. *Lex I* pins systemd at 259 |
+| **lex** | A law: policy files such as APT pins. *Lex I* pins systemd at 259; *Lex IV* puts the horreum first |
 
 ## Tools
 
@@ -36,6 +36,7 @@ Every Armatos term in one place.
 
 | Term | Meaning |
 |---|---|
+| **horreum** | The granary: Armatos's own APT repository, published by `tools/horreum.sh` to the `horreum` branch |
 | **italia** | Core Armatos packages |
 | **provinciae** | Extra packages |
 | **barbaricum** | Non-free firmware and blobs |

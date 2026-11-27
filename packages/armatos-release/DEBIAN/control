@@ -9,3 +9,6 @@ Description: Armatos Linux identity: os-release, issue, lsb-release, motd
  dpkg-divert, so Ubuntu updates can't overwrite them, and are restored if
  this package is removed. Also quiets Ubuntu's help, news and Pro messages
  at login. lsb_release still reports Ubuntu, for compatibility.
+ .
+ Also opens the horreum, Armatos's own APT repository, and carries the key
+ it is signed with, so Armatos packages arrive as ordinary updates.

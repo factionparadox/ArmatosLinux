@@ -1,0 +1,12 @@
+# The horreum: Armatos Linux's own APT repository (armatos-release).
+#   italia      the Armatos packages themselves
+#   provinciae  software Ubuntu doesn't carry or that Armatos rebuilds:
+#               MangoWC, SceneFX, wlroots 0.20, Quickshell, Discover for Forum
+# Signed with the key in /usr/share/keyrings/armatos-archive-keyring.asc
+# (fingerprint E682 ED64 41E7 446A 0BF6  0299 EEEE 883B DA60 A8CA).
+Types: deb
+URIs: https://raw.githubusercontent.com/factionparadox/ArmatosLinux/horreum
+Suites: resolute
+Components: italia provinciae
+Architectures: amd64
+Signed-By: /usr/share/keyrings/armatos-archive-keyring.asc

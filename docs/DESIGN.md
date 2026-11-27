@@ -35,13 +35,33 @@ applies.
 
 ## 3. Packaging and repositories
 
-Armatos runs its own APT repository, split into the following components:
+Armatos runs its own APT repository, the **horreum**, split into the following components:
 
 | Component | Contents |
 |---|---|
 | `italia` | Core Armatos packages (tools, themes, kernel) |
-| `provinciae` | Extra software we package ourselves: MangoWC, SceneFX, Quickshell backport, wlroots if needed |
-| `barbaricum` | Non-free firmware and blobs |
+| `provinciae` | Extra software we package ourselves: MangoWC, SceneFX, wlroots 0.20, the Quickshell backport, Discover rebuilt for Forum |
+| `barbaricum` | Non-free firmware and blobs *(not yet needed)* |
+
+How it works:
+
+- **Hosting:** the `horreum` branch of this GitHub repo, served from
+  `https://raw.githubusercontent.com/factionparadox/ArmatosLinux/horreum`. Each publish
+  replaces the branch with one commit, so it never grows; the previous publish's packages
+  and indexes are kept beside the new ones (with `Acquire-By-Hash`), because GitHub's cache
+  can serve an old index for a few minutes.
+- **Trust:** signed with an Ed25519 key, fingerprint
+  `E682 ED64 41E7 446A 0BF6 0299 EEEE 883B DA60 A8CA`. `armatos-release` ships the public
+  key and `armatos.sources`; *Lex IV* (`armatos-lex`) pins the Armatos origin at 600, so our
+  builds win over Ubuntu's packages of the same name without forcing downgrades.
+- **Versions:** each package's control file holds a base (2779.1); `tools/build-debs.sh`
+  adds the time of the last commit in UTC (2779.1.202611272256). Every later commit is an
+  upgrade, and an ISO built from a commit matches what the horreum carries for it.
+- **Publishing:** `tools/horreum.sh`, run as yourself after committing. It builds anything
+  missing, lays out the tree with `apt-ftparchive`, signs it and force-pushes the branch.
+  The private key lives in `~/.local/share/armatos/horreum-key`; on a new machine, give it
+  once with `tools/horreum.sh --key armatos-horreum-SECRET.asc`. Keep an offline copy: every
+  Armatos install trusts this key, so losing it means re-keying them all.
 
 Other sources:
 
@@ -147,7 +167,7 @@ later with `cursus` or from a USB drive.
 ## 10. Roadmap
 
 1. **Foundations:** repo, design, `lex`, `cursus`, `damnatio`, the voice and `vesta-temple`. *Done.*
-2. **Provinciae:** package MangoWC + SceneFX, backport Quickshell *(done)*; set up the APT repo.
+2. **Provinciae:** package MangoWC + SceneFX, backport Quickshell, set up the APT repo (the horreum). *Done.*
 3. **`linux-legio`:** kernel build pipeline.
 4. **Marmor:** Titulus, launcher, Tabula, porta, edicta, GRUB and Plymouth *(done)*; Tribunus and Kvantum still to come.
 5. **colonia:** Calamares in Marmor; LUKS2 + Btrfs (@, @snapshots), /home on its own encrypted partition (a quarter of the disk to root, 40–128 GiB; the rest to /home), separate plain /boot, greetd autologin. *Built; the system it lays down is tested booting under Secure Boot, the installer's pages still want a full run on hardware.*
