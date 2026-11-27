@@ -1,0 +1,9 @@
+Explanation: Socii: Mozilla's packages come from Mozilla.
+Package: *
+Pin: origin packages.mozilla.org
+Pin-Priority: 1000
+
+Explanation: Ubuntu's firefox is a shim that installs the snap; Lex II bars it.
+Package: firefox
+Pin: release o=Ubuntu
+Pin-Priority: -1

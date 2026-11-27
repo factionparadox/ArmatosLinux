@@ -1,0 +1,6 @@
+#!/bin/sh
+set -e
+if command -v appstreamcli >/dev/null 2>&1; then
+	appstreamcli refresh-cache --force >/dev/null 2>&1 || true
+fi
+exit 0

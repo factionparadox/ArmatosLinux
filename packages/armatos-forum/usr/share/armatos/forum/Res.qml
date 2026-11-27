@@ -162,7 +162,7 @@ Pagina {
                         required property var application
                         required property string displayOrigin
                         porphyry: application === page.application
-                        text: (Theme.isForeign(application) ? "PEREGRINA · " : "") + displayOrigin.toUpperCase()
+                        text: (Theme.isForeign(application) ? "PEREGRINA · " : "") + Theme.originName(application).toUpperCase()
                         size: 10
                         implicitHeight: 30
                         onClicked: page.application = application
@@ -184,7 +184,7 @@ Pagina {
                 }
                 Fact {
                     label: Theme.say("ORIGO", "SOURCE")
-                    value: page.application ? page.application.displayOrigin : ""
+                    value: Theme.originName(page.application)
                 }
                 Fact {
                     label: Theme.say("LICENTIA", "LICENCE")

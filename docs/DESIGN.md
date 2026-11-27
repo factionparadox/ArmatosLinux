@@ -62,6 +62,7 @@ Other sources:
 | `colonia` | The installer: Calamares with QML branding, working offline from the ISO with Wi-Fi up at boot. |
 | `census` | Fetch-style system report. |
 | `lex` | Policy files (APT pins and similar), numbered like laws. |
+| `socii` | Rome's allies: outside APT repositories that keep the laws. For now Mozilla's own, so Firefox is a real .deb built by Mozilla (Ubuntu's `firefox` is a snap shim, pinned out), with a catalogue entry so it shows in Forum. |
 | Forum | Software market for APT, Flatpak and firmware: KDE Discover's engine (libdiscover over PackageKit, Flatpak and fwupd, rebuilt without QtWebEngine or snap) with Forum's own QML pages in marble and porphyry. |
 | Senatus | Settings app, where the laws get passed. |
 | `vesta-temple` | Discord installer package. |

@@ -24,6 +24,7 @@ Every Armatos term in one place.
 | **`colonia`** | Installer: founding a colony on the disk |
 | **`census`** | System report |
 | **Forum** | App store; categories are *tabernae* (stalls) |
+| **socii** | Allies: outside APT repositories that keep Armatos's laws (Mozilla's, for Firefox) |
 | **SELECTA** | Forum's front shelf: what the empire recommends |
 | **POSSESSA / FONTES** | Forum's installed list / its sources |
 | **ACQVIRE / ABICE / INCIPE** | Install / remove / launch |

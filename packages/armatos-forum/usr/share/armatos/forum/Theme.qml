@@ -191,6 +191,15 @@ QtObject {
         return !!resource && !!resource.backend && resource.backend.name === "flatpak-backend";
     }
 
+    // Where a package says it comes from, in words a person would use.
+    // Mozilla's repository calls itself by its Artifact Registry path.
+    function originName(resource) {
+        const origin = resource ? String(resource.displayOrigin || "") : "";
+        if (/moz_fx|mozilla-mozilla|packages\.mozilla\.org/i.test(origin))
+            return "Mozilla";
+        return origin;
+    }
+
     function originLine(resource) {
         if (!resource)
             return "";
@@ -198,6 +207,6 @@ QtObject {
             return "PEREGRINA";
         if (resource.backend && resource.backend.name === "fwupd-backend")
             return say("FERRAMENTA", "FIRMWARE");
-        return (resource.displayOrigin || "").toUpperCase();
+        return originName(resource).toUpperCase();
     }
 }

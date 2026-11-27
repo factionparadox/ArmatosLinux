@@ -133,11 +133,11 @@ for p in plasma-discover plasma-discover-common plasma-discover-backend-fwupd pl
 	compgen -G "out/provinciae/${p}_*armatos*.deb" >/dev/null || die "out/provinciae has no $p: run  sudo tools/build-provinciae.sh  first"
 	cp out/provinciae/${p}_*armatos*.deb "$CHROOT/tmp/"
 done
-cp out/armatos-forum_*.deb "$CHROOT/tmp/"
+cp out/armatos-forum_*.deb out/armatos-socii_*.deb "$CHROOT/tmp/"
 in_chroot sh -c 'apt-get install -y --no-install-recommends \
 	/tmp/plasma-discover_*.deb /tmp/plasma-discover-common_*.deb \
 	/tmp/plasma-discover-backend-fwupd_*.deb /tmp/plasma-discover-backend-flatpak_*.deb \
-	/tmp/armatos-forum_*.deb fwupd'
+	/tmp/armatos-forum_*.deb /tmp/armatos-socii_*.deb fwupd'
 rm -f "$CHROOT"/tmp/*.deb
 
 say "Setting the Imperator's defaults: en_GB, Europe/London, UK keyboard"

@@ -1,0 +1,7 @@
+# Socii: Mozilla's own APT repository (armatos-socii). Firefox from here is
+# built and supported by Mozilla; Ubuntu's "firefox" is only a snap shim.
+Types: deb
+URIs: https://packages.mozilla.org/apt
+Suites: mozilla
+Components: main
+Signed-By: /usr/share/keyrings/packages.mozilla.org.asc

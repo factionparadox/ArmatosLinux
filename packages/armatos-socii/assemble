@@ -1,0 +1,16 @@
+#!/bin/sh
+# Called by tools/build-debs.sh: refuse to package a Mozilla key that isn't
+# the one Mozilla publishes (support.mozilla.org, "Install Firefox on Linux").
+# $1 = repo root, $2 = staging tree.
+set -e
+stage=$2
+want=35BAA0B33E9EB396F59CA838C0BA5CE6DC6315A3
+home=$(mktemp -d)
+got=$(GNUPGHOME="$home" gpg -n -q --import --import-options import-show \
+	"$stage/usr/share/keyrings/packages.mozilla.org.asc" 2>/dev/null |
+	awk '/^pub/ { getline; gsub(/^ +| +$/, ""); print; exit }')
+rm -rf "$home"
+if [ "$got" != "$want" ]; then
+	echo "armatos-socii: Mozilla's key has fingerprint '$got', expected $want" >&2
+	exit 1
+fi

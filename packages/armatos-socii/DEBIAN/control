@@ -1,0 +1,11 @@
+Package: armatos-socii
+Version: 2779.1
+Section: admin
+Priority: optional
+Architecture: all
+Depends: apt, appstream
+Maintainer: factionparadox <factionparadox@users.noreply.github.com>
+Description: Socii: the allied sources of Armatos
+ Outside APT repositories that keep Armatos's laws. For now one ally:
+ Mozilla's own repository, so Firefox comes as a real .deb built and
+ supported by Mozilla, never Ubuntu's snap shim, and appears in Forum.

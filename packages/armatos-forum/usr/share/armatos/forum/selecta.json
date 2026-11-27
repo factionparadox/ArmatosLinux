@@ -1,4 +1,5 @@
 [
+    "appstream://org.mozilla.firefox",
     "appstream://org.gnome.Epiphany",
     "appstream://libreoffice-writer.desktop",
     "appstream://manuskript.desktop",

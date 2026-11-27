@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Socii: catalogue entries for software from Armatos's allied APT
+     repositories, which publish no AppStream data of their own. Without
+     these, Forum could not list them. -->
+<components version="1.0" origin="armatos-socii">
+  <component type="desktop-application">
+    <id>org.mozilla.firefox</id>
+    <pkgname>firefox</pkgname>
+    <name>Firefox</name>
+    <summary>Web browser by Mozilla</summary>
+    <description>
+      <p>Firefox from Mozilla's own APT repository: a real .deb, built and supported by Mozilla
+      and updated in step with Firefox's own releases. Not Ubuntu's snap shim.</p>
+      <p>Language packs are separate packages named firefox-l10n followed by a language code.</p>
+    </description>
+    <!-- Papirus (installed with the shell) has Firefox's icon; the theme name
+         is the fallback if it ever moves. -->
+    <icon type="local">/usr/share/icons/Papirus/64x64/apps/firefox.svg</icon>
+    <icon type="stock">firefox</icon>
+    <launchable type="desktop-id">firefox.desktop</launchable>
+    <url type="homepage">https://www.mozilla.org/firefox/</url>
+    <url type="help">https://support.mozilla.org/products/firefox</url>
+    <url type="bugtracker">https://bugzilla.mozilla.org/</url>
+    <url type="donation">https://foundation.mozilla.org/donate/</url>
+    <project_license>MPL-2.0</project_license>
+    <developer id="org.mozilla">
+      <name>Mozilla</name>
+    </developer>
+    <categories>
+      <category>Network</category>
+      <category>WebBrowser</category>
+    </categories>
+    <keywords>
+      <keyword>browser</keyword>
+      <keyword>web</keyword>
+      <keyword>internet</keyword>
+      <keyword>mozilla</keyword>
+    </keywords>
+    <provides>
+      <binary>firefox</binary>
+    </provides>
+  </component>
+</components>
