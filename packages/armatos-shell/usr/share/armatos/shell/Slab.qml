@@ -8,6 +8,7 @@ Item {
     property bool porphyry: false
     property bool shadow: true
     property bool moulding: false            // gilded strip along the top
+    property alias seed: marble.seed         // which part of the slab it is cut from
     default property alias content: face.data
 
     RectangularShadow {
@@ -23,7 +24,7 @@ Item {
         id: stone
         anchors.fill: parent
 
-        Marble { anchors.fill: parent; visible: !root.porphyry }
+        Marble { id: marble; anchors.fill: parent; visible: !root.porphyry }
         Porphyry { anchors.fill: parent; visible: root.porphyry }
         Moulding { visible: root.moulding; anchors { left: parent.left; right: parent.right; top: parent.top } }
         Item { id: face; anchors.fill: parent; anchors.topMargin: root.moulding ? Theme.mouldingHeight : 0 }

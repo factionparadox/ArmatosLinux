@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 """Generate the textures the Armatos shell (Titulus, launcher, porta) draws with.
 
-Writes into art/shell/. Each texture is made seamless by book-matching it
-(mirroring), the way real marble slabs are laid, and comes in a 1x and an @2x
-size so it stays sharp on the Framework's 2x panel.
+Writes into art/shell/. Marble is the whole photo (marmor-slab.jpg), never
+mirrored: Marble.qml lays it as slabs, cutting small surfaces from one and
+facing large ones with several, edge to edge. Porphyry, which is evenly
+speckled, is book-matched (mirrored) into a seamless tile. Tiles come in a 1x
+and an @2x size so they stay sharp on the Framework's panel.
 
 Run from anywhere:  python3 tools/make-shell-assets.py
 """
@@ -47,6 +49,12 @@ def texture(src, name, tile_w):
     save_pair(name, bookmatch(one), bookmatch(two), quality=90)
 
 
+def slab():
+    """The marble photo itself, untouched, for Marble.qml to lay as slabs."""
+    Image.open(os.path.join(ROOT, "art/textures/marmor-slab.jpg")).convert("RGB").save(
+        os.path.join(OUT, "marmor-slab.jpg"), quality=92, optimize=True)
+
+
 def moulding():
     h = 14
     unit = h * 3
@@ -79,7 +87,7 @@ def wallpapers():
 
 def main():
     os.makedirs(OUT, exist_ok=True)
-    texture("art/textures/marmor.jpg", "marmor.jpg", 760)
+    slab()
     texture("art/textures/porphyry.jpg", "porphyry.jpg", 360)
     moulding()
     branding()

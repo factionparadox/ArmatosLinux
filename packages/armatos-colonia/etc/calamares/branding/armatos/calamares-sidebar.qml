@@ -86,12 +86,16 @@ Item {
                     anchors { fill: parent; leftMargin: 10; rightMargin: 12; topMargin: 3; bottomMargin: 3 }
                     visible: parent.current
                     color: "#E9E5DF"
+                    clip: true
+                    // Each step's plaque is cut from its own part of the slab.
                     Image {
-                        anchors.fill: parent
-                        source: "marmor.jpg"
-                        fillMode: Image.Tile
-                        horizontalAlignment: Image.AlignLeft
-                        verticalAlignment: Image.AlignTop
+                        source: "marmor-slab.jpg"
+                        width: 1000
+                        height: 947
+                        x: -((index * 173) % 700)
+                        y: -((index * 251) % 860)
+                        smooth: true
+                        mipmap: true
                     }
                     Rectangle { anchors { left: parent.left; right: parent.right; top: parent.top } height: 2; color: Qt.rgba(1, 1, 1, 0.8) }
                     Rectangle { anchors { left: parent.left; right: parent.right; bottom: parent.bottom } height: 2; color: Qt.rgba(0.3, 0.25, 0.2, 0.35) }

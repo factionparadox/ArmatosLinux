@@ -3,7 +3,9 @@
 
   welcome.png        the white cliffs landing, with COLONIA carved over it
   slide-*.jpg        the install slideshow's paintings
-  marmor.jpg etc.    the textures the installer's stylesheet tiles
+  marmor-wall.jpg    the installer's background: a wall faced with marble slabs
+  marmor-slab.jpg    the marble photo, for the plaques cut from it
+  porphyry.jpg etc.  the textures the installer's stylesheet tiles
 
 Run from anywhere:  python3 tools/make-colonia-art.py
 """
@@ -58,12 +60,41 @@ def slides():
 
 
 def textures():
-    for name in ("marmor.jpg", "porphyry.jpg", "beadreel.png", "eagle.png", "emblem.png"):
+    for name in ("porphyry.jpg", "beadreel.png", "eagle.png", "emblem.png", "eagle@2x.png", "emblem@2x.png"):
         Image.open(os.path.join(ROOT, "art/shell", name)).save(os.path.join(OUT, name))
-    for name in ("eagle@2x.png", "emblem@2x.png"):
-        Image.open(os.path.join(ROOT, "art/shell", name)).save(os.path.join(OUT, name))
-    # The installer's wall: the big tile, so the book-matching repeats rarely.
-    Image.open(os.path.join(ROOT, "art/shell", "marmor@2x.jpg")).save(os.path.join(OUT, "marmor-wall.jpg"), quality=90)
+    Image.open(os.path.join(ROOT, "art/shell", "marmor-slab.jpg")).save(
+        os.path.join(OUT, "marmor-slab.jpg"), quality=92, optimize=True)
+
+
+def wall(columns=2, rows=2, cell=(1400, 950)):
+    """The installer's background: a wall faced with marble slabs, the way
+    the shell lays them. Each slab is a different cut of the one photo, never
+    mirrored; every other slab is turned end for end so the veins all run
+    the same way, and the joints are hairlines of shadow with a lit edge.
+    Joints run along the top and left edges too, so if Calamares tiles the
+    wall over a very large window, the repeat still falls on a joint."""
+    photo = Image.open(os.path.join(ROOT, "art/textures/marmor-slab.jpg")).convert("RGB")
+    cw, ch = cell
+    out = Image.new("RGB", (cw * columns, ch * rows))
+    cuts = [(30, 60), (90, 410), (0, 300), (60, 120)]
+    for r in range(rows):
+        for c in range(columns):
+            ox, oy = cuts[(r * columns + c) % len(cuts)]
+            piece = photo.crop((ox, oy, ox + cw, oy + ch))
+            if (r + c) % 2:
+                piece = piece.transpose(Image.ROTATE_180)
+            out.paste(piece, (c * cw, r * ch))
+    d = ImageDraw.Draw(out, "RGBA")
+    shadow, light = (59, 46, 41, 56), (255, 255, 255, 140)
+    for c in range(columns):
+        x = c * cw
+        d.line([(x, 0), (x, out.height)], fill=shadow)
+        d.line([(x + 1, 0), (x + 1, out.height)], fill=light)
+    for r in range(rows):
+        y = r * ch
+        d.line([(0, y), (out.width, y)], fill=shadow)
+        d.line([(0, y + 1), (out.width, y + 1)], fill=light)
+    out.save(os.path.join(OUT, "marmor-wall.jpg"), quality=90)
 
 
 def main():
@@ -71,6 +102,7 @@ def main():
     welcome()
     slides()
     textures()
+    wall()
     print("colonia art written to", OUT)
 
 

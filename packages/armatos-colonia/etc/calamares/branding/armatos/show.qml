@@ -31,12 +31,16 @@ Presentation {
             anchors { left: parent.left; right: parent.right; bottom: parent.bottom; margins: 26 }
             height: words.implicitHeight + 36
             color: "#E9E5DF"
+            clip: true
+            // The tablet is cut from the marble slab, a different part per slide.
             Image {
-                anchors.fill: parent
-                source: "marmor.jpg"
-                fillMode: Image.Tile
-                horizontalAlignment: Image.AlignLeft
-                verticalAlignment: Image.AlignTop
+                source: "marmor-slab.jpg"
+                width: Math.max(1000, tablet.width)
+                height: width * 0.947
+                x: -((slide.title.length * 37) % Math.max(1, width - tablet.width + 1))
+                y: -((slide.title.length * 53) % 600)
+                smooth: true
+                mipmap: true
             }
             Rectangle { anchors { left: parent.left; right: parent.right; top: parent.top } height: 6; color: "#8A6518" }
             Column {
