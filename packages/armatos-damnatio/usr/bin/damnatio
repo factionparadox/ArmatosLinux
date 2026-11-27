@@ -7,8 +7,9 @@
 #   damnatio prune           keep the newest $KEEP memories, clear condemned roots
 #   damnatio hook            used by APT before every dpkg run; never fails
 #
-# Layout (made by colonia): top-level Btrfs holds @ (root), @home and
-# @snapshots. Root must be mounted with subvol=@ (by name, not subvolid).
+# Layout (made by colonia): top-level Btrfs holds @ (root) and @snapshots;
+# /home lives on its own partition (older installs: an @home subvolume).
+# Root must be mounted with subvol=@ (by name, not subvolid).
 # /home is never touched: rolling back the system never loses your work.
 
 set -euo pipefail

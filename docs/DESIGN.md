@@ -16,7 +16,7 @@ applies.
 | Base | Ubuntu 26.04 LTS, classic APT (not image-based) |
 | systemd | Pinned at **259.x** for the life of the release (`lex I`). Ubuntu doesn't bump systemd majors inside an LTS, but the pin guards against PPAs and backports bringing in 260+. |
 | Removed | `snapd` (pinned out at priority -1), GNOME Shell and the Ubuntu desktop session |
-| Filesystem | Btrfs root with `@` and `@home` subvolumes, for `damnatio` |
+| Filesystem | Btrfs root (`@`, `@snapshots`) for `damnatio`; `/home` on its own LUKS2 + Btrfs partition, opened by a key kept inside the encrypted root, so one passphrase unlocks both |
 | Encryption | LUKS2 full-disk; the passphrase is the only password you type |
 | Login | Autologin straight to the desktop after LUKS unlock |
 | Auth | Fingerprint (`fprintd`) for sudo and the lock screen; LUKS passphrase as fallback |
@@ -150,7 +150,7 @@ later with `cursus` or from a USB drive.
 2. **Provinciae:** package MangoWC + SceneFX, backport Quickshell *(done)*; set up the APT repo.
 3. **`linux-legio`:** kernel build pipeline.
 4. **Marmor:** Titulus, launcher, Tabula, porta, edicta, GRUB and Plymouth *(done)*; Tribunus and Kvantum still to come.
-5. **colonia:** Calamares in Marmor; LUKS2 + Btrfs (@, @home, @snapshots), separate plain /boot, greetd autologin. *Built; the system it lays down is tested booting under Secure Boot, the installer's pages still want a full run on hardware.*
+5. **colonia:** Calamares in Marmor; LUKS2 + Btrfs (@, @snapshots), /home on its own encrypted partition (a quarter of the disk to root, 40–128 GiB; the rest to /home), separate plain /boot, greetd autologin. *Built; the system it lays down is tested booting under Secure Boot, the installer's pages still want a full run on hardware.*
 6. **The oracles and Lar:** llama.cpp packaging, then `haruspex` first.
 7. **Forum** *(done: Discover's engine, Armatos's face)*, then **centurion and Senatus.**
 8. **Otium.**

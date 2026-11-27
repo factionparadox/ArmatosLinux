@@ -1,0 +1,7 @@
+# clavis: the house key. See main.py.
+---
+type: "job"
+name: "clavis"
+interface: "python"
+script: "main.py"
+noconfig: true
