@@ -1,0 +1,79 @@
+Description: Load the Armatos Forum window when it is installed
+ Forum is Discover's engine with its own QML face. When
+ /usr/share/armatos/forum/Forum.qml (or $FORUM_QML) exists it is loaded in
+ place of the Kirigami DiscoverWindow; otherwise Discover behaves as upstream.
+Author: Armatos <factionparadox@users.noreply.github.com>
+Forwarded: not-needed
+
+--- a/discover/DiscoverObject.cpp
++++ b/discover/DiscoverObject.cpp
+@@ -152,21 +152,18 @@
+ 
+     m_engine->rootContext()->setContextProperty(QStringLiteral("app"), this);
+ 
+-    const auto discoverQmlUri = u"org.kde.discover.qml"_s;
+-
+-    auto navigation = m_engine->singletonInstance<QObject *>(discoverQmlUri, u"Navigation"_s);
+-    if (!navigation) {
+-        qCWarning(DISCOVER_LOG) << "Failed to import Navigation singleton";
+-        scheduleShutdownWithErrorCode();
+-        return;
+-    }
+-
+-    {
+-        QQmlComponent component(m_engine.get(), discoverQmlUri, u"DiscoverWindow"_s);
++    // Armatos: Forum is Discover's engine wearing our own face. If the
++    // Forum window exists (or $FORUM_QML points at one), load it instead
++    // of Discover's Kirigami window; otherwise behave as upstream.
++    const QString forumQml = qEnvironmentVariable("FORUM_QML", QStringLiteral("/usr/share/armatos/forum/Forum.qml"));
++    if (QFile::exists(forumQml)) {
++        // Forum reads the shell's settings (numerals, lingua) as a file.
++        qputenv("QML_XHR_ALLOW_FILE_READ", "1");
++        QQmlComponent component(m_engine.get(), QUrl::fromLocalFile(forumQml));
+         auto object = component.beginCreate(m_engine->rootContext());
+         auto window = qobject_cast<QQuickWindow *>(object);
+         if (!object || !window) {
+-            qCWarning(DISCOVER_LOG) << "Failed to create main window:" << component.errorString();
++            qCWarning(DISCOVER_LOG) << "Failed to create the Forum window:" << component.errorString();
+             scheduleShutdownWithErrorCode();
+             component.completeCreate();
+             if (object) {
+@@ -174,10 +171,37 @@
+             }
+             return;
+         }
+-        navigation->setProperty("window", QVariant::fromValue(object));
+         component.setInitialProperties(object, initialProperties);
+         component.completeCreate();
+         initMainWindow(window);
++    } else {
++        const auto discoverQmlUri = u"org.kde.discover.qml"_s;
++
++        auto navigation = m_engine->singletonInstance<QObject *>(discoverQmlUri, u"Navigation"_s);
++        if (!navigation) {
++            qCWarning(DISCOVER_LOG) << "Failed to import Navigation singleton";
++            scheduleShutdownWithErrorCode();
++            return;
++        }
++
++        {
++            QQmlComponent component(m_engine.get(), discoverQmlUri, u"DiscoverWindow"_s);
++            auto object = component.beginCreate(m_engine->rootContext());
++            auto window = qobject_cast<QQuickWindow *>(object);
++            if (!object || !window) {
++                qCWarning(DISCOVER_LOG) << "Failed to create main window:" << component.errorString();
++                scheduleShutdownWithErrorCode();
++                component.completeCreate();
++                if (object) {
++                    delete object;
++                }
++                return;
++            }
++            navigation->setProperty("window", QVariant::fromValue(object));
++            component.setInitialProperties(object, initialProperties);
++            component.completeCreate();
++            initMainWindow(window);
++        }
+     }
+ 
+     auto action = new OneTimeAction(

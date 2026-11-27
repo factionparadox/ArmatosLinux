@@ -62,7 +62,7 @@ Other sources:
 | `colonia` | The installer: Calamares with QML branding, working offline from the ISO with Wi-Fi up at boot. |
 | `census` | Fetch-style system report. |
 | `lex` | Policy files (APT pins and similar), numbered like laws. |
-| Forum | GUI store for APT and Flatpak (PackageKit + libflatpak + AppStream, GTK4). |
+| Forum | Software market for APT, Flatpak and firmware: KDE Discover's engine (libdiscover over PackageKit, Flatpak and fwupd, rebuilt without QtWebEngine or snap) with Forum's own QML pages in marble and porphyry. |
 | Senatus | Settings app, where the laws get passed. |
 | `vesta-temple` | Discord installer package. |
 | `lapicida` | The stonecutter: writes an ISO to a USB stick. Removable drives only, typed confirmation, read-back verification. |
@@ -151,7 +151,7 @@ later with `cursus` or from a USB drive.
 4. **Marmor:** Titulus, launcher, Tabula, porta, edicta, GRUB and Plymouth *(done)*; Tribunus and Kvantum still to come.
 5. **colonia:** Calamares in Marmor; LUKS2 + Btrfs (@, @home, @snapshots), separate plain /boot, greetd autologin. *Built; the system it lays down is tested booting under Secure Boot, the installer's pages still want a full run on hardware.*
 6. **The oracles and Lar:** llama.cpp packaging, then `haruspex` first.
-7. **centurion, Forum and Senatus.**
+7. **Forum** *(done: Discover's engine, Armatos's face)*, then **centurion and Senatus.**
 8. **Otium.**
 
 Builds run on the Framework or in Arch WSL, never on the EliteBook natively. Outputs stay on the Linux side.

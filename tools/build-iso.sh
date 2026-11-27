@@ -127,6 +127,19 @@ in_chroot sh -c 'apt-get install -y --no-install-recommends \
 	fonts-dejavu-core thunar'
 rm -f "$CHROOT"/tmp/*.deb
 
+say "Opening the Forum: Discover's engine under the Armatos face"
+# Discover is rebuilt by tools/build-provinciae.sh (no web view, no snap).
+for p in plasma-discover plasma-discover-common plasma-discover-backend-fwupd plasma-discover-backend-flatpak; do
+	compgen -G "out/provinciae/${p}_*armatos*.deb" >/dev/null || die "out/provinciae has no $p: run  sudo tools/build-provinciae.sh  first"
+	cp out/provinciae/${p}_*armatos*.deb "$CHROOT/tmp/"
+done
+cp out/armatos-forum_*.deb "$CHROOT/tmp/"
+in_chroot sh -c 'apt-get install -y --no-install-recommends \
+	/tmp/plasma-discover_*.deb /tmp/plasma-discover-common_*.deb \
+	/tmp/plasma-discover-backend-fwupd_*.deb /tmp/plasma-discover-backend-flatpak_*.deb \
+	/tmp/armatos-forum_*.deb fwupd'
+rm -f "$CHROOT"/tmp/*.deb
+
 say "Setting the Imperator's defaults: en_GB, Europe/London, UK keyboard"
 in_chroot sh -c 'echo "en_GB.UTF-8 UTF-8" > /etc/locale.gen && locale-gen && update-locale LANG=en_GB.UTF-8'
 ln -sf /usr/share/zoneinfo/Europe/London "$CHROOT/etc/localtime"

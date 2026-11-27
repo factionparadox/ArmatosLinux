@@ -1,0 +1,6 @@
+Explanation: Forum runs on Discover rebuilt for Armatos (no web view, no
+Explanation: snap backend, Forum's window). Ubuntu's own builds would undo
+Explanation: that, so they are kept out; rebuild with tools/build-provinciae.sh.
+Package: plasma-discover plasma-discover-common plasma-discover-backend-flatpak plasma-discover-backend-fwupd plasma-discover-backend-snap plasma-discover-notifier kde-config-updates
+Pin: release o=Ubuntu
+Pin-Priority: -1

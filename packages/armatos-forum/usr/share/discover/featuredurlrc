@@ -1,0 +1,4 @@
+# Forum's SELECTA: the goods the empire recommends, read from a local list
+# instead of KDE's server.
+[Software]
+FeaturedListingURL=file:///usr/share/armatos/forum/selecta.json

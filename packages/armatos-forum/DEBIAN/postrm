@@ -1,0 +1,12 @@
+#!/bin/sh
+set -e
+if [ "$1" = remove ] || [ "$1" = purge ] || [ "$1" = abort-install ]; then
+	dpkg-divert --package armatos-forum --remove --rename \
+		--divert /usr/share/armatos/forum/org.kde.discover.desktop.discover \
+		/usr/share/applications/org.kde.discover.desktop >/dev/null || true
+	rmdir /usr/share/armatos/forum 2>/dev/null || true
+fi
+if command -v update-desktop-database >/dev/null 2>&1; then
+	update-desktop-database -q /usr/share/applications || true
+fi
+exit 0

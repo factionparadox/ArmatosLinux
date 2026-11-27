@@ -43,7 +43,8 @@ releases from the founding of Rome. You are the Imperator. The legion answers to
 | `packages/armatos-shell` | The Marmor desktop shell (Quickshell): Titulus, launcher, porta |
 | `packages/armatos-session` | MangoWC with the Armatos settings and keybinds |
 | `packages/armatos-colonia` | `colonia`, the installer (Calamares in Marmor) |
-| `provinciae/` | Packaging for what Ubuntu lacks: wlroots 0.20, SceneFX, MangoWC, Quickshell |
+| `packages/armatos-forum` | Forum, the software market: Discover's engine under a Marmor face |
+| `provinciae/` | Packaging for what Ubuntu lacks: wlroots 0.20, SceneFX, MangoWC, Quickshell, and Discover rebuilt for Forum |
 | `kernel/` | `linux-legio` |
 | `art/` | Marmor artwork: wallpapers, GRUB, Plymouth, shell, installer |
 | `tools/` | Build scripts |
@@ -53,7 +54,7 @@ releases from the founding of Rome. You are the Imperator. The legion answers to
 On any Ubuntu 26.04-based system (Armatos itself, Galactic Mandate, plain Ubuntu):
 
 ```sh
-sudo tools/build-provinciae.sh   # once: MangoWC, Quickshell and friends (slow)
+sudo tools/build-provinciae.sh   # once: MangoWC, Quickshell, Discover and friends (slow)
 sudo tools/build-iso.sh
 ```
 
@@ -83,6 +84,13 @@ Packages alone: `tools/build-debs.sh`.
 | Alt+Shift | Switch keyboard layout |
 | Super+Escape | VALE: lock, sleep, log out, restart, shut down |
 
+**Forum** is the software market (in the launcher, or `plasma-discover`): TABERNAE are
+the stalls, QVAERE searches, POSSESSA is what you own, TRIBVTVM brings updates (APT,
+Flatpak and firmware) and FONTES lists the sources. Installing asks the Praetorians for
+your watchword. Flatpak apps are *peregrina*: none appear until you add a remote (ADDE
+FLATHVB under FONTES), and each carries a porphyry seal. SELECTA, the front shelf, is
+`/usr/share/armatos/forum/selecta.json`.
+
 Your own Mango settings go in `~/.config/mango/config.conf`; it is read after the Armatos
 defaults, so it wins. The shell remembers its numerals and language in
 `~/.local/state/armatos/shell.json`.
@@ -98,6 +106,7 @@ stick's name before erasing it, and reads the stick back to verify every byte.
 
 ## Status
 
-**MMDCCLXXIX (2026)**: the live ISO boots to the desktop and installs with `colonia`.
-Still to come: `linux-legio`, Tribunus (GTK), Forum, Senatus, the oracles and Otium.
+**MMDCCLXXIX (2026)**: the live ISO boots to the desktop and installs with `colonia`, and
+Forum sells software. Still to come: `linux-legio`, Tribunus (GTK), Senatus, the oracles
+and Otium.
 See `docs/DESIGN.md` for the roadmap.

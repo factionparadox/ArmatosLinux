@@ -1,0 +1,16 @@
+Package: armatos-forum
+Version: 2779.1
+Section: admin
+Priority: optional
+Architecture: all
+Depends: plasma-discover (>= 6.6.7-0ubuntu0.2+armatos1), armatos-shell, qml6-module-qtquick, qml6-module-qtqml, qml6-module-qtqml-models, qml6-module-qtquick-layouts, qml6-module-qtquick-effects, qml6-module-qtcore, qml6-module-org-kde-kirigami, packagekit, appstream
+Recommends: plasma-discover-backend-fwupd
+Suggests: plasma-discover-backend-flatpak
+Maintainer: factionparadox <factionparadox@users.noreply.github.com>
+Description: Forum: the Armatos software market
+ Install, remove and update software from the APT archives, and firmware
+ through fwupd, in marble and porphyry. The engine is KDE Discover, rebuilt
+ for Armatos without its web view or snap backend; Forum gives it its own
+ face: TABERNAE (the stalls), QVAERE, POSSESSA, TRIBVTVM (updates) and
+ FONTES (sources). Flatpak apps appear only once Flatpak support is added,
+ and are always sealed PEREGRINA, foreign goods.

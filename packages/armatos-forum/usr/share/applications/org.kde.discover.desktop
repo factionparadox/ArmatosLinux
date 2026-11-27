@@ -1,0 +1,17 @@
+[Desktop Entry]
+Type=Application
+Name=Forum
+GenericName=Software
+Comment=The empire's market: install, remove and update software
+Exec=plasma-discover %F
+Icon=armatos-forum
+MimeType=application/vnd.debian.binary-package;application/vnd.flatpak;application/vnd.flatpak.repo;application/vnd.flatpak.ref;
+Categories=Qt;System;PackageManager;
+Keywords=software;store;install;remove;update;apps;packages;flatpak;firmware;forum;tabernae;tributum;
+SingleMainWindow=true
+InitialPreference=5
+Actions=Tributum;
+
+[Desktop Action Tributum]
+Name=Tributum (updates)
+Exec=plasma-discover --mode update

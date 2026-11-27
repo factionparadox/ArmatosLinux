@@ -5,7 +5,9 @@
 #
 # wlroots 0.20, SceneFX 0.5 and MangoWC come from upstream git tags with our
 # packaging in provinciae/<name>/debian; Quickshell is Ubuntu's own source
-# package from the next release, rebuilt for 26.04. Everything builds in a
+# package from the next release, rebuilt for 26.04; Discover (the engine under
+# Forum) is Ubuntu's own, rebuilt with provinciae/plasma-discover's patch and
+# without its web view or snap backend. Everything builds in a
 # clean 26.04 chroot (build/pkg/chroot). Results go to out/provinciae/; a
 # package whose .deb is already there is skipped, so nothing is rebuilt twice.
 
@@ -105,6 +107,35 @@ else
 	grep -q CRASH_HANDLER=OFF "$dir/debian/rules" || die "couldn't adjust quickshell's debian/rules"
 	in_chroot sh -c "cd /build/quickshell/$(basename "$dir") && DEBFULLNAME=Armatos DEBEMAIL=factionparadox@users.noreply.github.com dch --local '~armatos' --distribution resolute --force-distribution 'Rebuilt for Armatos (Ubuntu 26.04): no crash reporter, no Hyprland integration.'"
 	build_tree "/build/quickshell/$(basename "$dir")"
+fi
+
+say "Discover, the engine under Forum (Ubuntu's own source, rebuilt)"
+if compgen -G "$OUT/plasma-discover_*armatos*_amd64.deb" >/dev/null; then
+	say "plasma-discover: already built"
+else
+	rm -rf "$CHROOT/build/discover" && mkdir -p "$CHROOT/build/discover"
+	in_chroot sh -c "cd /build/discover && apt-get source -qq plasma-discover/resolute-updates >/dev/null"
+	dir=$(find "$CHROOT/build/discover" -mindepth 1 -maxdepth 1 -type d -name 'plasma-discover-*' | head -n 1)
+	[ -n "$dir" ] || die "couldn't fetch the plasma-discover source package"
+	d="$dir/debian"
+	# Armatos changes: no web view (it drags in QtWebEngine, which is
+	# Chromium), no snap backend (Lex II), no KDE telemetry, none of the
+	# Kirigami QML (Forum brings its own face), and the patch that loads
+	# Forum's window in place of Discover's.
+	sed -i -e '/qt6-webview-dev/d' -e '/libsnapd-qt-dev/d' -e '/libkf6userfeedback-dev/d' \
+		-e '/dh-sequence-qmldeps/d' -e '/^ *\${qml6:Depends},$/d' \
+		-e '/^ *plasma-discover-backend-snap,$/d' -e 's/^\( *\)software-properties-qt,$/\1armatos-forum,/' "$d/control"
+	awk 'BEGIN { RS = ""; ORS = "\n\n" } !/^Package: plasma-discover-backend-snap\n/' "$d/control" > "$d/control.new"
+	mv "$d/control.new" "$d/control"
+	rm -f "$d"/plasma-discover-backend-snap.* "$d"/plasma-discover.qmlfiles "$d"/qmldeps.*
+	echo usr/share/applications/org.kde.discover.snap.desktop >> "$d/not-installed"
+	grep -q 'backend-snap\|qml6:Depends\|webview' "$d/control" && die "couldn't adjust plasma-discover's debian/control"
+	printf '\noverride_dh_auto_configure:\n\tdh_auto_configure -- %s\n' \
+		'-DBUILD_SnapBackend=OFF -DCMAKE_DISABLE_FIND_PACKAGE_Qt6WebView=ON -DCMAKE_DISABLE_FIND_PACKAGE_KF6UserFeedback=ON' >> "$d/rules"
+	cp provinciae/plasma-discover/armatos-forum-window.patch "$d/patches/"
+	echo armatos-forum-window.patch >> "$d/patches/series"
+	in_chroot sh -c "cd /build/discover/$(basename "$dir") && DEBFULLNAME=Armatos DEBEMAIL=factionparadox@users.noreply.github.com dch --local '+armatos' --distribution resolute --force-distribution 'Rebuilt for Armatos as the engine under Forum: no web view, no snap backend, no telemetry; loads the Forum window when it is installed.'"
+	build_tree "/build/discover/$(basename "$dir")"
 fi
 
 ls -1 "$OUT"

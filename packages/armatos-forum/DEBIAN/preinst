@@ -1,0 +1,11 @@
+#!/bin/sh
+set -e
+# Discover's menu entry is moved aside; Forum's own takes its name, so the
+# window (app id org.kde.discover) still finds its icon and title.
+if [ "$1" = install ] || [ "$1" = upgrade ]; then
+	mkdir -p /usr/share/armatos/forum
+	dpkg-divert --package armatos-forum --add --rename \
+		--divert /usr/share/armatos/forum/org.kde.discover.desktop.discover \
+		/usr/share/applications/org.kde.discover.desktop >/dev/null
+fi
+exit 0

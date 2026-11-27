@@ -1,0 +1,14 @@
+[
+    "appstream://org.gnome.Epiphany",
+    "appstream://libreoffice-writer.desktop",
+    "appstream://manuskript.desktop",
+    "appstream://org.kde.ghostwriter.desktop",
+    "appstream://org.strawberrymusicplayer.strawberry",
+    "appstream://io.mpv.mpv",
+    "appstream://org.gimp.GIMP",
+    "appstream://org.inkscape.Inkscape",
+    "appstream://com.github.johnfactotum.Foliate",
+    "appstream://com.obsproject.Studio",
+    "appstream://com.valvesoftware.Steam.desktop",
+    "appstream://net.lutris.Lutris"
+]

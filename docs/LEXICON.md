@@ -24,6 +24,9 @@ Every Armatos term in one place.
 | **`colonia`** | Installer: founding a colony on the disk |
 | **`census`** | System report |
 | **Forum** | App store; categories are *tabernae* (stalls) |
+| **SELECTA** | Forum's front shelf: what the empire recommends |
+| **POSSESSA / FONTES** | Forum's installed list / its sources |
+| **ACQVIRE / ABICE / INCIPE** | Install / remove / launch |
 | **Senatus** | Settings app |
 | **`vesta-temple`** | Discord installer. The Vestals kept the flame burning round the clock |
 | **`lapicida`** | The stonecutter: carves an ISO onto a USB stick |

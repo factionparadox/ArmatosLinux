@@ -1,0 +1,10 @@
+#!/bin/sh
+# Called by tools/build-debs.sh: copy Forum's icon into the package.
+# $1 = repo root, $2 = staging tree.
+set -e
+root=$1 stage=$2
+for size in 48 64 128 256 512; do
+	dir="$stage/usr/share/icons/hicolor/${size}x${size}/apps"
+	mkdir -p "$dir"
+	cp "$root/art/forum/forum-$size.png" "$dir/armatos-forum.png"
+done
