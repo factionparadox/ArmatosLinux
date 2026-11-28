@@ -4,8 +4,13 @@ Section: admin
 Priority: optional
 Architecture: all
 Depends: apt, appstream
+Conflicts: protonvpn-stable-release
+Replaces: protonvpn-stable-release
 Maintainer: factionparadox <factionparadox@users.noreply.github.com>
 Description: Socii: the allied sources of Armatos
- Outside APT repositories that keep Armatos's laws. For now one ally:
- Mozilla's own repository, so Firefox comes as a real .deb built and
- supported by Mozilla, never Ubuntu's snap shim, and appears in Forum.
+ Outside APT repositories that keep Armatos's laws:
+  - Mozilla's, so Firefox comes as a real .deb built and supported by
+    Mozilla, never Ubuntu's snap shim;
+  - Proton's, for the Proton VPN app (it replaces Proton's own
+    protonvpn-stable-release package, which sets up the same source).
+ Both appear in Forum.

@@ -1,0 +1,9 @@
+# Socii: Proton VPN's own repository (armatos-socii), for the Proton VPN app.
+# Key fingerprint 84B0 D349 2C76 C9C6 F587  3C18 EDA3 E226 3034 9F1C, taken from
+# Proton's protonvpn-stable-release_1.0.8 package after checking its SHA-256
+# against protonvpn.com's install guide.
+Types: deb
+URIs: https://repo.protonvpn.com/debian
+Suites: stable
+Components: main
+Signed-By: /usr/share/keyrings/repo.protonvpn.com.asc

@@ -1,0 +1,21 @@
+Source: ani-cli
+Section: video
+Priority: optional
+Maintainer: factionparadox <factionparadox@users.noreply.github.com>
+Build-Depends: debhelper-compat (= 13)
+Standards-Version: 4.7.2
+Homepage: https://github.com/pystardust/ani-cli
+Rules-Requires-Root: no
+
+Package: ani-cli
+Architecture: all
+Depends: ${misc:Depends}, curl, fzf, grep, sed, mpv | vlc
+Recommends: mpv, yt-dlp, ffmpeg
+Description: browse and watch anime from the command line
+ ani-cli searches for a show, lets you pick an episode with fzf and plays
+ it in mpv. It can also download episodes (with yt-dlp or ffmpeg).
+ .
+ Armatos carries the current upstream release in the horreum: the sites
+ ani-cli reads from change often, and Ubuntu's 26.04 copy (4.10) is too old
+ to keep up. Updates arrive with cursus; ani-cli's own -U self-update is
+ not needed.

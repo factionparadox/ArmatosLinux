@@ -40,4 +40,36 @@
       <binary>firefox</binary>
     </provides>
   </component>
+  <component type="desktop-application">
+    <id>proton.vpn.app.gtk</id>
+    <pkgname>proton-vpn-gnome-desktop</pkgname>
+    <name>Proton VPN</name>
+    <summary>Secure VPN by Proton, the makers of Proton Mail</summary>
+    <description>
+      <p>Proton VPN's official app, from Proton's own APT repository. Swiss-based, no-logs, with
+      a kill switch and Secure Core servers. Includes the protonvpn command-line tool.</p>
+      <p>The app keeps your sign-in in the system keyring (gnome-keyring).</p>
+    </description>
+    <icon type="local">/usr/share/icons/Papirus/64x64/apps/proton-vpn-logo.svg</icon>
+    <icon type="stock">proton-vpn-logo</icon>
+    <launchable type="desktop-id">proton.vpn.app.gtk.desktop</launchable>
+    <url type="homepage">https://protonvpn.com/</url>
+    <url type="help">https://protonvpn.com/support/</url>
+    <url type="vcs-browser">https://github.com/ProtonVPN/proton-vpn-gtk-app</url>
+    <project_license>GPL-3.0-or-later</project_license>
+    <developer id="com.proton">
+      <name>Proton AG</name>
+    </developer>
+    <categories>
+      <category>Network</category>
+    </categories>
+    <keywords>
+      <keyword>vpn</keyword>
+      <keyword>proton</keyword>
+      <keyword>privacy</keyword>
+    </keywords>
+    <provides>
+      <binary>protonvpn-app</binary>
+    </provides>
+  </component>
 </components>

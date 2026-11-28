@@ -40,7 +40,7 @@ Armatos runs its own APT repository, the **horreum**, split into the following c
 | Component | Contents |
 |---|---|
 | `italia` | Core Armatos packages (tools, themes, kernel) |
-| `provinciae` | Extra software we package ourselves: MangoWC, SceneFX, wlroots 0.20, the Quickshell backport, Discover rebuilt for Forum |
+| `provinciae` | Extra software we package ourselves: MangoWC, SceneFX, wlroots 0.20, the Quickshell backport, Discover rebuilt for Forum, current ani-cli |
 | `barbaricum` | Non-free firmware and blobs *(not yet needed)* |
 
 How it works:
@@ -67,9 +67,15 @@ Other sources:
 
 - **Quickshell** is backported from Debian's packaging (0.3.x), since 26.04 doesn't carry it.
 - **MangoWC + SceneFX** are packaged from scratch, using Arch's PKGBUILD as the recipe.
-- **Proton VPN** comes from Proton's official apt repo, installed without the GNOME metapackage.
+- **Proton VPN** comes from Proton's official apt repo (a `socii` ally), as Proton's
+  `proton-vpn-gnome-desktop` set: despite the name it brings no GNOME desktop, just the app,
+  the CLI, the daemon and keyring support. gnome-keyring holds its sign-in.
 - **Discord** comes through `vesta-temple`, an installer package that fetches the official
-  `.deb` from Discord at install and update time. Discord's binary is never re-hosted.
+  `.deb` from Discord at install and update time. Discord's binary is never re-hosted, so it
+  isn't on the ISO: a new install fetches it on its first boot with a connection
+  (`vesta-temple-first.timer`).
+- **On the ISO**, every app on the keybinds: Firefox (with en-GB), foot, VLC, Thunar, ani-cli
+  (the horreum's build, newer than Ubuntu's) with mpv and fzf, and Proton VPN.
 - **Flatpak** apps are **peregrina**, foreign goods. They are only used when no `.deb`
   exists (for example Sober) and are always labelled as foreign in Forum.
 
@@ -82,7 +88,7 @@ Other sources:
 | `colonia` | The installer: Calamares with QML branding, working offline from the ISO with Wi-Fi up at boot. |
 | `census` | Fetch-style system report. |
 | `lex` | Policy files (APT pins and similar), numbered like laws. |
-| `socii` | Rome's allies: outside APT repositories that keep the laws. For now Mozilla's own, so Firefox is a real .deb built by Mozilla (Ubuntu's `firefox` is a snap shim, pinned out), with a catalogue entry so it shows in Forum. |
+| `socii` | Rome's allies: outside APT repositories that keep the laws. Mozilla's, so Firefox is a real .deb built by Mozilla (Ubuntu's `firefox` is a snap shim, pinned out), and Proton's, for Proton VPN; catalogue entries make both show in Forum. |
 | Forum | Software market for APT, Flatpak and firmware: KDE Discover's engine (libdiscover over PackageKit, Flatpak and fwupd, rebuilt without QtWebEngine or snap) with Forum's own QML pages in marble and porphyry. |
 | Senatus | Settings app, where the laws get passed. |
 | `vesta-temple` | Discord installer package. |

@@ -1,16 +1,20 @@
 #!/bin/sh
-# Called by tools/build-debs.sh: refuse to package a Mozilla key that isn't
-# the one Mozilla publishes (support.mozilla.org, "Install Firefox on Linux").
-# $1 = repo root, $2 = staging tree.
+# Called by tools/build-debs.sh: refuse to package an ally's key that isn't
+# the one it publishes. $1 = repo root, $2 = staging tree.
+#   Mozilla: support.mozilla.org, "Install Firefox on Linux".
+#   Proton:  the key inside protonvpn-stable-release_1.0.8_all.deb, whose
+#            SHA-256 (0b14e715…e180) protonvpn.com's Debian/Ubuntu guide gives.
 set -e
 stage=$2
-want=35BAA0B33E9EB396F59CA838C0BA5CE6DC6315A3
-home=$(mktemp -d)
-got=$(GNUPGHOME="$home" gpg -n -q --import --import-options import-show \
-	"$stage/usr/share/keyrings/packages.mozilla.org.asc" 2>/dev/null |
-	awk '/^pub/ { getline; gsub(/^ +| +$/, ""); print; exit }')
-rm -rf "$home"
-if [ "$got" != "$want" ]; then
-	echo "armatos-socii: Mozilla's key has fingerprint '$got', expected $want" >&2
-	exit 1
-fi
+check() {   # check <file> <expected fingerprint> <name>
+	home=$(mktemp -d)
+	got=$(GNUPGHOME="$home" gpg -n -q --import --import-options import-show "$1" 2>/dev/null |
+		awk '/^pub/ { getline; gsub(/^ +| +$/, ""); print; exit }')
+	rm -rf "$home"
+	if [ "$got" != "$2" ]; then
+		echo "armatos-socii: $3's key has fingerprint '$got', expected $2" >&2
+		exit 1
+	fi
+}
+check "$stage/usr/share/keyrings/packages.mozilla.org.asc" 35BAA0B33E9EB396F59CA838C0BA5CE6DC6315A3 Mozilla
+check "$stage/usr/share/keyrings/repo.protonvpn.com.asc"   84B0D3492C76C9C6F5873C18EDA3E22630349F1C Proton

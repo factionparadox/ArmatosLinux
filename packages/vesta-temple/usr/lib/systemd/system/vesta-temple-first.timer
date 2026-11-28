@@ -1,0 +1,14 @@
+[Unit]
+Description=Vesta's temple: keep trying to bring Discord until it arrives
+# Discord isn't on the ISO (it can't be passed on), so a fresh install
+# fetches it: two minutes after boot, then every half hour while it's
+# missing. A timer, so a boot without a connection is never held up.
+ConditionPathExists=!/usr/bin/discord
+ConditionKernelCommandLine=!boot=casper
+
+[Timer]
+OnBootSec=2min
+OnUnitInactiveSec=30min
+
+[Install]
+WantedBy=timers.target

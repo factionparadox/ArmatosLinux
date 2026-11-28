@@ -1,0 +1,11 @@
+[Unit]
+Description=Vesta's temple: bring Discord to a new install once it's online
+# Only until Discord is there, and never in the live session.
+ConditionPathExists=!/usr/bin/discord
+ConditionKernelCommandLine=!boot=casper
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/sbin/vesta-temple update

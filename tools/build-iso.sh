@@ -140,6 +140,39 @@ in_chroot sh -c 'apt-get install -y --no-install-recommends \
 	/tmp/armatos-forum_*.deb /tmp/armatos-socii_*.deb fwupd'
 rm -f "$CHROOT"/tmp/*.deb
 
+say "Stocking the armoury: the apps on the keybinds"
+# Super+W Firefox (Mozilla's .deb, British English), Super+V VLC, Super+A
+# ani-cli (the horreum's current build) with mpv, fzf and the download tools,
+# Super+P Proton VPN (Proton's repository; gnome-keyring holds its sign-in),
+# Super+D Discord through vesta-temple. socii and the horreum are in place
+# now, so read their indexes first.
+in_chroot apt-get update
+compgen -G "out/provinciae/ani-cli_*.deb" >/dev/null || die "out/provinciae has no ani-cli: run  sudo tools/build-provinciae.sh  first"
+cp out/provinciae/ani-cli_*.deb out/vesta-temple_*.deb "$CHROOT/tmp/"
+# Proton's daemon starts its service straight from its install script with
+# systemctl, which can't work with no systemd running in the chroot. For this
+# step a stand-in found first on PATH skips what needs a running systemd and
+# passes the rest (enabling services) to the real systemctl.
+mkdir -p "$CHROOT/tmp/build-bin"
+cat > "$CHROOT/tmp/build-bin/systemctl" <<'EOF'
+#!/bin/sh
+case "$1" in
+	start|stop|restart|reload|try-restart|reload-or-restart|try-reload-or-restart|daemon-reload|daemon-reexec) exit 0 ;;
+esac
+exec /usr/bin/systemctl "$@"
+EOF
+chmod 755 "$CHROOT/tmp/build-bin/systemctl"
+in_chroot env PATH=/tmp/build-bin:/usr/sbin:/usr/bin:/sbin:/bin sh -c 'apt-get install -y --no-install-recommends \
+	firefox firefox-l10n-en-gb vlc \
+	/tmp/ani-cli_*.deb mpv fzf yt-dlp ffmpeg \
+	proton-vpn-gnome-desktop gnome-keyring \
+	/tmp/vesta-temple_*.deb'
+rm -rf "$CHROOT/tmp/build-bin"
+rm -f "$CHROOT"/tmp/*.deb
+# Discord itself can't go on the ISO (its licence doesn't allow passing it
+# on), so a new install fetches it on its first boot with a connection.
+in_chroot systemctl enable vesta-temple-first.timer
+
 say "Setting the Imperator's defaults: en_GB, Europe/London, UK keyboard"
 in_chroot sh -c 'echo "en_GB.UTF-8 UTF-8" > /etc/locale.gen && locale-gen && update-locale LANG=en_GB.UTF-8'
 ln -sf /usr/share/zoneinfo/Europe/London "$CHROOT/etc/localtime"

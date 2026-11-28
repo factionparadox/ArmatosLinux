@@ -104,8 +104,10 @@ your watchword. Flatpak apps are *peregrina*: none appear until you add a remote
 FLATHVB under FONTES), and each carries a porphyry seal. SELECTA, the front shelf, is
 `/usr/share/armatos/forum/selecta.json`.
 
-Firefox comes from Mozilla's own APT repository (the `socii` package): a real .deb built
-by Mozilla. Ubuntu's `firefox` package only installs the snap, so it is pinned out.
+Every app on those keys is on the ISO except Discord, which a new install fetches on its
+first boot with a connection (Discord can't be passed on, so `vesta-temple` gets it from
+Discord). Firefox comes from Mozilla's own APT repository and Proton VPN from Proton's (the
+`socii` package); Ubuntu's `firefox` package only installs the snap, so it is pinned out.
 
 Your own Mango settings go in `~/.config/mango/config.conf`; it is read after the Armatos
 defaults, so it wins. The shell remembers its numerals and language in

@@ -1,0 +1,5 @@
+ani-cli (5.2+armatos1) resolute; urgency=medium
+
+  * Armatos build of ani-cli 5.2, newer than Ubuntu 26.04's 4.10.
+
+ -- factionparadox <factionparadox@users.noreply.github.com>  Sat, 28 Nov 2026 11:40:00 +0000

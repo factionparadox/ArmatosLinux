@@ -3,7 +3,7 @@
 #
 #   sudo tools/build-provinciae.sh
 #
-# wlroots 0.20, SceneFX 0.5 and MangoWC come from upstream git tags with our
+# wlroots 0.20, SceneFX 0.5, MangoWC and ani-cli come from upstream git tags with our
 # packaging in provinciae/<name>/debian; Quickshell is Ubuntu's own source
 # package from the next release, rebuilt for 26.04; Discover (the engine under
 # Forum) is Ubuntu's own, rebuilt with provinciae/plasma-discover's patch and
@@ -18,7 +18,7 @@ MIRROR="${ARMATOS_MIRROR:-http://archive.ubuntu.com/ubuntu}"
 CHROOT="$ROOT/build/pkg/chroot"
 SRC="$ROOT/build/src"
 OUT="$ROOT/out/provinciae"
-ORDER=(wlroots-0.20 scenefx-0.5 mangowm)
+ORDER=(wlroots-0.20 scenefx-0.5 mangowm ani-cli)
 QS_SUITE=stonking
 
 say() { printf '\e[38;5;178m== %s\e[0m\n' "$*"; }
