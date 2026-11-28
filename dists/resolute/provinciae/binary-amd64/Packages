@@ -1,0 +1,307 @@
+Package: ani-cli
+Architecture: all
+Version: 5.2+armatos1
+Priority: optional
+Section: video
+Maintainer: factionparadox <factionparadox@users.noreply.github.com>
+Installed-Size: 47
+Depends: curl, fzf, grep, sed, mpv | vlc
+Recommends: mpv, yt-dlp, ffmpeg
+Filename: pool/provinciae/ani-cli_5.2+armatos1_all.deb
+Size: 13966
+MD5sum: 7eff333586eb4b3fe73d473473822787
+SHA1: c088f3f68f7cd4ca7aced1e0092103cfb6086304
+SHA256: 1328e39c93f4b1ab40d23516b85799735c61d93611697431dbafff5316239a52
+SHA512: 9532d9f63565a8f0a3949a8693a68125ed9aeb446f0e504bacac9cd4da7658716d6e4025066de6c6aad5af7cc2f1c2c4b6f41c103a5c7b69f90ea29b4daecc2b
+Homepage: https://github.com/pystardust/ani-cli
+Description: browse and watch anime from the command line
+ ani-cli searches for a show, lets you pick an episode with fzf and plays
+ it in mpv. It can also download episodes (with yt-dlp or ffmpeg).
+ .
+ Armatos carries the current upstream release in the horreum: the sites
+ ani-cli reads from change often, and Ubuntu's 26.04 copy (4.10) is too old
+ to keep up. Updates arrive with cursus; ani-cli's own -U self-update is
+ not needed.
+
+Package: kde-config-updates
+Architecture: amd64
+Version: 6.6.7-0ubuntu0.2+armatos1
+Priority: optional
+Section: kde
+Source: plasma-discover
+Maintainer: Kubuntu Developers <kubuntu-devel@lists.ubuntu.com>
+Original-Maintainer: Debian Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>
+Installed-Size: 85
+Depends: systemsettings, libc6 (>= 2.4), libkf6configcore6 (>= 6.22.0~), libkf6configgui6 (>= 6.22.0~), libkf6coreaddons6 (>= 6.22.0~), libkf6kcmutilscore6 (>= 6.22.0~), libkf6kcmutilsquick6 (>= 6.22.0~), libqt6core6t64 (>= 6.10.2), libqt6qml6 (>= 6.10.0~), libstdc++6 (>= 5)
+Filename: pool/provinciae/kde-config-updates_6.6.7-0ubuntu0.2+armatos1_amd64.deb
+Size: 23052
+MD5sum: 0e48e8673bc85509c14c745f791ff23b
+SHA1: f30ad4eda6eb726689a2f804e2d6d3b8a0929766
+SHA256: 0364b38f71edd4d17379332ef64cd6c5ffc64d45e99d9eec40c3c60df996310e
+SHA512: 0b0707f97bfa48eafcd8b491715bd729820245fa8fd28215cdbf8b1d45b4de1d64b8f9d062c2323d490d15a910621385701c7e6a2df4e39f2de6bcfacd8b947f
+Homepage: https://invent.kde.org/plasma/discover
+Description: Unattended updates configuration
+ This package contains a configuration module for configuring
+ unattended updates for fleet administrators without the need to
+ use system updaters manually.
+ .
+ This package is part of Plasma Discover.
+
+Package: libscenefx-0.5-dev
+Architecture: amd64
+Version: 0.5+armatos1
+Priority: optional
+Section: libdevel
+Source: scenefx-0.5
+Maintainer: factionparadox <factionparadox@users.noreply.github.com>
+Installed-Size: 64
+Depends: libscenefx-0.5 (= 0.5+armatos1), libwlroots-0.20-dev
+Filename: pool/provinciae/libscenefx-0.5-dev_0.5+armatos1_amd64.deb
+Size: 11724
+MD5sum: f67266eabc23c14cbd9ecb64a04eda72
+SHA1: 5bde89b0b4ccf24fe249d698c14af7e4cef4ef8a
+SHA256: 5b000e9b84e716d0bd36846e09ad5567f7682e40a15ec313ce8dbf8b6f9154c9
+SHA512: 9395a514946b249d3e852e46524c3a706d84508100d3fae3e4f50ad91cb32c7da3affb51396f8bca8c4dba51deb71d5b41ddb922534865c89938a43471c901db
+Homepage: https://github.com/wlrfx/scenefx
+Description: wlroots scene API with blur and shadows (development files)
+ Headers and pkg-config file (scenefx-0.5).
+
+Package: libscenefx-0.5
+Architecture: amd64
+Version: 0.5+armatos1
+Priority: optional
+Section: libs
+Source: scenefx-0.5
+Maintainer: factionparadox <factionparadox@users.noreply.github.com>
+Installed-Size: 193
+Depends: libc6 (>= 2.29), libdrm2 (>= 2.4.113), libegl1, libgbm1 (>= 7.11~1), libgles2, liblcms2-2 (>= 2.6), libpixman-1-0 (>= 0.44.0), libwayland-server0 (>= 1.20.92), libwlroots-0.20 (>= 0.20.2+armatos1)
+Filename: pool/provinciae/libscenefx-0.5_0.5+armatos1_amd64.deb
+Size: 67102
+MD5sum: 24b74da5c617c4b5d11a8efd3bd2710e
+SHA1: d35cbb7b613466f9a85766904d2e7441b9d1a9fc
+SHA256: 50eb6f8bf8e3f88450456bd9b025b1085f42fae4110b99b550d11e209f40b63a
+SHA512: f0c95645ccffc67598cda2e094163254575f08061ac29fff2524e99d68b2b24394173f8f3bb614dcf88251168b19942d646ce05ed72f8b752b6702b6382ba40f
+Homepage: https://github.com/wlrfx/scenefx
+Description: wlroots scene API with blur, shadows and rounded corners
+ SceneFX replaces wlroots' scene renderer with one that can draw blur,
+ shadows, rounded corners and opacity. MangoWC is built on it.
+
+Package: libwlroots-0.20-dev
+Architecture: amd64
+Version: 0.20.2+armatos1
+Priority: optional
+Section: libdevel
+Source: wlroots-0.20
+Maintainer: factionparadox <factionparadox@users.noreply.github.com>
+Installed-Size: 474
+Depends: libwlroots-0.20 (= 0.20.2+armatos1), libwayland-dev, libegl-dev, libgles-dev, libgbm-dev, libdrm-dev, libinput-dev, libxkbcommon-dev, libpixman-1-dev, libseat-dev, libxcb1-dev, wayland-protocols
+Filename: pool/provinciae/libwlroots-0.20-dev_0.20.2+armatos1_amd64.deb
+Size: 74066
+MD5sum: 0ebcb04f1f442f106cd3dda0314e2787
+SHA1: 63472217efb6090aa9f9932271398fd148e4d772
+SHA256: 7a1c36e2745cdb57ef49d49872f6723276872a612e3f3825b832022aefba4467
+SHA512: 41c53b7301c2523e5df768674fe48752f5681e1c98376b8951bb89546ab410c707ee15135f799d1b89f98a6a61ba276eb4dac2770d5f09917beeb2539f333c9b
+Homepage: https://gitlab.freedesktop.org/wlroots/wlroots
+Description: modular Wayland compositor library, 0.20 series (development files)
+ Headers and pkg-config file (wlroots-0.20) for building against wlroots 0.20.
+
+Package: libwlroots-0.20
+Architecture: amd64
+Version: 0.20.2+armatos1
+Priority: optional
+Section: libs
+Source: wlroots-0.20
+Maintainer: factionparadox <factionparadox@users.noreply.github.com>
+Installed-Size: 1280
+Depends: libc6 (>= 2.38), libdisplay-info3 (>= 0.3.0), libdrm2 (>= 2.4.119), libegl1, libgbm1 (>= 21.1.0), libgles2, libinput10 (>= 1.26.0), liblcms2-2 (>= 2.6), libliftoff0 (>= 0.4.1), libpixman-1-0 (>= 0.44.0), libseat1 (>= 0.5.0), libudev1 (>= 183), libwayland-client0 (>= 1.23.0), libwayland-server0 (>= 1.24.0), libxcb-composite0, libxcb-ewmh2 (>= 0.4.2), libxcb-icccm4 (>= 0.4.2), libxcb-render0, libxcb-res0 (>= 1.10), libxcb-xfixes0 (>= 1.15), libxcb1, libxkbcommon0 (>= 0.5.0)
+Recommends: xwayland
+Filename: pool/provinciae/libwlroots-0.20_0.20.2+armatos1_amd64.deb
+Size: 415802
+MD5sum: 63c5b8f53e787741c1c8da73da1a64fa
+SHA1: 51df8201f1e1f120144759ec5d0da258bd22c63d
+SHA256: 9ee05fa2c9ff94f948d8b278135a44e208b4d582daf4bb16a9e7d59cd4bf49aa
+SHA512: 6a3cc9724d694d99d4790e3f965a0626f851779b493c48d03fe480a5c63cee2797e1a8fce5b2ae35e397291f8999c980b36de0c3b6daa1f5da6ec52f2b5f2ff9
+Homepage: https://gitlab.freedesktop.org/wlroots/wlroots
+Description: modular Wayland compositor library, 0.20 series (Armatos build)
+ wlroots 0.20 for MangoWC. Installs alongside Ubuntu's own wlroots 0.19,
+ which keeps serving everything else.
+
+Package: mangowm
+Architecture: amd64
+Version: 0.18.6+armatos1
+Priority: optional
+Section: x11
+Maintainer: factionparadox <factionparadox@users.noreply.github.com>
+Installed-Size: 687
+Depends: libc6 (>= 2.38), libcairo2 (>= 1.2.4), libcjson1 (>= 1.7.5), libglib2.0-0t64 (>= 2.76.0), libinput10 (>= 1.5.0), libpango-1.0-0 (>= 1.37.5), libpangocairo-1.0-0 (>= 1.22.0), libpcre2-8-0 (>= 10.22), libpixman-1-0 (>= 0.44.0), libscenefx-0.5 (>= 0.5+armatos1), libwayland-client0 (>= 1.20.0), libwayland-server0 (>= 1.23.0), libwlroots-0.20 (>= 0.20.2+armatos1), libxcb-icccm4 (>= 0.4.2), libxcb-randr0 (>= 1.3), libxcb1, libxkbcommon0 (>= 1.0.0)
+Recommends: xwayland, xdg-desktop-portal-wlr, xdg-desktop-portal-gtk
+Filename: pool/provinciae/mangowm_0.18.6+armatos1_amd64.deb
+Size: 268540
+MD5sum: 27d787872331df7fc3dae06cb1fe97f4
+SHA1: 4f8925c354e085d117a215bc20eefd66bd593739
+SHA256: cb950ed75f7ffda4367225a7c5b074c956e9290040aac8eac05a88d490216c26
+SHA512: ac6a3f434ce4de3d70a6432fd316524aab872afaf82439114556eb5a943e6f1eef0ecaa0db41e89a35fb1c6555cb547be13cb6e85220084de7350508d27db336
+Homepage: https://github.com/mangowm/mango
+Description: MangoWC, a fast tag-based Wayland compositor (dwl-based)
+ Lightweight tiling and scrolling Wayland compositor built on wlroots and
+ SceneFX, with animations, blur and per-tag layouts. Includes mmsg, its IPC
+ tool, which the Armatos shell uses for workspaces.
+
+Package: plasma-discover-backend-flatpak
+Architecture: amd64
+Version: 6.6.7-0ubuntu0.2+armatos1
+Priority: optional
+Section: kde
+Source: plasma-discover
+Maintainer: Kubuntu Developers <kubuntu-devel@lists.ubuntu.com>
+Original-Maintainer: Debian Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>
+Installed-Size: 779
+Depends: flatpak, plasma-discover (= 6.6.7-0ubuntu0.2+armatos1), xdg-desktop-portal-kde | xdg-desktop-portal-backend, libappstreamqt3 (>= 1.1.2), libc6 (>= 2.32), libflatpak0 (>= 1.15.6), libgcc-s1 (>= 3.3.1), libglib2.0-0t64 (>= 2.56.0), libkf6configcore6 (>= 6.22.0~), libkf6coreaddons6 (>= 6.22.0~), libkf6i18n6 (>= 6.22.0~), libkf6kiogui6 (>= 6.22.0~), libkf6service-bin, libkf6service6 (>= 6.0.0), libqcoro6core0t64 (>= 0.4.0), libqt6core6t64 (>= 6.10.2), libqt6gui6 (>= 6.10.0~), libqt6network6 (>= 6.10.0~), libstdc++6 (>= 14)
+Filename: pool/provinciae/plasma-discover-backend-flatpak_6.6.7-0ubuntu0.2+armatos1_amd64.deb
+Size: 260358
+MD5sum: 6523faadfc39885f5efd92adea8f08df
+SHA1: eefd47cd69519722674d1565adfb8d1dcf8a28f8
+SHA256: d7c0d81996cb3bdb8af72d1be2f7826e56359af67f183835e0a011a69d053ed6
+SHA512: 6eb88eff87329e8e1b4b941f0da13c05e1a231b6eb2d8c208848c8512597226915e43b384d54129cee4ad38a559bec471c634b3281eccec450e4f34856b23855
+Homepage: https://invent.kde.org/plasma/discover
+Description: Discover software management suite - Flatpak backend
+ Discover is a graphical software manager for the Plasma workspace.
+ It helps users easily and quickly find applications and other software
+ they might want to install.
+ .
+ This package contains a backend for the Flatpak application
+ bundling system.
+
+Package: plasma-discover-backend-fwupd
+Architecture: amd64
+Version: 6.6.7-0ubuntu0.2+armatos1
+Priority: optional
+Section: kde
+Source: plasma-discover
+Maintainer: Kubuntu Developers <kubuntu-devel@lists.ubuntu.com>
+Original-Maintainer: Debian Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>
+Installed-Size: 140
+Depends: plasma-discover (= 6.6.7-0ubuntu0.2+armatos1), libc6 (>= 2.32), libfwupd3 (>= 2.0.0), libglib2.0-0t64 (>= 2.22.0), libkf6i18n6 (>= 6.22.0~), libqt6core6t64 (>= 6.10.2), libqt6gui6 (>= 6.10.0~), libqt6network6 (>= 6.10.0~), libstdc++6 (>= 5)
+Recommends: fwupd
+Filename: pool/provinciae/plasma-discover-backend-fwupd_6.6.7-0ubuntu0.2+armatos1_amd64.deb
+Size: 40772
+MD5sum: 5f705811884630caca37e2906273b3ae
+SHA1: 6f8beed18b418148680ac80e842ce3b0562915be
+SHA256: d2c429e050df5fc23bd58b9dfb32b4b85f6caa57b669f689ef5a8bcda1bf6e7d
+SHA512: 030564d47e5010cc21c7f07920129c4a3e1cb9302b6598b50eaa434b50d739b0e309db2cb29060a848dedbde49f33adf9785a3b5ea6ca3687d89c965e8946afb
+Homepage: https://invent.kde.org/plasma/discover
+Description: Discover software management suite - fwupd backend
+ Discover is a graphical software manager for the Plasma workspace.
+ It helps users easily and quickly find applications and other software
+ they might want to install.
+ .
+ This package contains a backend for the firmware update daemon.
+
+Package: plasma-discover-common
+Architecture: all
+Version: 6.6.7-0ubuntu0.2+armatos1
+Priority: optional
+Section: kde
+Source: plasma-discover
+Maintainer: Kubuntu Developers <kubuntu-devel@lists.ubuntu.com>
+Original-Maintainer: Debian Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>
+Installed-Size: 4284
+Filename: pool/provinciae/plasma-discover-common_6.6.7-0ubuntu0.2+armatos1_all.deb
+Size: 613726
+MD5sum: 01341b4c8ab5b6663079a3e0fae88064
+SHA1: a3bd944db1d52c9c8b78081e7c4ed0b3bc618d47
+SHA256: 418662fd101fba3bd1aac4f347d146ee6f503b1ce350d2f0564df92cf313cd03
+SHA512: a97c0461c9e759b8bfcb7399e1bbc033c6e74da34a745326816cf8dbdef6934f9ee5287303b799761162c918fbfc36f7cb83128a879bee0ec00303fd3bc2ffb2
+Homepage: https://invent.kde.org/plasma/discover
+Description: Discover software manager suite (common data files)
+ Discover is a graphical software manager for the Plasma workspace.
+ .
+ This package contains data files shared by various parts of the
+ Discover suite.
+
+Package: plasma-discover-notifier
+Architecture: amd64
+Version: 6.6.7-0ubuntu0.2+armatos1
+Priority: optional
+Section: kde
+Source: plasma-discover
+Maintainer: Kubuntu Developers <kubuntu-devel@lists.ubuntu.com>
+Original-Maintainer: Debian Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>
+Installed-Size: 300
+Depends: plasma-discover (= 6.6.7-0ubuntu0.2+armatos1), libappstreamqt3 (>= 1.1.2), libc6 (>= 2.34), libkf6configcore6 (>= 6.22.0~), libkf6configgui6 (>= 6.22.0~), libkf6coreaddons6 (>= 6.22.0~), libkf6crash6 (>= 6.22.0~), libkf6dbusaddons6 (>= 6.22.0~), libkf6i18n6 (>= 6.22.0~), libkf6idletime6 (>= 6.22.0~), libkf6jobwidgets6 (>= 6.22.0~), libkf6kiogui6 (>= 6.22.0~), libkf6notifications6 (>= 6.22.0~), libkf6service-bin, libkf6service6 (>= 6.0.0), libkf6statusnotifieritem6 (>= 6.22.0~), libpackagekitqt6-2 (>= 1.1.4), libqt6core6t64 (>= 6.10.2), libqt6dbus6 (>= 6.10.0~), libqt6gui6 (>= 6.10.0~), libqt6network6 (>= 6.10.0~), libqt6widgets6 (>= 6.10.0~), libstdc++6 (>= 5)
+Breaks: plasma-discover (<< 5.26.90-0ubuntu2)
+Replaces: plasma-discover (<< 5.26.90-0ubuntu2)
+Filename: pool/provinciae/plasma-discover-notifier_6.6.7-0ubuntu0.2+armatos1_amd64.deb
+Size: 83842
+MD5sum: 158b996d89be3c73f0d39acedecb7b8f
+SHA1: b45e4adf29de8f321fbd06de4b8a1754cff172d5
+SHA256: 27a18bd51838e38f9e4f89f62adb8f9a9662c76abcd2e6e1249b27b7ff61218d
+SHA512: 7b501744a66031eca5cdd68d48be20174fd737eb62fc1511c68a5f5f154366a425e8ce5cd2c284b9de87a623958c55450ada8ef664fb7e0d954067bb58a97c4f
+Homepage: https://invent.kde.org/plasma/discover
+Description: Discover software management suite - Update Notifier
+ Discover is a graphical software manager for the Plasma workspace.
+ It helps users easily and quickly find applications and other software
+ they might want to install.
+ .
+ By allowing to navigate a software library by search, categories, top lists
+ along with detailed application information that includes screenshots
+ and reviews, users can more quickly find applications that suit their needs.
+ .
+ Discover will also keep the system up to date by notifying about updates and
+ installing them.
+ .
+ This package contains the update notifier and indicator.
+
+Package: plasma-discover
+Architecture: amd64
+Version: 6.6.7-0ubuntu0.2+armatos1
+Priority: optional
+Section: kde
+Maintainer: Kubuntu Developers <kubuntu-devel@lists.ubuntu.com>
+Original-Maintainer: Debian Qt/KDE Maintainers <debian-qt-kde@lists.debian.org>
+Installed-Size: 2289
+Depends: appstream (>= 1.0), apt-config-icons, packagekit (>= 1.0), plasma-discover-common (= 6.6.7-0ubuntu0.2+armatos1), kio6, libappstreamqt3 (>= 1.1.2), libc6 (>= 2.34), libgcc-s1 (>= 3.3.1), libkf6attica6 (>= 6.22.0~), libkf6configcore6 (>= 6.22.0~), libkf6configgui6 (>= 6.22.0~), libkf6coreaddons6 (>= 6.22.0~), libkf6crash6 (>= 6.22.0~), libkf6dbusaddons6 (>= 6.22.0~), libkf6i18n6 (>= 6.22.0~), libkf6i18nqml6 (>= 6.24.0), libkf6iconthemes6 (>= 6.22.0~), libkf6jobwidgets6 (>= 6.22.0~), libkf6kiocore6 (>= 6.22.0~), libkf6kiogui6 (>= 6.22.0~), libkf6newstuffcore6 (>= 6.22.0~), libkf6service-bin, libkf6service6 (>= 6.0.0), libkf6statusnotifieritem6 (>= 6.22.0~), libkf6widgetsaddons6 (>= 6.0.0), libkf6windowsystem6 (>= 6.0.0), libkirigamiapp6 (>= 1.11.0), libmarkdown2 (>= 2.0.6), libpackagekitqt6-2 (>= 1.1.4), libqcoro6core0t64 (>= 0.4.0), libqt6concurrent6 (>= 6.10.0~), libqt6core6t64 (>= 6.10.2), libqt6dbus6 (>= 6.10.0~), libqt6gui6 (>= 6.10.0~), libqt6network6 (>= 6.10.0~), libqt6qml6 (>= 6.10.0~), libqt6quick6 (>= 6.10.0~), libqt6widgets6 (>= 6.10.0~), libstdc++6 (>= 11)
+Recommends: apt-config-icons-hidpi, apt-config-icons-large, apt-config-icons-large-hidpi, plasma-discover-backend-fwupd, plasma-discover-notifier, armatos-forum
+Suggests: kde-config-updates, plasma-discover-backend-flatpak
+Filename: pool/provinciae/plasma-discover_6.6.7-0ubuntu0.2+armatos1_amd64.deb
+Size: 688032
+MD5sum: 3ff63f8a4a9883f6701b16cc42e919d4
+SHA1: 793ad26bbdaceae285cc7670e305df03caa39a7c
+SHA256: b574550c94695d5632521bea5424d88b9f01efe2bad1c29a3e7a87142ac7f60a
+SHA512: dc5e13e8a4dcd6af698ff82c18a8b65069bae238ab10469c4351b9731d3c496dd6d45bf08491aa1d0ad37ab72496a4d83430a8f8afd2f51f54327aa2303da074
+Homepage: https://invent.kde.org/plasma/discover
+Description: Discover software management suite
+ Discover is a graphical software manager for the Plasma workspace.
+ It helps users easily and quickly find applications and other software
+ they might want to install.
+ .
+ By allowing to navigate a software library by search, categories, top lists
+ along with detailed application information that includes screenshots
+ and reviews, users can more quickly find applications that suit their needs.
+ .
+ Discover will also keep the system up to date by notifying about updates and
+ installing them.
+
+Package: quickshell
+Architecture: amd64
+Version: 0.3.0-1build1~armatos1
+Priority: optional
+Section: x11
+Maintainer: Michael Lloyd <michael@micl.dev>
+Installed-Size: 6058
+Depends: libc6 (>= 2.38), libdrm2 (>= 2.4.109), libegl1, libgbm1 (>= 21.3.0~rc1), libgcc-s1 (>= 3.3.1), libglib2.0-0t64 (>= 2.80.0), libjemalloc2 (>= 5.3.0), libopengl0, libpam0g (>= 1.4.0), libpipewire-0.3-0t64 (>= 0.3.1), libpolkit-agent-1-0 (>= 0.99), libpolkit-gobject-1-0 (>= 0.94), libqt6core6t64 (>= 6.10.2), libqt6dbus6 (>= 6.8.2), libqt6gui6 (>= 6.4.0), libqt6network6 (>= 6.1.2), libqt6qml6 (>= 6.10.2), libqt6quick6 (>= 6.6.0), libqt6waylandclient6 (>= 6.10.2), libqt6widgets6 (>= 6.1.2), libstdc++6 (>= 14), libwayland-client0 (>= 1.20.0), libxcb1, qt6-base-private-abi (= 6.10.2), qt6-declarative-private-abi (= 6.10.2), hicolor-icon-theme, qt6-svg-plugins, qml6-module-qtquick, qml6-module-qtquick-controls, qml6-module-qtquick-layouts
+Filename: pool/provinciae/quickshell_0.3.0-1build1~armatos1_amd64.deb
+Size: 1586116
+MD5sum: 9af3cc63ff19fabdde5a55065603e275
+SHA1: 1daccedcebb8f6c449e0ad581d9cf600feacd8f0
+SHA256: ce3a49db1be8998618a3758b83e4fc0e670f399e573acde9e298cc58f921f186
+SHA512: 39fdcc4d5cb7bf98703e78e66f3eb8f8e3eaafd9aba2a7032010334cc794e80db299856e3e142f316190d4e663644dbba24400cf11381c069ecf28d087094931
+Homepage: https://quickshell.org/
+Description: flexible QtQuick-based desktop shell toolkit
+ Quickshell is a toolkit for building status bars, widgets,
+ lockscreens, and other desktop components using Qt6 and QtQuick.
+ It supports both Wayland and X11, with integrations for PipeWire,
+ MPRIS, system tray, PAM, Bluetooth, and compositor-specific
+ features for Hyprland and Sway/i3. Configuration is done
+ declaratively in QML with live hot-reloading.
+

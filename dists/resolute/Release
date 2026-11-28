@@ -1,0 +1,19 @@
+Acquire-By-Hash: yes
+Architectures: amd64
+Codename: resolute
+Components: italia provinciae
+Date: Sat, 28 Nov 2026 12:09:10 +0000
+Description: Armatos Linux: the horreum
+Label: Armatos Linux
+Origin: Armatos
+Suite: resolute
+SHA256:
+ c3facbc19c13377d883cb9e11727b7749ea02494d73c0cc3342092d181275dad            13554 italia/binary-amd64/Packages
+ 223cd286cc387f1070137689207e8d9e2ee00c8158085c3e1f166d036efda87b             5724 italia/binary-amd64/Packages.xz
+ 857340907422cf851b9d72d45b9bd860b69b32fd939e9285219f21fb409e62fc            18394 provinciae/binary-amd64/Packages
+ 308c97230d03bd11fec110a6fead349b55157a14b779985690c5b657322ac9c1             5568 provinciae/binary-amd64/Packages.xz
+SHA512:
+ 96333f6656daf0f9efe891c1dd259c5354d364a0d8255501558e6721229877984bc418fb845b81ac141b85036d2b96971c18e73b8a595d198ca14a9b47c92ceb            13554 italia/binary-amd64/Packages
+ 1aa376d27f077eed14160b55dc2387654e87426368f3269c93c6f183f1a836f619600b1b2790d28d5bac5186b0a8740c8643d6f13e4efffc798549a27938ee85             5724 italia/binary-amd64/Packages.xz
+ 93fdd8888bec34888f187b20994dc941eea26d6d95dcdb206d60bfc645d4bd9b891bbe9b5ba363d598791cff405465e84f671b78aa265d2be68a8d6f1cf55c2d            18394 provinciae/binary-amd64/Packages
+ d3a00f9209ce3ac2b0490db34cebef6946eec3476a5055e9402da84286a27b9a111bf38a13a6b3ce04c01331f298d3950b44af5f36903cc2eef7c6533e7ec394             5568 provinciae/binary-amd64/Packages.xz

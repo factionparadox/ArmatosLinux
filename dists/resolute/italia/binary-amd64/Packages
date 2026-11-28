@@ -1,0 +1,268 @@
+Package: armatos-boot-theme
+Architecture: all
+Version: 2779.1.202611281208
+Priority: optional
+Section: misc
+Maintainer: factionparadox <factionparadox@users.noreply.github.com>
+Depends: plymouth
+Filename: pool/italia/armatos-boot-theme_2779.1.202611281208_all.deb
+Size: 760816
+MD5sum: 57bb672a7c72f83a3ff3ac0d8bf77163
+SHA1: 8b81b91d089020e9da34392833e63156f21f47e1
+SHA256: f2401ddc1eca9a860adf81511adb4126033bb7e21091ea8233b16de8da4d12ad
+SHA512: a585ad633ebfb63209cba907aade3ead891890082854a015a9ca2d34924c26f075bcabc73c08c13879de8e351e1d67eb0f10132c40df9f886e55dbdb77c1e80a
+Description: Armatos boot menu and splash
+ The GRUB theme (a frosted marble tablet carried by the Atlas giants) and the
+ Plymouth splash (the emblem, a gold progress rule, and the Tessera prompt
+ for the LUKS passphrase). Works with Secure Boot: every word on the menu is
+ drawn into images, since the signed GRUB cannot load fonts. On an installed
+ system the kernel entries become carved tablets too: newest kernel, the one
+ before it, recovery, and firmware setup.
+
+Package: armatos-colonia
+Architecture: all
+Version: 2779.1.202611281208
+Priority: optional
+Section: admin
+Maintainer: factionparadox <factionparadox@users.noreply.github.com>
+Depends: calamares, python3-toml, armatos-shell, cryptsetup, cryptsetup-initramfs, btrfs-progs, squashfs-tools, dosfstools, sudo
+Filename: pool/italia/armatos-colonia_2779.1.202611281208_all.deb
+Size: 2482640
+MD5sum: 63903a2f3a1c46ccff0985bed80204ea
+SHA1: 73b9294820b33bc3ef7a54f6d992fbd38a67bab4
+SHA256: 80fbbc34669fc0d4ab6afff7c5fa5936c1cd5ff8ab88b9927ea6fb1800f01466
+SHA512: 5f7def2415367f8686ca4ebcfe745f7bed3b3afbda04c00a4c416fab88285928676912fef66e3a427635c40f44b559b60dd0f3d462cea96a5d1b22fe101019e0
+Description: colonia: the Armatos Linux installer
+ Calamares, dressed in Marmor: found a colony on this computer. Erases the
+ disk (or uses the space you choose) for an EFI partition, a plain /boot and
+ a LUKS2-sealed Btrfs root with @, @home and @snapshots subvolumes, sets up
+ Secure Boot-friendly GRUB with the Armatos menu, and logs you straight into
+ the desktop after the boot watchword. Run it with:  colonia
+
+Package: armatos-cursus
+Architecture: all
+Version: 2779.1.202611281208
+Priority: optional
+Section: admin
+Maintainer: factionparadox <factionparadox@users.noreply.github.com>
+Depends: armatos-voice, apt, sudo
+Recommends: armatos-damnatio, armatos-lex
+Filename: pool/italia/armatos-cursus_2779.1.202611281208_all.deb
+Size: 2044
+MD5sum: 315c019c666c745c56b946889f6cc8e6
+SHA1: 7e34f7616fc0ec52846a803db045275165c65127
+SHA256: 0a467819f6b1c3c5ba2a9dd2fd7a98aa79c1505f8fe5b1184da235d79472c1af
+SHA512: a82c4b62c93be32ac5afc85cccc3366d8244877193a1213a0e05c7540735ab309d3f04274b1409517aaefae594e42c4fad557987578b070517de38fb761d818d
+Description: cursus publicus — the imperial road for packages
+ A thin wrapper around apt. "cursus" on its own collects tribute: it updates
+ the APT system, Discord (through vesta-temple) and any Flatpak peregrina.
+ Every change is preceded by a damnatio snapshot, so it can be undone.
+
+Package: armatos-damnatio
+Architecture: all
+Version: 2779.1.202611281208
+Priority: optional
+Section: admin
+Maintainer: factionparadox <factionparadox@users.noreply.github.com>
+Depends: armatos-voice, btrfs-progs, util-linux, sudo
+Filename: pool/italia/armatos-damnatio_2779.1.202611281208_all.deb
+Size: 3640
+MD5sum: 5b5ec02105d00f2442be70b8dfda59e7
+SHA1: ba779ec999719bf216206bf63d259e9dd47738a7
+SHA256: 203108b48b7a8ea68e277003481a5b782e16c84511ad764f322609303c8d365c
+SHA512: f7693f115b457cd57c197dbe5d942cfadd9ed60f217e939a1d0baa26e87a82a6b02293d84145b8b9755c405ecc468661f06b1521544a1c2daf1b45b2860739d0
+Description: damnatio memoriae — snapshots and rollback
+ Takes a read-only Btrfs snapshot of the root before every APT run and lets
+ you return to any earlier one with "damnatio restore N". /home is never
+ touched. Expects the Armatos layout: @, @home and @snapshots, with root
+ mounted by subvol=@.
+
+Package: armatos-forum
+Architecture: all
+Version: 2779.1.202611281208
+Priority: optional
+Section: admin
+Maintainer: factionparadox <factionparadox@users.noreply.github.com>
+Depends: plasma-discover (>= 6.6.7-0ubuntu0.2+armatos1), armatos-shell, qml6-module-qtquick, qml6-module-qtqml, qml6-module-qtqml-models, qml6-module-qtquick-layouts, qml6-module-qtquick-effects, qml6-module-qtcore, qml6-module-org-kde-kirigami, packagekit, appstream
+Recommends: plasma-discover-backend-fwupd
+Suggests: plasma-discover-backend-flatpak
+Filename: pool/italia/armatos-forum_2779.1.202611281208_all.deb
+Size: 603316
+MD5sum: 4db1ee136cf434a530caaa18836bdb43
+SHA1: 184755dde487e82e2b6e66a2f79c2bedf12e0f55
+SHA256: a25847afa43f019ca82ae8909fd6717726cb25e1249800f9f3185f4dd2ffc2b7
+SHA512: 51e1a96ff336d6b243aee2312dfd2a738f502bf5ef3ac93158987f5ea4f1ad24702c11e25ad7758e8f064ef1207035b6066c6fd8a2f78d91d7fc3355409b7b35
+Description: Forum: the Armatos software market
+ Install, remove and update software from the APT archives, and firmware
+ through fwupd, in marble and porphyry. The engine is KDE Discover, rebuilt
+ for Armatos without its web view or snap backend; Forum gives it its own
+ face: TABERNAE (the stalls), QVAERE, POSSESSA, TRIBVTVM (updates) and
+ FONTES (sources). Flatpak apps appear only once Flatpak support is added,
+ and are always sealed PEREGRINA, foreign goods.
+
+Package: armatos-lapicida
+Architecture: all
+Version: 2779.1.202611281208
+Priority: optional
+Section: admin
+Maintainer: factionparadox <factionparadox@users.noreply.github.com>
+Depends: coreutils, util-linux, sudo
+Recommends: whiptail, armatos-voice
+Filename: pool/italia/armatos-lapicida_2779.1.202611281208_all.deb
+Size: 3924
+MD5sum: 8d1080b532707b94b98da5aac411052e
+SHA1: 4ada2f4b5262688e0784b74336e41d0f2690d01c
+SHA256: b4c88bdf4e4d5aeb39002469ec4032a93f0332d2d846a5a8c18b44e551a853dc
+SHA512: 1bde13481920ea9e23e01dd49de13755bf1d518f0313d3804738b863972c380b0335543fccf902077263d6d12e2d3289cfdaf70330f130877058b8b09bf307e4
+Description: lapicida — the stonecutter: write an ISO to a USB stick
+ Offers only removable USB drives, never internal disks or the drive the ISO
+ is on, asks you to type the stick's name before erasing it, checks the ISO
+ against a .sha256 or SHA256SUMS file if one is beside it, and reads the stick
+ back afterwards to verify every byte.
+
+Package: armatos-lex
+Architecture: all
+Version: 2779.1.202611281208
+Priority: important
+Section: admin
+Maintainer: factionparadox <factionparadox@users.noreply.github.com>
+Conflicts: snapd
+Filename: pool/italia/armatos-lex_2779.1.202611281208_all.deb
+Size: 1872
+MD5sum: 15eda5b7493d3db383ffcea72bb406cb
+SHA1: aae5c2396d72d6418176b5bba3e598e1e541dde4
+SHA256: 7c662ae18eb92999804559701cb6ee22a75d9b9528f8b77cb9be93e28c8fd19f
+SHA512: 4a7ada50e5227de5cd173829a110fa4e44cd3a8b638aace5d96a31e5a014f8d884301e901d8c3ceba06df130d7d93ab29bb5e53b53f77813893e52aba7e83992
+Description: the laws of the Armatos Empire
+ APT pinning that defines Armatos:
+  Lex I   — systemd held at 259 (before the birthDate field)
+  Lex II  — snapd banished
+  Lex III — no GNOME session
+  Lex IV  — the horreum (Armatos's own repository) first
+
+Package: armatos-release
+Architecture: all
+Version: 2779.1.202611281208
+Priority: important
+Section: admin
+Maintainer: factionparadox <factionparadox@users.noreply.github.com>
+Filename: pool/italia/armatos-release_2779.1.202611281208_all.deb
+Size: 3096
+MD5sum: a9f1ebb1eb705c7e1a9ab9f8b0aacbca
+SHA1: aede5046f048f01888bfcd1fe91e249e0c1f2d6e
+SHA256: 36d4eb0c7b87340de1e4cfd659d305d24dc3a38e1f3c0f01b57fc453a70e8d32
+SHA512: e6573e3adf63717ce7774622161b37cac7edee801f1c99ed4f1561147d01970cbc0db7a07f0b492ff2335548f637b28eb5949532d63a07e1ecc052b9ab7c6a84
+Description: Armatos Linux identity: os-release, issue, lsb-release, motd
+ Names the system Armatos Linux. Ubuntu's own files are diverted with
+ dpkg-divert, so Ubuntu updates can't overwrite them, and are restored if
+ this package is removed. Also quiets Ubuntu's help, news and Pro messages
+ at login. lsb_release still reports Ubuntu, for compatibility.
+ .
+ Also opens the horreum, Armatos's own APT repository, and carries the key
+ it is signed with, so Armatos packages arrive as ordinary updates.
+
+Package: armatos-session
+Architecture: all
+Version: 2779.1.202611281208
+Priority: optional
+Section: x11
+Maintainer: factionparadox <factionparadox@users.noreply.github.com>
+Depends: armatos-shell (= 2779.1.202611281208), mangowm (>= 0.18.6), greetd, swayidle, grim, slurp, wl-clipboard, libnotify-bin, xdg-user-dirs, dbus-user-session, wireplumber, pipewire-pulse, brightnessctl, playerctl, foot, fonts-jetbrains-mono, xdg-desktop-portal-wlr, xdg-desktop-portal-gtk, xwayland
+Recommends: thunar, vlc
+Filename: pool/italia/armatos-session_2779.1.202611281208_all.deb
+Size: 7304
+MD5sum: adc23acfff858f685c70bd631640dda3
+SHA1: 01079308516214c2e0303c9b1ad36cd7202cd1c5
+SHA256: 2842cbb130f3b270b06b8cd0ca39036b4fe2dcef8334b0b0428666dc89527878
+SHA512: 25860a701e5acf59192196f987da4dcd6426b08a5e10015233a1aa1667a5f473e6eb89232da35a4ce710c2e59369559f787d9028cdb8bf856a93a27f1d04fa2e
+Description: Armatos desktop session: MangoWC with the Marmor shell
+ Starts MangoWC with the Armatos settings and keybinds, the Marmor shell
+ (Titulus, launcher, porta), idle locking, screenshots ("frescoes") and the
+ Armatos terminal colours. Your own Mango settings in
+ ~/.config/mango/config.conf are read last and win.
+
+Package: armatos-shell
+Architecture: all
+Version: 2779.1.202611281208
+Priority: optional
+Section: x11
+Maintainer: factionparadox <factionparadox@users.noreply.github.com>
+Depends: quickshell (>= 0.3.0), qt6-wayland, qml6-module-qtquick-effects, qml6-module-qtquick-layouts, fonts-ebgaramond, fontconfig, papirus-icon-theme, upower, wlsunset, brightnessctl, libpam-modules
+Recommends: power-profiles-daemon, network-manager, bluez, pipewire, fprintd, libpam-fprintd
+Filename: pool/italia/armatos-shell_2779.1.202611281208_all.deb
+Size: 1028904
+MD5sum: 8a7daca54eb03e5304c19a94a4319294
+SHA1: 9fc1a8bdba81dd478df9781828f1a3dffab3a0a2
+SHA256: 3fc731ad46c9006437823536d0ecf2bfd522a138e020afa1b6170aca6bb782e4
+SHA512: 071516466c3b0dc7fe6653f31971dd7f0901a850dc683609e4e42660453c737669dc0d1b5c5078dea7017aac8c9b91dd0213b45b5dd2476f36bf60dcecc06b0d
+Description: Marmor: the Armatos Quickshell desktop shell
+ The Titulus (the bar, with workspaces I-IX and readings in Roman numerals),
+ the launcher ("Ave, Imperator. Quid imperas?"), Tabula Imperii (quick
+ settings), edicta (notifications), the porta (lock screen, with fingerprint)
+ and the Praetorians (the polkit agent). Carved Cinzel letters on marble and
+ porphyry. Run it with:  qs -c armatos
+
+Package: armatos-socii
+Architecture: all
+Version: 2779.1.202611281208
+Priority: optional
+Section: admin
+Maintainer: factionparadox <factionparadox@users.noreply.github.com>
+Depends: apt, appstream
+Conflicts: protonvpn-stable-release
+Replaces: protonvpn-stable-release
+Filename: pool/italia/armatos-socii_2779.1.202611281208_all.deb
+Size: 5772
+MD5sum: 174bcee401332f78c8008a976ce1bd35
+SHA1: 8aa04b7135c681850ae02f820db8b8ff77fa978b
+SHA256: 28ccbf7c50ab819dee3508986833bf2110a685c9c3d9ce938aeba10a5c36da02
+SHA512: 86f8e08082d22c0050ed346a16b62b979c9d05f97b876454c2ff50377a70cc6bcaf1e3d620382c105f8e0e36f0fce08ccac0fa97cfc8caf791db887e7007cbc4
+Description: Socii: the allied sources of Armatos
+ Outside APT repositories that keep Armatos's laws:
+  - Mozilla's, so Firefox comes as a real .deb built and supported by
+    Mozilla, never Ubuntu's snap shim;
+  - Proton's, for the Proton VPN app (it replaces Proton's own
+    protonvpn-stable-release package, which sets up the same source).
+ Both appear in Forum.
+
+Package: armatos-voice
+Architecture: all
+Version: 2779.1.202611281208
+Priority: optional
+Section: shells
+Maintainer: factionparadox <factionparadox@users.noreply.github.com>
+Depends: bash (>= 5.1), python3
+Filename: pool/italia/armatos-voice_2779.1.202611281208_all.deb
+Size: 5312
+MD5sum: 90f9ff16235cee496cfe3200bbb21c91
+SHA1: 878bb5504f86fe7eea78cd303b644aa7b5e4b1f9
+SHA256: 545a0efd7626872c252167f690a5a231d191086246e9584529e983cf76cd4c8e
+SHA512: 5456047c18ed9fd4552c747b42e297261294c028a10a76c8e4a914869635a81d75b8efb29e31cbed783a842384507a36694e45f0611af74087fa8cb20cddb83e
+Description: the voice of the legion
+ Gives interactive bash the Armatos voice: the daily acta in the Roman
+ calendar, the imperator@roma prompt, Latin reports when commands fail or
+ finish, and a farewell. Latin by default; write "en" to
+ ~/.config/armatos/lingua for English. Scripts and pipes are never affected.
+
+Package: vesta-temple
+Architecture: all
+Version: 2779.1.202611281208
+Priority: optional
+Section: net
+Maintainer: factionparadox <factionparadox@users.noreply.github.com>
+Depends: armatos-voice, curl, python3, apt (>= 1.9.11)
+Filename: pool/italia/vesta-temple_2779.1.202611281208_all.deb
+Size: 3424
+MD5sum: d33d95fc41f63edc38755c6d2c5d0e33
+SHA1: a0523a56bde53ca58d5708c3940a1f2052c51519
+SHA256: 3027f5074d9a64d00c7f566ad573bf962a14df90e096112b82b60996cf079b49
+SHA512: 191d4b8c7cebd9dcbdfa829bf6d29f79a5528dbc26b6c02c97c9c22d2d22675b31b13076710cbd212416500b02a63b52b635b547222383b5f3ea7197fd860f7b
+Description: keeps Discord's flame burning
+ An installer package for Discord. It contains no Discord code: on install,
+ and whenever cursus collects tribute, it fetches the official .deb from
+ discord.com and installs it with apt. It also stops Discord's own update
+ nag, since updates now arrive with the rest of the system.
+ .
+ Removing vesta-temple leaves Discord installed; remove the "discord"
+ package to remove Discord itself.
+
