@@ -140,7 +140,7 @@ in_chroot sh -c 'apt-get install -y --no-install-recommends \
 	/tmp/armatos-forum_*.deb /tmp/armatos-socii_*.deb fwupd'
 rm -f "$CHROOT"/tmp/*.deb
 
-say "Stocking the armoury: the apps on the keybinds"
+say "Stocking the armoury: the apps on the keybinds, LibreOffice and the daily round"
 # Super+W Firefox (Mozilla's .deb, British English), Super+V VLC, Super+A
 # ani-cli (the horreum's current build) with mpv, fzf and the download tools,
 # Super+P Proton VPN (Proton's repository; gnome-keyring holds its sign-in),
@@ -162,11 +162,27 @@ esac
 exec /usr/bin/systemctl "$@"
 EOF
 chmod 755 "$CHROOT/tmp/build-bin/systemctl"
+# The rest of a daily driver comes in the same step:
+#   LibreOffice Writer, Calc and Impress, with British spelling, hyphenation,
+#     a thesaurus and the fonts Word documents expect (Carlito for Calibri,
+#     Caladea for Cambria, Liberation for Arial/Times/Courier);
+#   USB drives (and phones) in Thunar, the Bin, archives and thumbnails;
+#   Ristretto for pictures, Mousepad for text;
+#   printing (CUPS, finding printers on the network, a printer window);
+#   colour emoji and Chinese/Japanese/Korean text.
+# armatos-session's /etc/xdg/mimeapps.list says which app opens what.
 in_chroot env PATH=/tmp/build-bin:/usr/sbin:/usr/bin:/sbin:/bin sh -c 'apt-get install -y --no-install-recommends \
 	firefox firefox-l10n-en-gb vlc \
 	/tmp/ani-cli_*.deb mpv fzf yt-dlp ffmpeg \
 	proton-vpn-gnome-desktop gnome-keyring \
-	/tmp/vesta-temple_*.deb'
+	/tmp/vesta-temple_*.deb \
+	libreoffice-writer libreoffice-calc libreoffice-impress libreoffice-gtk3 libreoffice-l10n-en-gb \
+	hunspell-en-gb hyphen-en-gb mythes-en-us \
+	fonts-crosextra-carlito fonts-crosextra-caladea fonts-liberation \
+	gvfs gvfs-backends udisks2 thunar-volman thunar-archive-plugin xarchiver 7zip unzip zip \
+	tumbler ffmpegthumbnailer ristretto mousepad \
+	cups cups-browsed cups-pk-helper avahi-daemon system-config-printer \
+	fonts-noto-color-emoji fonts-noto-cjk'
 rm -rf "$CHROOT/tmp/build-bin"
 rm -f "$CHROOT"/tmp/*.deb
 # Discord itself can't go on the ISO (its licence doesn't allow passing it
@@ -293,5 +309,7 @@ xorriso -as mkisofs -r -V "ARMATOS_2779" -o "$ISO" -J -joliet-long -iso-level 3 
 # Hand the result back to the user who ran sudo.
 if [ -n "${SUDO_UID:-}" ]; then chown "$SUDO_UID:${SUDO_GID:-$SUDO_UID}" "$ISO" "$ISO.sha256"; fi
 
-say "Factum est: $ISO ($(du -h "$ISO" | cut -f1))"
+# The real size: plain du reports what the file takes on disk, which a
+# compressing filesystem (ZFS, Btrfs) makes look smaller than it is.
+say "Factum est: $ISO ($(du -h --apparent-size "$ISO" | cut -f1))"
 echo "Write it to a stick with:  lapicida $ISO"

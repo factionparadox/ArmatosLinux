@@ -75,7 +75,12 @@ Other sources:
   isn't on the ISO: a new install fetches it on its first boot with a connection
   (`vesta-temple-first.timer`).
 - **On the ISO**, every app on the keybinds: Firefox (with en-GB), foot, VLC, Thunar, ani-cli
-  (the horreum's build, newer than Ubuntu's) with mpv and fzf, and Proton VPN.
+  (the horreum's build, newer than Ubuntu's) with mpv and fzf, and Proton VPN. Then what a
+  daily driver needs: LibreOffice Writer, Calc and Impress (British spelling and hyphenation,
+  Carlito/Caladea/Liberation for Word documents), USB drives and phones in Thunar with the Bin,
+  archives (Xarchiver) and thumbnails, Ristretto and Mousepad, printing (CUPS, network printer
+  discovery, system-config-printer), colour emoji and CJK fonts. `armatos-session`'s
+  `/etc/xdg/mimeapps.list` sets which app opens what.
 - **Flatpak** apps are **peregrina**, foreign goods. They are only used when no `.deb`
   exists (for example Sober) and are always labelled as foreign in Forum.
 
